@@ -1,0 +1,155 @@
+<HTML>
+  <HEAD>
+    <title>Questions</title>
+    <style>
+      /* https://css-tricks.com/on-target/ */
+      :target {
+        background: yellow;
+      }
+
+      /* https://stackoverflow.com/a/18168287/1164295 */
+      a[href^="//"]:after,
+      a[href^="http://"]:after,
+      a[href^="https://"]:after {
+        content: url(pictures/Icon_External_Link.png);
+        margin: 0 0 0 5px;
+      }
+      a[href*="//en.wikipedia.org/"]:after {
+        content: '';
+        margin: 0;
+      }
+    </style>
+
+  </HEAD>
+  <BODY>
+
+  <!-- template for entries
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="question text?">
+               question text?</a>
+    </legend>
+    <table width="100%">
+      <tr>
+        <td bgcolor="lightgreen">
+          <center>RANK</center>
+        </TD>
+      </TR>
+    </TABLE>
+    <P>
+      <I>Response</I>: <BR>
+      <I>Definition</I>: <a name="keyword">keyword</a> = <BR>
+      <I>Abbreviation</I>: <a name="ASDF">ASDF</a><BR>
+    </P>
+    <P>
+      <!- -
+      <I>References</I>:
+      <UL>
+        <LI><a href=""></a></LI>
+      </UL>
+    </P>
+    <P>
+      <I>Related questions</I>:
+      <UL>
+        <LI><a href="#"></a></LI>
+      </UL>
+    </P>
+      - ->
+  </fieldset>
+  -->
+  <P>
+    This single HTML file is intended to be self contained but has links to external resources. External sites have a trailing icon <img src="pictures/Icon_External_Link.png">
+  </P>
+  <P>
+    This file is not intended to be read linearly. Follow the links from a given question to other related questions.
+  </P>
+
+  <P>&nbsp;</P>
+
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="what are the major concepts in SST?">
+               what are the major concepts in SST?</a>
+    </legend>
+    <P>
+      <I>Response</I>:
+      <UL>
+        <LI>components (aka elements?)</LI>
+        <LI>composition (implemented as <a href="#what is a project driver file?">"project driver file"</a>) which specifies links between components.</LI>
+        <LI>events, which are transmitted via links between components<LI>
+      </UL>
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="what is a project driver file?">
+               what is a project driver file?</a>
+    </legend>
+    <P>
+      <I>Response</I>: A Python script that specifies components and links.<BR>
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="what files are required for a simulation?">
+               what files are required for a simulation?</a>
+    </legend>
+    <P>
+      <I>Response</I>:
+      <UL>
+        <LI>a "project driver file" as a Python script (.py)
+        <LI>.cc -- C++ source code
+        <LI>.h -- header
+        <LI>Makefile
+      </UL>
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="what elements are registered in SST?">
+               what elements are registered in SST?</a>
+    </legend>
+    <P>
+      <I>Response</I>: sst-info
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="how to register a component in SST?">
+               how to register a component in SST?</a>
+    </legend>
+    <P>
+      <I>Response</I>: sst-register
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="what is the simulation lifecycle in SST?">
+               what is the simulation lifecycle in SST?</a>
+    </legend>
+    <P>
+      <I>Response</I>:
+      <OL>
+        <LI>initialize
+        <LI>setup
+        <LI>run
+        <LI>finalize
+      </OL>
+    </P>
+  </fieldset>
+  <BR>
+</BODY>
+</HTML>
