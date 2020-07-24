@@ -33,5 +33,5 @@ test an example by running
     sst build/sst-elements/src/sst/elements/simpleElementExample/tests/test_simpleLookupTable.py 
     sst build/sst-elements/src/sst/elements/simpleSimulation/tests/test_simpleCarWash.py
 
-Each of the .py scripts is a configuration for a simulation. The components are compiled from .cc and .h file.
+Each of the .py scripts is a configuration for a simulation (SST jargon: "Project Driver file"). The components are compiled from .cc and .h file.
 All of the examples are a single isolated component. (Nothing demonstrating a link?)
