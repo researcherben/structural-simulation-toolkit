@@ -8,7 +8,13 @@ Sandia National Lab's Structural Simulation Toolkit
 
 ## use
 
+What version of SST is this?
+
     sst --version
+
+what components are registered?
+
+    sst-info
 
 test an example
 
