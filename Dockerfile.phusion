@@ -40,5 +40,9 @@ RUN cd $dir/sst-elements && ./autogen.sh && \
 	./configure --prefix=$SST_ELEMENTS_HOME --with-sst-core=$SST_CORE_HOME && \
 	make all install
 
+WORKDIR /home/sst/
+
+RUN git clone https://github.com/lpsmodsim/examples.git /home/sst/examples
+
 # Clean up SST junk
-RUN rm -rf $dir
+#RUN rm -rf $dir
