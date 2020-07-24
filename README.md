@@ -9,3 +9,7 @@ Sandia National Lab's Structural Simulation Toolkit
 ## use
 
     sst --version
+
+test an example
+
+    sst build/sst-elements/src/sst/elements/simpleElementExample/tests/test_simpleRNGComponent_mersenne.py
