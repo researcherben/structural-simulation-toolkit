@@ -1,0 +1,19 @@
+digraph G {
+  // https://dreampuf.github.io/GraphvizOnline
+
+  compound=true;
+
+  subgraph cluster_1 {
+    label = "main car wash\l * simulationTime\l * tickFreq";
+    "bay1" [label="bay \l * size\l * time"];
+    "bay2" [label="bay \l * size\l * time"];
+    "bay3" [label="bay \l * size\l * time"];
+    
+  }
+  
+  "car generator" [shape=rect, label="car generator\l * delay\l * random seed"];
+  
+  // https://stackoverflow.com/questions/2012036/graphviz-how-to-connect-subgraphs
+  "car generator" -> "bay1" [lhead=cluster_1, label="myLink"];
+  
+}
