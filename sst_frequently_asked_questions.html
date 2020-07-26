@@ -77,11 +77,13 @@
     <P>
       <I>Response</I>:
       <UL>
-        <LI>components (aka elements?)</LI>
-        <LI>composition (implemented as <a href="#what is a project driver file?">"project driver file"</a>) which specifies links between components.</LI>
+        <LI>components (aka elements?) are connected to links via ports</LI>
+        <LI>composition (implemented as <a href="#what is a project driver file?">"project driver file"</a>) which specifies <a href="https://sst-simulator.org/SSTPages/SSTUserPythonFileFormat/#links">links</a> between components.</LI>
         <LI>events, which are transmitted via links between components<LI>
+        <LI>clock, to progress ticks
       </UL>
     </P>
+    <img src="components_and_link.png">
   </fieldset>
   <BR>
   <fieldset>
@@ -92,6 +94,9 @@
     </legend>
     <P>
       <I>Response</I>: A Python script that specifies components and links.<BR>
+    </P>
+    <P>
+      <I>Reference</I>: <a href="https://sst-simulator.org/SSTPages/SSTUserPythonFileFormat/">https://sst-simulator.org/SSTPages/SSTUserPythonFileFormat/</a>
     </P>
   </fieldset>
   <BR>
@@ -126,6 +131,37 @@
   <fieldset>
     <legend>
       <I>Question</I>:
+      <a name="how do events appear in a component?">
+               how do events appear in a component?</a>
+    </legend>
+    <P>
+      <I>Response</I>:
+         <UL>
+           <LI>Polled: Register a clock handler to poll the link
+           <LI>Interrupt: Register an event handler to be called when an event arrives
+           <LI>Both: Receive events on interrupt, send events on clock
+          </UL>
+        <a href="https://www.osti.gov/servlets/purl/1506211">source (slide 15)</a>
+    </P>
+    <P>
+      <!--
+      <I>References</I>:
+      <UL>
+        <LI><a href=""></a></LI>
+      </UL>
+    </P>
+    <P>
+      <I>Related questions</I>:
+      <UL>
+        <LI><a href="#"></a></LI>
+      </UL>
+    </P>
+      -->
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
       <a name="how to register a component in SST?">
                how to register a component in SST?</a>
     </legend>
@@ -141,15 +177,63 @@
                what is the simulation lifecycle in SST?</a>
     </legend>
     <P>
-      <I>Response</I>:
+      Description from <a href="https://www.osti.gov/servlets/purl/1506211">slide 19</a>
       <OL>
-        <LI>initialize
-        <LI>setup
-        <LI>run
-        <LI>finalize
+        <LI>Birth</LI>
+        <UL>
+          <LI>Create graph of components using Python configuration file
+          <LI>Partition graph and assign components to MPI ranks
+          <LI>Instantiate components
+          <LI>Connect components via links
+          <LI>Initialize components using their init() functions
+          <LI>Setup components using their setup() functions
+        </UL>
+        <LI>Life</LI>
+        <UL>
+          <LI>Send events
+          <LI>Manage clock and event handlers
+        </UL>
+        <LI>Death</LI>
+        <UL>
+          <LI>Finalize components using their finish() functions
+          <LI>Output statistics
+          <LI>Cleanup simulation, delete components
+        </UL>
       </OL>
     </P>
   </fieldset>
   <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="what is the component lifecycle in SST?">
+               what is the component lifecycle in SST?</a>
+    </legend>
+    <P>
+      <I>Response</I>: (from <a href="https://www.osti.gov/servlets/purl/1506211">slide 20</a>)
+      <OL>
+        <LI>Pre-construction: define and partition components
+        <LI>Construction: call component constructors and parse parameters
+        <LI>initialize
+          <UL>
+            <LI>Components send “init” events to each other over links. Discover neighbors, negotiate parameters, initialize data structures, etc.
+            <LI>Multiple rounds of communication until no more “init” events are sent
+          </UL>
+        <LI>setup
+          <UL>
+            <LI>Each component does its final setup and schedules initial events
+          </UL>
+        <LI>run
+          <UL>
+            <LI>Actual simulation (time begins)
+            <LI>Continues until a set time, or all components agree to finish
+          </UL>
+        <LI>finalize</LI>
+          <UL>
+            <LI>Simulation complete</LI>
+            <LI>Write statistics, free memory</LI>
+          </UL>
+      </OL>
+    </P>
 </BODY>
 </HTML>
