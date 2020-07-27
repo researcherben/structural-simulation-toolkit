@@ -36,6 +36,12 @@ test an example by running
 Each of the .py scripts is a configuration for a simulation (SST jargon: "Project Driver file"). The components are compiled from .cc and .h file.
 All of the examples are a single isolated component. (Nothing demonstrating a link?)
 
+To generate a graphviz of the components and links, use
+
+    sst --output-dot=${outfile}.gv --run-mode=init ${cfgfile}.py
+    
+where "outfile" is the name of the graphviz file produced and "cfgfile" is the Python Project Driver file.
+
 ## demos examples tutorials
 
 see https://sst-simulator.org/SSTPages/SSTMainDownloads/#SSTutorials and https://github.rcac.purdue.edu/green349/sst-tutorial/tree/master/exercises (which has more than https://github.com/sstsimulator/sst-tutorials/tree/master/exercises)
