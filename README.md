@@ -42,7 +42,8 @@ To generate a graphviz of the components and links, use
     
 where "outfile" is the name of the graphviz file produced and "cfgfile" is the Python Project Driver file.
 
-    docker run -it --rm -v `pwd`:/scratch sst:latest sst --output-dot=/scratch/file.giv --run-mode=init /home/sst/build/sst-elements/src/sst/elements/simpleElementExample/tests/subcomponent_tests/test_sc_2a.py
+    docker run -it --rm -v `pwd`:/scratch sst:latest sst --output-dot=/scratch/file.gv --run-mode=init /home/sst/build/sst-elements/src/sst/elements/simpleElementExample/tests/subcomponent_tests/test_sc_2a.py
+    docker run -it --rm -v `pwd`:/scratch sst:latest dot /scratch/file.gv -Tpng > file.png
 
 ## demos examples tutorials
 
