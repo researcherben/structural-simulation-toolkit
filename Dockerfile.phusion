@@ -11,6 +11,7 @@ RUN apt update && apt -y upgrade && apt -y install \
 	build-essential \
 	git \
 	libtool-bin \
+        graphviz \
 	automake \
 	python-dev
 
@@ -42,7 +43,9 @@ RUN cd $dir/sst-elements && ./autogen.sh && \
 
 WORKDIR /home/sst/
 
-RUN git clone https://github.com/lpsmodsim/examples.git /home/sst/examples
+#RUN git clone https://github.com/lpsmodsim/examples.git /home/sst/examples
+
+#RUN git clone https://github.com/sstsimulator/sst-tutorials.git /home/sst/tutorials
 
 # Clean up SST junk
 #RUN rm -rf $dir
