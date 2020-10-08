@@ -18,5 +18,5 @@ endif
 
 docker:
 	docker build -f Dockerfile.phusion -t sst .
-	docker run -it --rm sst /bin/bash
+	docker run -it -v `pwd`:/scratch --rm sst /bin/bash
 

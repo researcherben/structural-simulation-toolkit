@@ -34,6 +34,7 @@ test an example by running
     sst build/sst-elements/src/sst/elements/simpleSimulation/tests/test_simpleCarWash.py
 
 Each of the .py scripts is a configuration for a simulation (SST jargon: "Project Driver file"). The components are compiled from .cc and .h file.
+See https://sst-simulator.org/SSTPages/SSTUserPythonFileFormat/
 All of the examples are a single isolated component. (Nothing demonstrating a link?)
 
 To generate a graphviz of the components and links, use
