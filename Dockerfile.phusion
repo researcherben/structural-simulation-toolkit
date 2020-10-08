@@ -28,8 +28,19 @@ ENV SST_ELEMENTS_HOME=/home/sst/sst-elements
 ENV PATH="$PATH:$SST_CORE_HOME/bin:$SST_ELEMENTS_HOME/bin"
 
 # Clone the repos from GitHub
-RUN git clone https://github.com/sstsimulator/sst-core.git $dir/sst-core
-RUN git clone https://github.com/sstsimulator/sst-elements.git $dir/sst-elements
+#RUN git clone https://github.com/sstsimulator/sst-core.git $dir/sst-core
+#RUN git clone https://github.com/sstsimulator/sst-elements.git $dir/sst-elements
+
+WORKDIR $dir
+
+# from https://github.com/sstsimulator/sst-core/releases/tag/v10.0.0_Final
+COPY sstcore-10.0.0.tar.gz .
+RUN tar zxvf sstcore-10.0.0.tar.gz
+RUN mv sstcore-10.0.0 sst-core
+# from https://github.com/sstsimulator/sst-elements/releases/tag/v10.0.0_Final
+COPY sstelements-10.0.0.tar.gz .
+RUN tar zxvf sstelements-10.0.0.tar.gz
+RUN mv sst-elements-library-10.0.0 sst-elements
 
 # Build SST Core
 RUN cd $dir/sst-core && ./autogen.sh && \
