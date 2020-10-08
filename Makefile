@@ -1,8 +1,7 @@
 
 
 # 
-.PHONY: help clean webserver typehints flake8 pylint doctest mccabe
-
+.PHONY: help 
 help:
 	@echo "make help"
 	@echo "      this message"
@@ -10,13 +9,11 @@ help:
 	@echo "make docker"
 	@echo "      build and run docker"
 
-ifdef FILE_NAME
-	@echo 'FILE_NAME is defined' $(FILE_NAME)
-else
-	@echo 'FILE_NAME is undefined'
-endif
 
-docker:
+.PHONY: docker docker_build docker_run
+docker: docker_build docker_run
+docker_build:
 	docker build -f Dockerfile.phusion -t sst .
+docker_run:
 	docker run -it -v `pwd`:/scratch --rm sst /bin/bash
 
