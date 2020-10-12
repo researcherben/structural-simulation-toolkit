@@ -33,7 +33,7 @@ docker_build_91:
 docker_run_91:
 	docker run -it -v `pwd`:/scratch --rm sst_91 /bin/bash
 docker_build_fresh_91:
-	docker build --no-cache -f Dockerfile.phusion_91 -t sst_91 .
+	docker build --no-cache -f Dockerfile.phusion_9.1 -t sst_91 .
 
 .PHONY: docker_10 docker_build_10 docker_run_10
 docker_10: docker_build_10 docker_run_10
