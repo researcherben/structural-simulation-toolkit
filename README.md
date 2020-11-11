@@ -1,5 +1,5 @@
 # structural-simulation-toolkit
-Sandia National Lab's Structural Simulation Toolkit
+Sandia National Lab's Structural Simulation Toolkit - https://github.com/sstsimulator
 
 ## documentation
 * https://sst-simulator.org/SSTPages/SSTDeveloperSSTForNewbies/
