@@ -15,4 +15,7 @@ The examples given below are intended to serve as an introduction to creating cu
 + __Example04 - Including a SubComponent__ - Shows how to create and include a subcomponent to provide functionality to a parent component
 + __Example05 - Networking Components__ - Shows how a simulation structure can be generalized, with the configuration file used to define the final configuration.
 
-As time goes additional examples will be provided.  In the meantime, it is hoped that, in addition to serving as an introduction SST component development, these examples will serve to increase understanding of the libraries included as part of SST and how they contribute to the simulation of high-performance computers.
+
+These examples were originally developed for SST-core 9.0
+
+It is hoped that, in addition to serving as an introduction SST component development, these examples will serve to increase understanding of the libraries included as part of SST and how they contribute to the simulation of high-performance computers.

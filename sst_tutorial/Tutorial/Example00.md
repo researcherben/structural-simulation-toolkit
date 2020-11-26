@@ -428,7 +428,35 @@ Open a terminal and navigate to the folder containing the component and makefile
 make clean; make
 ```
 
-If all goes well, the component will be built and installed for use by SST.  If there are errors, go back and check to make sure the code listed above was entered correctly.
+If there are errors, go back and check to make sure the code listed above was entered correctly.
+If all goes well, the component will be built and installed for use by SST.  
+To confirm the registration worked, run
+
+```
+sst-info
+```
+
+which should yield output like
+
+```
+ELEMENT 0 = example ()
+Num Components = 1
+      Component 0: ExampleComponent
+      CATEGORY: UNCATEGORIZED COMPONENT
+         NUM STATISTICS = 0
+         NUM PORTS = 0
+         NUM SUBCOMPONENT SLOTS = 0
+         NUM PARAMETERS = 3
+            PARAMETER 0 = debug (Debug location:  (0: NONE, 1: STDOUT, 2: STDERR, 3: FILE)) [0]
+            PARAMETER 1 = clock (Component clock rate) [1GHz]
+            PARAMETER 2 = clockTicks (Number of times the handler is called before ending.) [10]
+    ExampleComponent: Clock element example
+    Using ELI version 0.9.0
+    Compiled on: Nov 26 2020 15:19:14, using file: ExampleComponent.h
+Num SubComponents = 0
+Num Modules = 0
+Num SSTPartitioners = 0
+```
 
 ## Running the Simulation
 
