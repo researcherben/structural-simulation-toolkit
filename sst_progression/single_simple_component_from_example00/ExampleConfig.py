@@ -1,5 +1,5 @@
 # Execute from the command line with the command:
-#   sst Example00Config.py 2>&1 | tee test.log
+#   sst ExampleConfig.py 2>&1 | tee test.log
 #
 import sst
 
@@ -10,7 +10,7 @@ clock = "1GHz"      # Simulation clock rate
 debug = "2"         # debug level
                     # 0 = FATAL, 1 = WARN, 2 = INFO, 3 = DEBUG, 4 = TRACE, 5 = ALL
 
-componentName0 = "example00"
+componentName0 = "an_example"
 
 # Define the component.
 #
@@ -22,7 +22,7 @@ componentName0 = "example00"
 # SST_ELI_REGISTER_COMPONENT macro in Example00Component.h,
 # respectively.
 #
-obj = sst.Component(componentName0, "example.ExampleComponent")
+obj = sst.Component(componentName0, "minexample.ExampleComponent")
 obj.addParams({
     "clock"      : clock,
     "clockTicks" : clockTicks,

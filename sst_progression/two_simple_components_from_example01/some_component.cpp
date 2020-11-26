@@ -1,12 +1,13 @@
 // Created for SST-Core Version (9.1.0)
 //
-#include "example_component.h"
+#include "some_component.h"
+#include "ExampleEvent.h"
 #include <iostream>
 
-using namespace Example00;
+using namespace ExampleTwo; // defined in the .h which was included above
 
 // Component constructor.
-//
+// using class from the .h included above
 ExampleComponent::ExampleComponent(SST::ComponentId_t id, SST::Params &params) :
     SST::Component(id),
     componentId_(id),
@@ -15,18 +16,18 @@ ExampleComponent::ExampleComponent(SST::ComponentId_t id, SST::Params &params) :
     // Read in the parameters from the python config file.  See SST_ELI_DOCUMENT_PARAMS
     // for an explanation of what each parameter represents.
     //
-    std::string clock = 
+    std::string clock =
         params.find<std::string>("clock", "1GHz");
     clockTicks_ = static_cast<uint64_t>(
         params.find<int>("clockTicks", 10));
-    unsigned int debug = 
+    unsigned int debug =
         params.find<int>("debug", ALL);
 
     // Create the logger.
     //
     logger_ = SST::Output("Time=@t; File=@f; Func=@p; Line=@l; Thread=@I -- ", debug, 0x01, SST::Output::STDOUT);
     logger_.verbose(CALL_INFO, TRACE, 0x00, "Entering constructor for component id %lu\n", componentId_);
-    
+
     // Initialize the debug output instance.
     // Strings for debug output use the printf format.
     //
@@ -34,6 +35,14 @@ ExampleComponent::ExampleComponent(SST::ComponentId_t id, SST::Params &params) :
     logger_.verbose(CALL_INFO, DEBUG, 0x00, "Parameters successfully read from config file.\n");
     logger_.verbose(CALL_INFO, DEBUG, 0x00, "clockTicks = %lu\n", clockTicks_);
     logger_.verbose(CALL_INFO, INFO,  0x00, "Constructing new Example Instance.\n");
+
+    // Configure the links (connections to other components).
+    // The link is associated with a component's registered port.
+    // No handler for this example.
+    //
+    logger_.verbose(CALL_INFO, DEBUG, 0x00, "Configuring link.\n");
+    port_a = configureLink("port_a");
+    port_b = configureLink("port_b");
 
     // Configure the component clock.
     //
@@ -55,7 +64,7 @@ ExampleComponent::ExampleComponent(SST::ComponentId_t id, SST::Params &params) :
 // Called after all components have been constructed and initialization
 // has completed, but before simulation time has begin.
 //
-// This is where you should do any other initialization that needs done
+// This is where you should do any other initialization that needs to be done
 // but could be accomplished in the constructure.
 //
 void ExampleComponent::setup(void)
@@ -80,20 +89,37 @@ void ExampleComponent::finish(void)
 bool ExampleComponent::clockTick(SST::Cycle_t cycle)
 {
     logger_.verbose(CALL_INFO, TRACE, 0x00, "Entering clock for component id %lu\n", componentId_);
+    bool done = false;
 
-    // Increment the clock tick counter and end when you get to
-    // the specified value.
+    // Poll the link for incoming messages and process them as necessary.
     //
-    clockTickCount_ += 1;
-    bool done = (clockTickCount_ == clockTicks_);
+    logger_.verbose(CALL_INFO, DEBUG, 0x00, "Retreiving event from link in component id %lu\n", componentId_);
+    ExampleEvent* ev = static_cast<ExampleEvent*>(port_a->recv());
 
-    logger_.verbose(CALL_INFO, INFO, 0x00, "Clock tick count = %lu out of %lu\n", clockTickCount_, clockTicks_);
-    if (done)
+    if (nullptr == ev)
     {
-        logger_.verbose(CALL_INFO, INFO, 0x00, "Ending sim.\n");
-        primaryComponentOKToEndSim();
+        logger_.verbose(CALL_INFO, DEBUG, 0x00, "No event available from link in component id %lu\n", componentId_);
     }
-   
+    else
+    {
+        // Increment the clock tick counter and end when you get to
+        // the specified value.
+        //
+        clockTickCount_+= 1;
+        done = (clockTickCount_ == clockTicks_);
+        logger_.verbose(CALL_INFO, INFO, 0x00, "Clock tick count = %lu out of %lu\n", clockTickCount_, clockTicks_);
+        if (done)
+        {
+            logger_.verbose(CALL_INFO, INFO, 0x00, "Ending sim.\n");
+            primaryComponentOKToEndSim();
+        }
+    }
+
+    // Send an event over the link.
+    //
+    logger_.verbose(CALL_INFO, INFO, 0x00, "Sending event over the link.\n");
+    port_a->send(ev);
+
     logger_.verbose(CALL_INFO, TRACE, 0x00, "Leaving clock for component id %lu\n", componentId_);
     return done;
 }

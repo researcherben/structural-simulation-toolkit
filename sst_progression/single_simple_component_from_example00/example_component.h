@@ -1,10 +1,22 @@
-//#ifndef MY_COMPONENT_H
-//#define MY_COMPONENT_H
+// #ifndef and #define are known as header guards.
+// Their primary purpose is to prevent C++ header
+// files from being included multiple times.
+// This is a "best practice" for C++ and is not specific to SST
+#ifndef MY_COMPONENT_H
+#define MY_COMPONENT_H
 
+
+// defines the SST base component from which all SST components are derived.
 #include <sst/core/component.h>
+
+// contains definitions used for logging.
 #include <sst/core/output.h>
+
+// contains definitions used to process incoming parameters
+// from the simulation configuration file
 #include <sst/core/params.h>
 
+// not strictly necessary to create a C++ namespace but is useful to prevent name clashes
 namespace Example00
 {
     // Define the log levels.  Each level displays its own message and the
@@ -23,19 +35,23 @@ namespace Example00
     // This is a very simple component.  It only registers a clock and
     // prints log messages as the clock handler is called.
     //
-    // Remember, all components inherit from SST::Component
+    // all components inherit from SST::Component
     //
     class ExampleComponent : public SST::Component
     {
+        // access modifier to override the default of "private"
         public:
             // Constructor/Destructor
-            //
+            // A class constructor is a special member function of a class that
+            // is executed whenever we create new objects of that class.
+            // Must have exact same name as the class and
+            // it does not have any return type
             ExampleComponent(SST::ComponentId_t id, SST::Params &params);
+            // purpose of C++ destructor is to deallocate the memory of an object.
             ~ExampleComponent() {}
 
             // Standard SST::Component functions.  These all need to
             // be implemented in the component, even if they are empty.
-            //
             void setup(void);
             void finish(void);
 
@@ -44,27 +60,32 @@ namespace Example00
             bool clockTick(SST::Cycle_t cycle);
 
             // Shared documentation macros.
-            //
+            // see https://sst-simulator.org/SSTPages/SSTDeveloperNewELIMigrationGuide/#parameters
             SST_ELI_DOCUMENT_PARAMS(
+                // triples of "name", "description", "default value"
                 { "debug", "Debug location:  (0: NONE, 1: STDOUT, 2: STDERR, 3: FILE)", "0" },
                 { "clock", "Component clock rate", "1GHz" },
                 { "clockTicks", "Number of times the handler is called before ending.", "10" }
             )
+            // these values will be overridden by the Python configuration if supplied
 
+            // see https://sst-simulator.org/SSTPages/SSTDeveloperNewELIMigrationGuide/#component
             SST_ELI_REGISTER_COMPONENT(
                 ExampleComponent,                       // Class name
-                "example",                              // Library name (the *.so)
+                "minexample",                           // Library name (the *.so)
                 "ExampleComponent",                     // Name used to reference the component.  This can be
-                                                        // whatever you want it to be and will be referenced
-                                                        // in the python configuration file.
+                                                        // whatever you want it to be.
+                                                        // The full name of the component will be library.name
+                                                        // and will be referenced in the python configuration file.
                 SST_ELI_ELEMENT_VERSION( 1, 0, 0 ),     // Version number
                 "Clock element example",                // Description
-                COMPONENT_CATEGORY_UNCATEGORIZED        // Component category
+                COMPONENT_CATEGORY_UNCATEGORIZED        // Component category; see elibase.h for options
             )
 
         private:
             // Member variables for this example.
-            //
+            // Data members of C++ classes have trailing underscores
+            // as per https://google.github.io/styleguide/cppguide.html
             SST::Output logger_;        // For displaying log messages.
             uint64_t componentId_;      // SST supplied component id.
             uint64_t clockTicks_;       // Maximum number of clock ticks.
@@ -73,4 +94,4 @@ namespace Example00
     };  // Close the class
 }   // Close the namespace
 
-//#endif
+#endif

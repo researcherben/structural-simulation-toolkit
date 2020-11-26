@@ -1,12 +1,12 @@
 // Created for SST-Core Version (9.1.0)
 //
-#include "ExampleComponent.h"
+#include "example_component.h"
 #include <iostream>
 
-using namespace Example00;
+using namespace Example00; // defined in the .h which was included above
 
 // Component constructor.
-//
+// using class from the .h included above
 ExampleComponent::ExampleComponent(SST::ComponentId_t id, SST::Params &params) :
     SST::Component(id),
     componentId_(id),
