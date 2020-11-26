@@ -29,28 +29,35 @@ help:
 .PHONY: docker_91 docker_build_91 docker_run_91
 docker_91: docker_build_91 docker_run_91
 docker_build_91:
-	docker build -f Dockerfile.phusion_9.1 -t sst_91 .
+	time docker build -f Dockerfile.phusion_9.1 -t sst_91 .
 docker_run_91:
-	docker run -it -v `pwd`:/scratch --rm sst_91 /bin/bash
+	time docker run -it -v `pwd`:/scratch --rm sst_91 /bin/bash
 docker_build_fresh_91:
-	docker build --no-cache -f Dockerfile.phusion_9.1 -t sst_91 .
+	time docker build --no-cache -f Dockerfile.phusion_9.1 -t sst_91 .
 
 .PHONY: docker_10 docker_build_10 docker_run_10
 docker_10: docker_build_10 docker_run_10
 docker_build_10:
-	docker build -f Dockerfile.phusion_10 -t sst_10 .
+	time docker build -f Dockerfile.phusion_10 -t sst_10 .
 docker_run_10:
-	docker run -it -v `pwd`:/scratch --rm sst_10 /bin/bash
+	time docker run -it -v `pwd`:/scratch --rm sst_10 /bin/bash
 docker_build_fresh_10:
-	docker build --no-cache -f Dockerfile.phusion_10 -t sst_10 .
+	time docker build --no-cache -f Dockerfile.phusion_10 -t sst_10 .
+
+.PHONY: docker_10_core docker_build_10_core docker_run_10_core
+docker_10_core: docker_build_10 docker_run_10
+docker_build_10_core:
+	time docker build -f Dockerfile.phusion_10_core -t sst_10_core .
+docker_run_10_core:
+	time docker run -it -v `pwd`:/scratch --rm sst_10_core /bin/bash
 
 
 .PHONY: docker_head docker_build_10 docker_run_head
 docker_head: docker_build_head docker_run_head
 docker_build_head:
-	docker build -f Dockerfile.phusion_head -t sst_head .
+	time docker build -f Dockerfile.phusion_head -t sst_head .
 docker_run_head:
-	docker run -it -v `pwd`:/scratch --rm sst_head /bin/bash
+	time docker run -it -v `pwd`:/scratch --rm sst_head /bin/bash
 docker_build_fresh_head:
-	docker build --no-cache -f Dockerfile.phusion_head -t sst_head .
+	time docker build --no-cache -f Dockerfile.phusion_head -t sst_head .
 
