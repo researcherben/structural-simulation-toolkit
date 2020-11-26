@@ -243,7 +243,7 @@ Finally, add a reference to the `ExampleEvent.h` include file at the top of the 
 
 ## Configuring the Simulation
 
-The udpated simulation configuration file is listed below.
+The updated simulation configuration file is listed below.
 
 ```
 # Execute from the command line with the command:

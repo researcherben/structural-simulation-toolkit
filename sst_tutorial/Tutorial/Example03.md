@@ -2,9 +2,9 @@
 
 Previous examples have demonstrated message processing using polling in the clock event handler.  This works for simple simulations with a limited number of links but as the simulations become more complex a better solution is to use message handlers.
 
-A message handler if a method associated with a link that is called whenever a message is received over that link.  It is advantageous include eliminating unnecessary polling when no messages are available on a link and being able to separate processing of different message types.
+A message handler is a method associated with a link that is called whenever a message is received over that link.  It is advantageous include eliminating unnecessary polling when no messages are available on a link and being able to separate processing of different message types.
 
-To demonstrate how to use a message handler, the simulation will be modified so, instead of polling for messages in the clock event handler, a message handler will be attached to the link and the message processing performed within the handler.  As in previous examples, the clock tick count will be sent to the other component as a payload and the simulation will be ended when a message with the specified clock count is received.
+To demonstrate how to use a message handler, the simulation will be modified so that instead of polling for messages in the clock event handler, a message handler will be attached to the link and the message processing performed within the handler.  As in previous examples, the clock tick count will be sent to the other component as a payload and the simulation will be ended when a message with the specified clock count is received.
 
 For this example we'll need to make the following changes.
 
