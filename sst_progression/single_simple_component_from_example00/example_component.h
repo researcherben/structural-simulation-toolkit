@@ -52,8 +52,8 @@ namespace Example00
 
             // Standard SST::Component functions.  These all need to
             // be implemented in the component, even if they are empty.
-            void setup(void);
-            void finish(void);
+            void setup(void); // called after the component constructor but before the simulation starts.
+            void finish(void); // called after the simulation ends and it a good place to perform any necessary cleanup associated with the component.
 
             // Clock handler.  This is the method called from the clock event.
             //

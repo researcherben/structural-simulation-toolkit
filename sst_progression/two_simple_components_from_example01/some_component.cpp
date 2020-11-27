@@ -3,6 +3,9 @@
 #include "some_component.h"
 #include "ExampleEvent.h"
 #include <iostream>
+// to hold a list of ports
+#include <vector>
+
 
 using namespace ExampleTwo; // defined in the .h which was included above
 
@@ -43,6 +46,25 @@ ExampleComponent::ExampleComponent(SST::ComponentId_t id, SST::Params &params) :
     logger_.verbose(CALL_INFO, DEBUG, 0x00, "Configuring link.\n");
     port_a = configureLink("port_a");
     port_b = configureLink("port_b");
+    std::vector<SST::Link*> ports;
+
+    // from https://chryswoods.com/beginning_c++/lists.html
+    for (int index=0; index<=5; ++index)
+    {
+        ports.push_back( configureLink("port_"+std::to_string(index)) );
+    }
+//    port_0 = configureLink("port_0");
+//    port_1 = configureLink("port_1");
+//    port_2 = configureLink("port_2");
+//    port_3 = configureLink("port_3");
+//    port_4 = configureLink("port_4");
+//    port_5 = configureLink("port_5");
+
+// how to access what is in the vector:
+//for (int i=0; i<v.size(); ++i){
+//    std::cout << v[i] << " ";
+//}
+
 
     // Configure the component clock.
     //
@@ -96,6 +118,7 @@ bool ExampleComponent::clockTick(SST::Cycle_t cycle)
     logger_.verbose(CALL_INFO, DEBUG, 0x00, "Retreiving event from link in component id %lu\n", componentId_);
     ExampleEvent* ev = static_cast<ExampleEvent*>(port_a->recv());
 
+    // nullptr is a keyword that can be used at all places where NULL is expected.
     if (nullptr == ev)
     {
         logger_.verbose(CALL_INFO, DEBUG, 0x00, "No event available from link in component id %lu\n", componentId_);

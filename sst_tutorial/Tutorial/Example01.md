@@ -294,7 +294,7 @@ The link is established using the link `connect` method.  The `connect` method t
 
 The first value in the tuple is the component connecting to the link.  In this case, a link is being established between components obj0 and obj1.
 
-The second value in the tuple is the identifier used to refer to the link within the component.  This is the same value as that defined in the `SST_ELI_DOCUMENT_PORTS` macro in the component include file.
+The second value in the tuple is the identifier used to refer to the port within the component.  This is the same value as that defined in the `SST_ELI_DOCUMENT_PORTS` macro in the component include file.
 
 The final value in the tuple is the link delay.  This specifies how long it will take the message to traverse the link from the corresponding component and must be greater than 0.  The implications of this value will be discussed below.
 

@@ -17,7 +17,9 @@ namespace ExampleTwo
         ExampleEvent() : SST::Event() {}
 
         // Return the payload
-        //
+        // size_t is an unsigned integer data type which can assign
+        // only 0 and greater than 0 integer values. It measures bytes of
+        // any object's size and returned by sizeof operator.
         size_t getPayload() const { return 0; }
 
     private:

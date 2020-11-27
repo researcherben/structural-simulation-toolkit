@@ -61,8 +61,21 @@ namespace ExampleTwo
             // Links to connect to other component.
             // The link connects to the components port.
             //
+            SST::Link* this_port;
             SST::Link* port_a;
             SST::Link* port_b;
+            // bhp - not clear how to make this a vector
+            // std::vector<SST::Link*> ports;
+            // for (int index=0; index<=5; ++index)
+            // {
+            //     ports.push_back( SST::Link* port_0 );
+            // }
+            SST::Link* port_0;
+            SST::Link* port_1;
+            SST::Link* port_2;
+            SST::Link* port_3;
+            SST::Link* port_4;
+            SST::Link* port_5;
 
             // Clock handler.  This is the method called from the clock event.
             //
@@ -91,11 +104,32 @@ namespace ExampleTwo
                 COMPONENT_CATEGORY_UNCATEGORIZED        // Component category; see elibase.h for options
             )
 
+            //std::vector<char> supported_events = {"none"};
+            //std::tuple<char, char, std::vector<char>> example = { "port_a", "the port", supported_events};
+
+            // bhp - if I can build a vector of the ports, I could build the port list using a for loop
+            // std::vector<std::vector> my_list;
+            // my_list.push_back({ "port_a", "the port", {}});
+            // my_list.push_back({ "port_b", "the port", {}});
+            // my_list.push_back({ "port_0", "the port", {}});
+            // my_list.push_back({ "port_1", "the port", {}});
+            // my_list.push_back({ "port_2", "the port", {}});
+            // my_list.push_back({ "port_3", "the port", {}});
+            // my_list.push_back({ "port_4", "the port", {}});
+            // my_list.push_back({ "port_5", "the port", {}});
+
             // see https://sst-simulator.org/SSTPages/SSTDeveloperNewELIMigrationGuide/#ports
+            // the following isn't conducive to a loop
             SST_ELI_DOCUMENT_PORTS(
-                { "port_a", "the port", {}},
-                { "port_b", "the port", {}}
-            )
+              { "port_a", "the port", {}},
+              { "port_b", "the port", {}},
+              { "port_0", "the port", {}},
+              { "port_1", "the port", {}},
+              { "port_2", "the port", {}},
+              { "port_3", "the port", {}},
+              { "port_4", "the port", {}},
+              { "port_5", "the port", {}}
+              )
 
         private:
             // Member variables for this example.
