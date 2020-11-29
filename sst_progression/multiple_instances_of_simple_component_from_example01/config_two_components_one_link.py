@@ -5,7 +5,7 @@ import sst
 
 # Initialize local variables.
 #
-clockTicks = "2"   # Number of clock ticks before the simulation ends
+clockTicks = "7"   # Number of clock ticks before the simulation ends
 clock = "1GHz"      # Simulation clock rate
 debug = "2"         # debug level
                     # 0 = FATAL, 1 = WARN, 2 = INFO, 3 = DEBUG, 4 = TRACE, 5 = ALL

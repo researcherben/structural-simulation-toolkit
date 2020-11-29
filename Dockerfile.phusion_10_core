@@ -11,8 +11,10 @@ RUN apt update && apt -y upgrade && apt -y install \
 	build-essential \
 	git \
 	libtool-bin \
-        doxygen \
-        graphviz \
+  doxygen \
+  graphviz \
+	mpich \
+  python3-dev \
 	automake \
 	python-dev
 
@@ -38,8 +40,8 @@ RUN mv sstcore-10.0.0 sst-core
 
 # Build SST Core
 RUN cd $dir/sst-core && ./autogen.sh && \
-	./configure --prefix=$SST_CORE_HOME --disable-mpi && \
-	make -j 4 all install
+	./configure --prefix=$SST_CORE_HOME && \
+	make all install
 
 WORKDIR /home/sst/
 

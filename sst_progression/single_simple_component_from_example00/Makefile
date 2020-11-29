@@ -11,11 +11,11 @@ libminexample.so: example_component.cpp\
 	                example_component.h
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $<
 
-install:
+install: libminexample.so
 	sst-register minimal_example minimal_example_LIBDIR=$(CURDIR)
 
 clean:
 	rm -f *.so *.o
 
-run:
+run: install
 	sst ExampleConfig.py

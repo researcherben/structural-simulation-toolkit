@@ -46,12 +46,12 @@ RUN mv sst-elements-library-10.0.0 sst-elements
 # Build SST Core
 RUN cd $dir/sst-core && ./autogen.sh && \
 	./configure --prefix=$SST_CORE_HOME --disable-mpi && \
-	make -j 4 all install
+	make all install
 
 # Build SST Elements
 RUN cd $dir/sst-elements && ./autogen.sh && \
 	./configure --prefix=$SST_ELEMENTS_HOME --with-sst-core=$SST_CORE_HOME && \
-	make -j 4 all install
+	make all install
 
 WORKDIR /home/sst/
 

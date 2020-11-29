@@ -2,6 +2,7 @@
 Sandia National Lab's Structural Simulation Toolkit - https://github.com/sstsimulator
 
 ## documentation
+* tutorial - https://www.osti.gov/servlets/purl/1513506
 * https://sst-simulator.org/SSTPages/SSTDeveloperSSTForNewbies/
 * http://sst-simulator.org/sst-website/
 * http://sst-simulator.org/SSTPages/SSTMainDocumentation/

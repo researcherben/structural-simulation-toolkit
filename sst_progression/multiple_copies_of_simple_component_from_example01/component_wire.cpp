@@ -1,17 +1,17 @@
 // Created for SST-Core Version (9.1.0)
 //
-#include "some_component.h"
+#include "component_wire.h"
 #include "ExampleEvent.h"
 #include <iostream>
 // to hold a list of ports
 #include <vector>
 
 
-using namespace ExampleTwo; // defined in the .h which was included above
+using namespace MultipleCopies; // defined in the .h which was included above
 
 // Component constructor.
 // using class from the .h included above
-ExampleComponent::ExampleComponent(SST::ComponentId_t id, SST::Params &params) :
+WireComponent::WireComponent(SST::ComponentId_t id, SST::Params &params) :
     SST::Component(id),
     componentId_(id),
     clockTickCount_(0)
@@ -48,29 +48,12 @@ ExampleComponent::ExampleComponent(SST::ComponentId_t id, SST::Params &params) :
     port_b = configureLink("port_b");
     std::vector<SST::Link*> ports;
 
-    // from https://chryswoods.com/beginning_c++/lists.html
-    for (int index=0; index<=5; ++index)
-    {
-        ports.push_back( configureLink("port_"+std::to_string(index)) );
-    }
-//    port_0 = configureLink("port_0");
-//    port_1 = configureLink("port_1");
-//    port_2 = configureLink("port_2");
-//    port_3 = configureLink("port_3");
-//    port_4 = configureLink("port_4");
-//    port_5 = configureLink("port_5");
-
-// how to access what is in the vector:
-//for (int i=0; i<v.size(); ++i){
-//    std::cout << v[i] << " ";
-//}
-
 
     // Configure the component clock.
     //
     logger_.verbose(CALL_INFO, DEBUG, 0x00, "Clock rate is: %s\n", clock.c_str());
     registerClock(clock,
-        new SST::Clock::Handler<ExampleComponent>(this, &ExampleComponent::clockTick));
+        new SST::Clock::Handler<WireComponent>(this, &WireComponent::clockTick));
     logger_.verbose(CALL_INFO, INFO,  0x00, "Successfully initialized clock.\n");
 
     // Register this component with the simulation.
@@ -89,7 +72,7 @@ ExampleComponent::ExampleComponent(SST::ComponentId_t id, SST::Params &params) :
 // This is where you should do any other initialization that needs to be done
 // but could be accomplished in the constructure.
 //
-void ExampleComponent::setup(void)
+void WireComponent::setup(void)
 {
     logger_.verbose(CALL_INFO, TRACE, 0x00, "Entering setup for component id %lu\n", componentId_);
     logger_.verbose(CALL_INFO, TRACE, 0x00, "Leaving setup for component id %lu\n", componentId_);
@@ -99,7 +82,7 @@ void ExampleComponent::setup(void)
 // Called after the simulation is complete but before the objects are
 // destroyed.  This is a good place to print out statistics.
 //
-void ExampleComponent::finish(void)
+void WireComponent::finish(void)
 {
     logger_.verbose(CALL_INFO, TRACE, 0x00, "Entering finish for component id %lu\n", componentId_);
     logger_.verbose(CALL_INFO, TRACE, 0x00, "Leaving finish for component id %lu\n", componentId_);
@@ -108,7 +91,7 @@ void ExampleComponent::finish(void)
 
 // Clock event handler.
 //
-bool ExampleComponent::clockTick(SST::Cycle_t cycle)
+bool WireComponent::clockTick(SST::Cycle_t cycle)
 {
     logger_.verbose(CALL_INFO, TRACE, 0x00, "Entering clock for component id %lu\n", componentId_);
     bool done = false;
