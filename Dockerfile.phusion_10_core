@@ -13,6 +13,7 @@ RUN apt update && apt -y upgrade && apt -y install \
 	libtool-bin \
   doxygen \
   graphviz \
+  time \
 	mpich \
   python3-dev \
 	automake \

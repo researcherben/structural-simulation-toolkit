@@ -72,6 +72,12 @@ namespace MultipleCopies
             // see https://sst-simulator.org/SSTPages/SSTDeveloperNewELIMigrationGuide/#parameters
             SST_ELI_DOCUMENT_PARAMS(
                 // triples of "name", "description", "default value"
+                { "x_start", "start position in x dimension", "0" },
+                { "y_start", "start position in y dimension", "0"},
+                { "z_start", "start position in z dimension", "0"},
+                { "x_end", "end position in x dimension", "0" },
+                { "y_end", "end position in y dimension", "0"},
+                { "z_end", "end position in z dimension", "0"},
                 { "debug", "Debug location:  (0: NONE, 1: STDOUT, 2: STDERR, 3: FILE)", "0" },
                 { "clock", "Component clock rate", "1GHz" },
                 { "clockTicks", "Number of times the handler is called before ending.", "10" }

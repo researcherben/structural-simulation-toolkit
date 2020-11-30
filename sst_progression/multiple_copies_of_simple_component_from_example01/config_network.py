@@ -26,6 +26,15 @@ link_delay="0ns"
 server_dict={}
 server_dict["main"] = sst.Component("main server", "server.ServerComponent")
 server_dict["main"].addParams({
+    "x"          : 0,
+    "x_length"   : 1,
+    "x_length_units": "m",
+    "y"          : 0,
+    "y_length"   : 1,
+    "y_length_units": "m",
+    "z"          : 0,
+    "z_length"   : 1,
+    "z_length_units": "m",
     "clock"      : clock,
     "clockTicks" : clockTicks,
     "debug"      : debug
@@ -34,6 +43,12 @@ server_dict["main"].addParams({
 wire_dict={}
 wire_dict["main"] = sst.Component("wire to main", "wire.WireComponent")
 wire_dict["main"].addParams({
+    "x_start"    : 0,
+    "y_start"    : 0,
+    "z_start"    : 0,
+    "x_end"      : 1,
+    "y_end"      : 1,
+    "z_end"      : 1,
     "clock"      : clock,
     "clockTicks" : clockTicks,
     "debug"      : debug
@@ -46,6 +61,15 @@ link_index+=1
 
 switch = sst.Component("switch", "switch.SwitchComponent")
 switch.addParams({
+    "x"          : 0,
+    "x_length"   : 1,
+    "x_length_units": "m",
+    "y"          : 0,
+    "y_length"   : 1,
+    "y_length_units": "m",
+    "z"          : 0,
+    "z_length"   : 1,
+    "z_length_units": "m",
     "clock"      : clock,
     "clockTicks" : clockTicks,
     "debug"      : debug
@@ -59,6 +83,12 @@ link_index+=1
 for index in range(5):
     wire_dict[index] = sst.Component("wire to server_"+str(index), "wire.WireComponent")
     wire_dict[index].addParams({
+        "x_start"    : 0,
+        "y_start"    : 0,
+        "z_start"    : 0,
+        "x_end"      : 1,
+        "y_end"      : 1,
+        "z_end"      : 1,
         "clock"      : clock,
         "clockTicks" : clockTicks,
         "debug"      : debug
@@ -70,6 +100,15 @@ for index in range(5):
 
     server_dict[index] = sst.Component("server_"+str(index), "server.ServerComponent")
     server_dict[index].addParams({
+        "x"          : 0,
+        "x_length"   : 1,
+        "x_length_units": "m",
+        "y"          : 0,
+        "y_length"   : 1,
+        "y_length_units": "m",
+        "z"          : 0,
+        "z_length"   : 1,
+        "z_length_units": "m",
         "clock"      : clock,
         "clockTicks" : clockTicks,
         "debug"      : debug
