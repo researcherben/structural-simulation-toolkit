@@ -1,5 +1,5 @@
 
-I suspect that if I can build a three-component simulation with a fully-connected graph I will be able to scale to larger simulations.
+if I can build a three-component simulation with a fully-connected graph I will be able to scale to larger simulations.
 
 What progression will enable that?
 1. create a component
