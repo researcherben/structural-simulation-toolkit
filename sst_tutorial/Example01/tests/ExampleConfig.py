@@ -1,5 +1,5 @@
 # Execute from the command line with the command:
-#   sst exampleConfig.py 2>&1 | tee test.log
+#   sst ExampleConfig.py 2>&1 | tee test.log
 #
 import sst
 

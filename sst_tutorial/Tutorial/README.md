@@ -1,10 +1,10 @@
 # Introduction to Developing Custom Elements for the Structural Simulation Toolkit (SST)
 
-As described in SST for Newbies:
+As described in [SST for Newbies](https://sst-simulator.org/SSTPages/SSTDeveloperSSTForNewbies/):
 
-> The Structural Simulation Toolkit (SST) is an open-source software framework used for simulating large-scale High Performance Computing (HPC - i.e. Super Computer) systems.
+> The [Structural Simulation Toolkit (SST)](https://github.com/sstsimulator) is an open-source software framework used for simulating large-scale High Performance Computing (HPC - i.e. Super Computer) systems.
 
-However, SST is simultaneously more and less than this.  While it includes a significant number of libraries that allow for the simulation of high-performance computers, at its core it is a highly capable event driven simulator that can be used to simulate much more.
+SST is simultaneously more and less than this.  While it includes a significant number of libraries that allow for the simulation of high-performance computers, at its core it is a highly capable event driven simulator that can be used to simulate much more.
 
 The examples given below are intended to serve as an introduction to creating custom components for use in SST, allowing it to serve as a generic event driven simulator.  They include:
 
@@ -19,3 +19,4 @@ The examples given below are intended to serve as an introduction to creating cu
 These examples were originally developed for SST-core 9.0
 
 It is hoped that, in addition to serving as an introduction SST component development, these examples will serve to increase understanding of the libraries included as part of SST and how they contribute to the simulation of high-performance computers.
+
