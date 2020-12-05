@@ -1,15 +1,11 @@
-# structural-simulation-toolkit
-Sandia National Lab's Structural Simulation Toolkit - https://github.com/sstsimulator
+# what is this repo for?
+This repo is a supplement to Sandia National Lab's Structural Simulation Toolkit - https://github.com/sstsimulator
+
+This repo aggregates resources intended to welcome new users of SST.
 
 ## documentation
-* tutorial - https://www.osti.gov/servlets/purl/1513506
-* https://sst-simulator.org/SSTPages/SSTDeveloperSSTForNewbies/
-* http://sst-simulator.org/sst-website/
-* http://sst-simulator.org/SSTPages/SSTMainDocumentation/
-* https://sst-simulator.org/SSTPages/SSTDeveloperCreateYourOwnElement/
-* https://sst-simulator.org/SSTPages/SSTDeveloperIntegrateYourElementWithSST/
-* https://sst-simulator.org/SSTPages/SSTDeveloper10dot0PythonModule/
-* https://sst-simulator.org/SSTPages/SSTDeveloperElementSummaryInfo/
+
+See [the wiki](https://github.com/researcherben/structural-simulation-toolkit/wiki/A-curated-list-of-SST-resources)
 
 ## content
 
