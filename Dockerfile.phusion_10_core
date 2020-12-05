@@ -16,8 +16,10 @@ RUN apt update && apt -y upgrade && apt -y install \
   time \
 	mpich \
   python3-dev \
-	automake \
-	python-dev
+  python3-pip \
+	automake 
+
+RUN pip3 install pybind11
 
 # Clean up apt mess
 RUN apt clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

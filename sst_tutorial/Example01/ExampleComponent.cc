@@ -34,7 +34,7 @@ ExampleComponent::ExampleComponent(SST::ComponentId_t id, SST::Params &params) :
     logger_.verbose(CALL_INFO, INFO,  0x00, "Initializing component %lu.\n", id);
     logger_.verbose(CALL_INFO, DEBUG, 0x00, "Parameters successfully read from config file.\n");
     logger_.verbose(CALL_INFO, DEBUG, 0x00, "clockTicks = %lu\n", clockTicks_);
-    logger_.verbose(CALL_INFO, DEBUG, 0x00, "Constructing new Example00 Instance.\n");
+    logger_.verbose(CALL_INFO, DEBUG, 0x00, "Constructing new Example01 Instance.\n");
 
     // Configure the links (connections to other components).
     // The link is associated with a component's registered port.
