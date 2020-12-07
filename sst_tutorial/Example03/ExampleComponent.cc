@@ -72,7 +72,7 @@ ExampleComponent::ExampleComponent(SST::ComponentId_t id, SST::Params &params) :
 // Called after all components have been constructed and initialization
 // has completed, but before simulation time has begin.
 //
-// This is where you should do any other initialization that needs done
+// This is where you should do any other initialization that needs to be done
 // but could be accomplished in the constructure or init().
 //
 void ExampleComponent::setup(void)

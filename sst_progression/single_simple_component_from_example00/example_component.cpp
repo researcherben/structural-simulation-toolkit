@@ -1,5 +1,7 @@
 // Created for SST-Core Version (9.1.0)
-//
+
+// quoted files are expected to be local; bracketed files are in the search path
+// http://infinitepartitions.com/cgi-bin/showarticle.cgi?article=art026
 #include "example_component.h"
 #include <iostream>
 
