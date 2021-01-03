@@ -1,4 +1,8 @@
 <HTML>
+  <!-- if you are looking at source and want to see a rendered HTML page, try
+  https://htmlpreview.github.io/
+   -->
+
   <HEAD>
     <title>Questions</title>
     <style>
@@ -60,11 +64,13 @@
   </fieldset>
   -->
   <P>
-    This single HTML file is intended to be self contained but has links to external resources. External sites have a trailing icon <img src="pictures/Icon_External_Link.png">
+    This single HTML file is intended to be self contained but has links to external resources.
+    External sites have a trailing icon <img src="pictures/Icon_External_Link.png">
   </P>
   <P>
     This file is not intended to be read linearly. Follow the links from a given question to other related questions.
   </P>
+
 
   <P>&nbsp;</P>
 
@@ -77,13 +83,18 @@
     <P>
       <I>Response</I>:
       <UL>
-        <LI>components (aka elements?) are connected to links via ports</LI>
-        <LI>composition (implemented as <a href="#what is a project driver file?">"project driver file"</a>) which specifies <a href="https://sst-simulator.org/SSTPages/SSTUserPythonFileFormat/#links">links</a> between components.</LI>
-        <LI>events, which are transmitted via links between components<LI>
+        <LI><a href="#what is an SST component?">components</a> (aka elements?) are connected to links via ports</LI>
+        <LI>composition (implemented as <a href="#what is a project driver file?">"project driver file"</a>)
+          which specifies <a href="#what is an SST link?">links</a> between components.</LI>
+        <LI>events, which are transmitted via links between components</LI>
+        <LI><a href="#what is an SST subComponent?">subcomponents</a> - shares common base class with Component​.
+          Do not need to communicate with component via links​. Cannot exist by themselves
+        <LI><a href="#what is an SST Module?">modules</a> - self-contained functionality (no access to Component class functionality​.
+          Do not need to communicate with component via links​. Cannot exist by themselves. [citation: <a href="https://github.com/sstsimulator/sst-tutorials/blob/master/P38_Nov2020/01_Overview_Using.pptx">slide 50</a>]
         <LI>clock, to progress ticks
       </UL>
     </P>
-    <img src="components_and_link.png">
+    <img src="pictures/components_and_link.png">
   </fieldset>
   <BR>
   <fieldset>
@@ -93,10 +104,126 @@
                what is a project driver file?</a>
     </legend>
     <P>
-      <I>Response</I>: A Python script that specifies components and links.<BR>
+      <I>Response</I>: A Python script that specifies <a href="#what is an SST component?">components</a>,
+      <a href="#what is an SST subComponent?">subComponents</a>, and <a href="#what is an SST link?">links</a>.<BR>
+        \Also can specify parameters per component and subComponent.
     </P>
     <P>
       <I>Reference</I>: <a href="https://sst-simulator.org/SSTPages/SSTUserPythonFileFormat/">https://sst-simulator.org/SSTPages/SSTUserPythonFileFormat/</a>
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="what is an SST link?">
+               what is an SST link?</a>
+    </legend>
+    <P>
+      <I>Response</I>: A Python class that connects two SST components.<BR>
+        Each component has a port.
+    </P>
+    <P>
+      <pre>
+#!/usr/bin/env python3
+import sst
+compA = sst.Component("Comp A", "dummy.Component")
+compB = sst.Component("Comp B", "dummy.Component")
+link = sst.Link("mylink")
+
+link.connect((compA, "myPort", "10ns"), (compB, "myPort", "10ns"))
+      </pre>
+    </p>
+    <P>
+      In a C++ component, poll or interrupt with EventHandler​
+    </p>
+    <P>
+      <I>Reference</I>: <a href="https://sst-simulator.org/SSTPages/SSTUserPythonFileFormat/#links">https://sst-simulator.org/SSTPages/SSTUserPythonFileFormat/#links</a>
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="what is an SST component?">
+               what is an SST component?</a>
+    </legend>
+    <P>
+      <I>Response</I>: A C++ file and .h header that performs the simulation.<BR>
+        SST Components have ports and send events over links to communicate with other components​.<BR>
+        SST Components can load <a href="#what is an SST subComponent?">SubComponents</a> and Modules for additional functionality.
+    </P>
+    <P>
+      <I>Related questions</I>
+      <UL>
+        <LI><a href="#what is an SST subComponent?">what is an SST subComponent?</a></LI>
+        <LI><a href="#what is an SST link?">what is an SST link?</a></LI>
+      </UL>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="what is an SST subComponent?">
+               what is an SST subComponent?</a>
+    </legend>
+    <P>
+      <I>Response</I>: A C++ file and .h header that can be used for supplemental functionality. <BR>
+    </P>
+    <P>
+      <I>Why use a subComponent?</I>:
+      <UL>
+        <LI>modularity of functionality between components
+        <LI>enables common interfaces to other components
+      </UL>
+    </P>
+    <P>Example:
+      <pre>
+#!/usr/bin/env python3
+import sst
+
+core = sst.Component(“core”, “miranda.BaseCPU”)​
+core.addParams({ “clock” : “2.4GHz” })​
+gen = core.setSubComponent(“generator”, “miranda.STREAMBenchGenerator”)​
+
+cache = sst.Component(“L1”, “memHierarchy.Cache”)​
+
+mctrl = sst.Component(“memctrl”, “memHierarchy.MemController”)
+memory = mctrl.setSubComponent(“backend”, “memHierarchy.simpleMem”)​
+      </pre>
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="what is an SST Module?">
+               what is an SST Module?</a>
+    </legend>
+    <P>
+      <I>Response</I>: A C++ file and .h header that can be used for supplemental functionality. <BR>
+    </P>
+    <P>
+      <I>Why use a Module?</I>:
+      <UL>
+        <LI>modularity of functionality between components
+        <LI>enables common interfaces to other components
+      </UL>
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="what is an SST Event?">
+               what is an SST Event?</a>
+    </legend>
+    <P>
+      <I>Response</I>: A unit of communication sent between two SST components over a link.<BR>
+    </P>
+    <P>
+      Examples of standardized interfaces: <BR>
+        <a href="https://github.com/sstsimulator/sst-core/tree/master/src/sst/core/interfaces">https://github.com/sstsimulator/sst-core/tree/master/src/sst/core/interfaces</a>
     </P>
   </fieldset>
   <BR>
@@ -110,9 +237,8 @@
       <I>Response</I>:
       <UL>
         <LI>a "project driver file" as a Python script (.py)
-        <LI>.cc -- C++ source code
-        <LI>.h -- header
-        <LI>Makefile
+        <LI>at least one Component written as C++ source code
+        <LI>a .h header for the component.
       </UL>
     </P>
   </fieldset>
@@ -124,8 +250,11 @@
                what elements are registered in SST?</a>
     </legend>
     <P>
-      <I>Response</I>: sst-info
+      <I>Response</I>: SST Core maintains a database of registered libraries. <BR>The list of registered elements can be queried using <BR><code>sst-info</code>
     </P>
+    <P>
+
+    </p>
   </fieldset>
   <BR>
   <fieldset>
@@ -165,13 +294,6 @@
       <a name="What does ELI stand for?">
                What does ELI stand for?</a>
     </legend>
-    <table width="100%">
-      <tr>
-        <td bgcolor="lightgreen">
-          <center>RANK</center>
-        </TD>
-      </TR>
-    </TABLE>
     <P>
       <I>Abbreviation</I>: <a name="ELI">ELI</a> = <BR>
     </P>
@@ -209,7 +331,7 @@
                what is the simulation lifecycle in SST?</a>
     </legend>
     <P>
-      Description from <a href="https://www.osti.gov/servlets/purl/1506211">slide 19</a>
+      Description from <a href="https://www.osti.gov/servlets/purl/1506211">slide 19</a>; see also <a href="https://github.com/sstsimulator/sst-tutorials/blob/master/P38_Nov2020/01_Overview_Using.pptx">slide 20</a>
       <OL>
         <LI>Birth</LI>
         <UL>
@@ -267,5 +389,127 @@
           </UL>
       </OL>
     </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="how does SST parallelize simulations?">
+               how does SST parallelize simulations?</a>
+    </legend>
+    <P>
+      <I>Response</I>: the component-link graph from the <a href="#what is a project driver file?">Python driver file</a> is
+      <a href="#how does SST partition a simulation?">partitioned</a> and sent to MPI nodes
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="how does SST partition a simulation?">
+               how does SST partition a simulation?</a>
+    </legend>
+    <P>
+      <I>Response</I>: <BR>
+    </P>
+    <P>   General Partitioners​
+      <UL>
+        <LI>linear: Partitions components by dividing Component ID space into roughly equal portions.  Components with sequential IDs will be placed close together.​
+        <LI>roundrobin: Partitions components using a simple round robin scheme based on ComponentID.  Sequential IDs will be placed on different ranks.​
+        <LI>simple: Simple partitioning scheme which attempts to partition on high latency links while balancing number of components per rank.​
+        <LI>zoltan: zoltan parallel partitioner.​
+      </UL>
+    </P>
+    <P>Special Partitioners​
+      <UL>
+        <LI>single:  Allocates all components to rank 0.  Automatically selected for serial jobs.​
+        <LI>self:  Used when partitioning is already specified in the configuration file.
+      </uL>
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="what is self partitioning?">
+               what is self partitioning?</a>
+    </legend>
+    <P>
+      <I>Response</I>: Partitioning can be specified in the python input file​<BR>
+      Use <code>setRank(mpi_rank, thread)</code> on a component​.<BR>
+      User must set rank/thread pairs for all components in system, partial partitions not supported
+    </P>
+    <P>
+      Must set the partitioner to be ”self”​. Can be done on command-line: <code>--partitioner=self​</code> or
+      can be done in python file: <code>sst.setProgramOption(”partitioner", ”self")​</code>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="how to launch an SST simulation?">
+               how to launch an SST simulation?</a>
+    </legend>
+    <P>
+      <I>Response</I>:
+      <OL>
+        <LI>install SST Core
+        <LI>register one or more components
+        <LI><code>sst driver_config.py</code>
+      </OL>
+    </P>
+    <P>
+      <I>Related questions</I>:
+      <UL>
+        <LI><a href="#how to launch a parallel SST simulation?">how to launch a parallel SST simulation?</a></LI>
+      </UL>
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="how to launch a parallel SST simulation?">
+               how to launch a parallel SST simulation?</a>
+    </legend>
+    <P>
+      <I>Response</I>: Components distributed among MPI ranks/threads.<BR>
+        Link latency controls synchronization rate​
+      Two ranks​:
+      <Pre>
+mpirun –np 2 sst demo1.py​
+</pre>
+Two threads​:
+<pre>
+sst –n 2 demo1.py​
+      </pre>
+      Two ranks with two threads each​.  This will give a warning since we only​
+       have 3 components across 4 ranks/threads​
+      <pre>
+mpirun –np 2 sst –n 2 demo1.py
+      </Pre>
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="how to configure statistics for SST simulation?">
+               how to configure statistics for SST simulation?</a>
+    </legend>
+    <P>
+      <I>Response</I>:
+      Components and SubComponents define statistics​
+      <pre>
+sst.setStatisticOutput(“sst.statoutputcsv”)​
+sst.setStatisticOutputOptions({ “filepath” : “stats.csv” })​
+sst.setStatisticLoadLevel(5)​
+sst.enableAllStatisticsForAllComponents()​
+      </pre>
+      source: <a href="https://github.com/sstsimulator/sst-tutorials/blob/master/P38_Nov2020/01_Overview_Using.pptx">slide 55</a>
+    </P>
+  </fieldset>
+
+
 </BODY>
 </HTML>

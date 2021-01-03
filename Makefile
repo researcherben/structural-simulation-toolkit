@@ -62,3 +62,16 @@ docker_run_head:
 	docker run -it -v `pwd`:/scratch --rm sst_head /bin/bash
 docker_build_fresh_head:
 	time docker build --no-cache -f Dockerfile.phusion_head -t sst_head .
+
+
+get_sst_source:
+	mkdir sstsimulator
+	cd sstsimulator/
+	git clone https://github.com/sstsimulator/sst-elements.git
+	git clone https://github.com/sstsimulator/sst-core.git
+	git clone https://github.com/sstsimulator/sst-macro.git
+	git clone https://github.com/sstsimulator/sst-external-element.git
+	git clone https://github.com/sstsimulator/sst-tutorials.git
+	git clone https://github.com/sstsimulator/sst-workbench.git
+	git clone https://github.com/sstsimulator/sst-tools.git
+
