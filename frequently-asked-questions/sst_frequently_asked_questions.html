@@ -1,6 +1,9 @@
 <HTML>
   <!-- if you are looking at source and want to see a rendered HTML page, try
   https://htmlpreview.github.io/
+
+  For example,
+  https://htmlpreview.github.io/?https://github.com/researcherben/structural-simulation-toolkit/blob/master/frequently-asked-questions/sst_frequently_asked_questions.html
    -->
 
   <HEAD>
@@ -106,7 +109,7 @@
     <P>
       <I>Response</I>: A Python script that specifies <a href="#what is an SST component?">components</a>,
       <a href="#what is an SST subComponent?">subComponents</a>, and <a href="#what is an SST link?">links</a>.<BR>
-        \Also can specify parameters per component and subComponent.
+        Also can specify parameters per component and subComponent.
     </P>
     <P>
       <I>Reference</I>: <a href="https://sst-simulator.org/SSTPages/SSTUserPythonFileFormat/">https://sst-simulator.org/SSTPages/SSTUserPythonFileFormat/</a>
@@ -295,7 +298,7 @@ memory = mctrl.setSubComponent(“backend”, “memHierarchy.simpleMem”)​
                What does ELI stand for?</a>
     </legend>
     <P>
-      <I>Abbreviation</I>: <a name="ELI">ELI</a> = <BR>
+      <I>Abbreviation</I>: <a name="ELI">ELI</a> = Element Library Information<BR>
     </P>
     <P>
       <!--
@@ -509,7 +512,45 @@ sst.enableAllStatisticsForAllComponents()​
       source: <a href="https://github.com/sstsimulator/sst-tutorials/blob/master/P38_Nov2020/01_Overview_Using.pptx">slide 55</a>
     </P>
   </fieldset>
-
-
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="what are all the SST macros?">
+               what are all the SST macros?</a>
+    </legend>
+    <P>
+      <I>Response</I>: according to <a href="https://sst-simulator.org/SSTPages/SSTDeveloperNewELIMigrationGuide/">ELI guide</a>
+      the <a href="https://github.com/sstsimulator/sst-core/blob/master/src/sst/core/eli/elementinfo.h#L298">elementinfo.h</a> lists the macros.
+      However, there are many more.
+    <P>The full list can be grep'd in the sst-core directory using
+      <pre>
+        grep -R "#define SST_ELI" * | cut -d" " -f2 | sed 's/(.*//'g | sort | uniq
+      </pre>
+    </P>
+    A partial list is
+    <P>
+      <UL>
+        <LI>SST_ELI_DOCUMENT_PARAMS
+          <LI>SST_ELI_DOCUMENT_PORTS
+          <LI>SST_ELI_DOCUMENT_STATISTICS
+          <LI>SST_ELI_DOCUMENT_SUBCOMPONENT_SLOTS - sst-core/src/sst/core/eli/subcompSlotInfo.h
+          <LI>SST_ELI_ELEMENT_VERSION
+          <LI>SST_ELI_REGISTER_COMPONENT
+          <LI>SST_ELI_REGISTER_CUSTOM_STATISTIC
+          <LI>SST_ELI_REGISTER_DERIVED
+          <LI>SST_ELI_REGISTER_EXTERN
+          <LI>SST_ELI_REGISTER_MODULE
+          <LI>SST_ELI_REGISTER_MODULE_API
+          <LI>SST_ELI_REGISTER_MODULE_DERIVED
+          <LI>SST_ELI_REGISTER_MODULE_DERIVED_API
+          <LI>SST_ELI_REGISTER_PARTITIONER
+          <LI>SST_ELI_REGISTER_PYTHON_MODULE
+          <LI>SST_ELI_REGISTER_SUBCOMPONENT_API   - sst-core/src/sst/core/subcomponent.h
+          <LI>SST_ELI_REGISTER_SUBCOMPONENT_DERIVED   - sst-core/src/sst/core/subcomponent.h
+          <LI>SST_ELI_REGISTER_SUBCOMPONENT_DERIVED_API   - sst-core/src/sst/core/subcomponent.h
+      </UL>
+    </P>
+  </fieldset>
 </BODY>
 </HTML>
