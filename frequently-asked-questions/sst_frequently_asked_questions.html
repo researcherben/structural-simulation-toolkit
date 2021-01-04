@@ -367,16 +367,20 @@ memory = mctrl.setSubComponent(“backend”, “memHierarchy.simpleMem”)​
                what is the component lifecycle in SST?</a>
     </legend>
     <P>
-      <I>Response</I>: (from <a href="https://www.osti.gov/servlets/purl/1506211">slide 20</a>)
+      <I>Response</I>: (from <a href="https://www.osti.gov/servlets/purl/1506211">slide 20</a>, also <a href="https://github.com/sstsimulator/sst-tutorials/blob/master/P38_Nov2020/03_developing-2020-11-05-final.pptx">slide 13</a>)
       <OL>
-        <LI>Pre-construction: define and partition components
-        <LI>Construction: call component constructors and parse parameters
-        <LI>initialize
+        <LI>Graph construction:
+          <UL>
+            <LI>define components and links
+            <LI>partition components to MPI ranks
+          </UL>
+        <LI>Construction: call component constructors and parse parameters. See <a href="https://github.com/sstsimulator/sst-tutorials/blob/master/P38_Nov2020/03_developing-2020-11-05-final.pptx">slide 14</a>
+        <LI>initialize. See <a href="https://github.com/sstsimulator/sst-tutorials/blob/master/P38_Nov2020/03_developing-2020-11-05-final.pptx">slide 15</a>
           <UL>
             <LI>Components send “init” events to each other over links. Discover neighbors, negotiate parameters, initialize data structures, etc.
             <LI>Multiple rounds of communication until no more “init” events are sent
           </UL>
-        <LI>setup
+        <LI>setup ("pre-time")
           <UL>
             <LI>Each component does its final setup and schedules initial events
           </UL>
@@ -384,6 +388,12 @@ memory = mctrl.setSubComponent(“backend”, “memHierarchy.simpleMem”)​
           <UL>
             <LI>Actual simulation (time begins)
             <LI>Continues until a set time, or all components agree to finish
+          </UL>
+        <LI>Complete</LI>
+          <UL>
+            <LI>“Post-time” phase analogous to initialization phase​
+            <LI>Components can send “init” events to each other over links​
+            <LI>Multiple rounds, until no more “init” events are sent
           </UL>
         <LI>finalize</LI>
           <UL>
@@ -404,6 +414,8 @@ memory = mctrl.setSubComponent(“backend”, “memHierarchy.simpleMem”)​
       <I>Response</I>: the component-link graph from the <a href="#what is a project driver file?">Python driver file</a> is
       <a href="#how does SST partition a simulation?">partitioned</a> and sent to MPI nodes
     </P>
+    <P>
+      See <a href="https://github.com/sstsimulator/sst-tutorials/blob/master/P38_Nov2020/03_developing-2020-11-05-final.pptx">slides 21-23</a>
   </fieldset>
   <BR>
   <fieldset>
@@ -413,7 +425,7 @@ memory = mctrl.setSubComponent(“backend”, “memHierarchy.simpleMem”)​
                how does SST partition a simulation?</a>
     </legend>
     <P>
-      <I>Response</I>: <BR>
+      <I>Response</I>: By default SST tries to partition to load balance and cut long-latency links​<BR>
     </P>
     <P>   General Partitioners​
       <UL>
@@ -532,24 +544,91 @@ sst.enableAllStatisticsForAllComponents()​
     <P>
       <UL>
         <LI>SST_ELI_DOCUMENT_PARAMS
-          <LI>SST_ELI_DOCUMENT_PORTS
-          <LI>SST_ELI_DOCUMENT_STATISTICS
-          <LI>SST_ELI_DOCUMENT_SUBCOMPONENT_SLOTS - sst-core/src/sst/core/eli/subcompSlotInfo.h
-          <LI>SST_ELI_ELEMENT_VERSION
-          <LI>SST_ELI_REGISTER_COMPONENT
+          <LI>SST_ELI_DOCUMENT_PORTS - Used by: Components, SubComponents​. Macro takes a list of ports available on the element​.<BR>
+Each port is defined as <code>{ “name”, “description”, vector of supported events }​</code><BR>
+ name and description are string literals ​
+          <LI>SST_ELI_DOCUMENT_STATISTICS - Used by: Components, SubComponents​. Macro takes a list of statistics that the element can produce​; for example<BR>
+            <code>{ “name”, “description”, “units”, enable level }​</code>. <BR>
+name, description, and units are string literals​.<BR>
+enable level is an integer between 1 and 7
+          <LI>SST_ELI_DOCUMENT_SUBCOMPONENT_SLOTS - sst-core/src/sst/core/eli/subcompSlotInfo.h<BR>
+            Used by: Components, SubComponent​. Macro takes a list of available  SubComponentSlots. <BR>
+Each slot is defined as <code>{ “slotname”, “description”, “name of superclass” }​</code>
+name of superclass should be the fully qualified name of the class that defines the slot’s API. <BR>
+  The superclass inherits from SubComponent, and any subcomponent attached to this slot must inherit from the specified superclass.​<BR>
+Example: <code>SST::ElementLibrary::SubComponentClass</code>
+          <LI>SST_ELI_DOCUMENT_PARAMS - Used by: Components, SubComponents, Modules​. Each parameter is defined as <code>{ “name”, “description”, “default value” }​</code><BR>
+            If default value is entered as NULL, then there is no default and the parameter is required.​<BR>
+              If default value is an empty string, then it is optional, with no default
+          <LI>SST_ELI_ELEMENT_VERSION(major, minor, tertiary) - Required for all element types​. major, minor and tertiary are integers​
+          <LI>SST_ELI_REGISTER_COMPONENT(class, “library”, “name”, version, “description”, category)​
           <LI>SST_ELI_REGISTER_CUSTOM_STATISTIC
           <LI>SST_ELI_REGISTER_DERIVED
           <LI>SST_ELI_REGISTER_EXTERN
-          <LI>SST_ELI_REGISTER_MODULE
-          <LI>SST_ELI_REGISTER_MODULE_API
+          <LI>SST_ELI_REGISTER_MODULE(class, “library”, “name”, version, “description”, interface)​
+          <LI>SST_ELI_REGISTER_MODULE_API(class, constructor_args)​
           <LI>SST_ELI_REGISTER_MODULE_DERIVED
-          <LI>SST_ELI_REGISTER_MODULE_DERIVED_API
-          <LI>SST_ELI_REGISTER_PARTITIONER
-          <LI>SST_ELI_REGISTER_PYTHON_MODULE
-          <LI>SST_ELI_REGISTER_SUBCOMPONENT_API   - sst-core/src/sst/core/subcomponent.h
-          <LI>SST_ELI_REGISTER_SUBCOMPONENT_DERIVED   - sst-core/src/sst/core/subcomponent.h
-          <LI>SST_ELI_REGISTER_SUBCOMPONENT_DERIVED_API   - sst-core/src/sst/core/subcomponent.h
+          <LI>SST_ELI_REGISTER_MODULE_DERIVED_API(class, base,constructor_args)​
+          <LI>SST_ELI_REGISTER_PARTITIONER(class, “library”, “name” , version, “description”)​
+          <LI>SST_ELI_REGISTER_PYTHON_MODULE(class, “library”, version)​
+          <LI>SST_ELI_REGISTER_SUBCOMPONENT_API(class, constructor_args)​   - sst-core/src/sst/core/subcomponent.h
+          <LI>SST_ELI_REGISTER_SUBCOMPONENT_DERIVED(class, “library”, “name”, version, “description”, interface)​   - sst-core/src/sst/core/subcomponent.h
+          <LI>SST_ELI_REGISTER_SUBCOMPONENT_DERIVED_API(class, base,constructor_args)​   - sst-core/src/sst/core/subcomponent.h
       </UL>
+      source: <a href="https://github.com/sstsimulator/sst-tutorials/blob/master/P38_Nov2020/03_developing-2020-11-05-final.pptx">slides 4-11</a>
+    </P>
+    <P>
+      Definitions of arguments:​
+      <UL>
+        <LI>class: Name of class to register.  Must not be quoted, as template expansion uses it.​
+        <LI>base: Name of base class API is derived from.  Must not be quoted, as template expansion uses it.​
+        <LI>library: Library name. String literal. ​
+        <LI>name: Name used to reference the component, full name is library.name. String literal.​
+        <LI>Example: if library = “merlin” and name = ”hr_router”, then full name is “merlin.hr_router”​
+        <LI>version: Version number of component defined using SST_ELI_ELEMENT_VERSION macro​
+        <LI>description:  Brief description of the component. String literal.​
+        <LI>category (Components only): Component category as defined in elibase.h. ​
+        <LI>interface (SubComponents and Modules only): Fully qualified class name of the SubComponent/Module that this class inherits from. Must not be qutoted.  The interface must be registered as an API using one of the registration commands listed above.​
+        <LI>constructor_args (SubComponent and Module APIs only): types of parameters to be passed to constructor of elements derived from these APIs​
+      </UL>
+      source: <a href="https://github.com/sstsimulator/sst-tutorials/blob/master/P38_Nov2020/03_developing-2020-11-05-final.pptx">slide 4</a>
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="what are the core APIs in SST?">
+               what are the core APIs in SST?</a>
+    </legend>
+    <P>
+      <I>Response</I>: <BR>
+      <UL>
+        <LI>SST::Simulation - sst/core/simulation.h​; Base of the simulation
+        <LI>SST::Event - sst/core/event.h; Base class for data to send over a SST::Link​<BR>
+Inherit from this to create your own Event​<BR>
+Provides base class for <code>Event::Handler​<code>
+        <LI>SST::Component
+        <LI>SST::Link - sst/core/link.h​; Standard mechanism to send/receive data from another component.​<BR>
+Created via <code>SST::Component::configureLink()<code>
+        <LI>SST::Param - sst/core/param.h​; Holds parameters from ConfigGraph​. Handed to Component in constructor
+        <LI>SST::Output​ - sst/core/output.h​; Utility class to bundle output from SST
+        <LI>SST::UnitAlgebra​
+        <LI>SST::RNG::SSTRandom
+      </UL>
+      source: <a href="https://github.com/sstsimulator/sst-tutorials/blob/master/P38_Nov2020/03_developing-2020-11-05-final.pptx">slide 25</a>
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="what is the default time increment in SST?">
+               what is the default time increment in SST?</a>
+    </legend>
+    <P>
+      <I>Response</I>: Time in the core is represented by a uint64_t, which counts the number of atomic ticks since simulation start​.<BR>
+        Tick unit can be specified, default is 1 picosecond, which allows nearly 2/3 year of simulated time<BR>
     </P>
   </fieldset>
 </BODY>
