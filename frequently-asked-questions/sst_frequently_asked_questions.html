@@ -205,13 +205,33 @@ memory = mctrl.setSubComponent(“backend”, “memHierarchy.simpleMem”)​
     </legend>
     <P>
       <I>Response</I>: A C++ file and .h header that can be used for supplemental functionality. <BR>
+
+        Modules don't access base class API.
+        Statistics are not available. Ports are not available.
+        Modules are considered user facing. Can be specified in Python as a parameter.
+
+
     </P>
     <P>
-      <I>Why use a Module?</I>:
+      <I>Why use a Module</I>:
       <UL>
         <LI>modularity of functionality between components
         <LI>enables common interfaces to other components
       </UL>
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="What are SST extensions?">
+               What are SST extensions?</a>
+    </legend>
+    <P>
+      <I>Response</I>:
+      Purpose is to enable decomposition of complicated components. Component extensions cannot be run independently. Status: stable but not official; may have bugs.
+      Component extensions are in Beta and will eventually be made official; intent is for long-term support.
+
     </P>
   </fieldset>
   <BR>
@@ -631,5 +651,109 @@ Created via <code>SST::Component::configureLink()<code>
         Tick unit can be specified, default is 1 picosecond, which allows nearly 2/3 year of simulated time<BR>
     </P>
   </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="Can SST SubComponents be run independently?">
+               Can SST SubComponents be run independently?</a>
+    </legend>
+    <P>
+      <I>Response</I>: SubComponents have to be coupled to a component.
+      They aren’t able to run independently since they interact with a Component via an API rather than the Link interface.
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="Does SST coalesce MPI messages between components?">
+               Does SST coalesce MPI messages between components?</a>
+    </legend>
+    <P>
+      <I>Context</I>: The events being serialized between components are small.
+    </P>
+    <P>
+      <I>Response</I>: yes, but this is not documented because it's not exposed to users or developers. <BR>
+Specifically, every MPI rank has a queue per remote thread. Then each queue is serialized at clock sync.
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="Can SST be run without being clocked?">
+               Can SST be run without being clocked?</a>;
+      <a name="Can SST be run as a functional simulation?">
+               Can SST be run as a functional simulation?</a>
+    </legend>
+    <P>
+      <I>Response</I>: "time core" is needed for causality, so probably can't revert to functional simulation.
+Could send messages without sync, but that would violate causality and is not supported.
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="If SST were event-driven rather than clocked, would that be faster to execute?">
+               If SST were event-driven rather than clocked, would that be faster to execute?</a>
+    </legend>
+    <P>
+      <I>Response</I>: Arbitration is clocked. When clocks return nothing, then switching to event-based would be faster.
+If there are many elements or lots of activity, then unclocked would be slower.
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="Is there any limit to the nesting of subcomponents??">
+               Is there any limit to the nesting of subcomponents??</a>
+    </legend>
+    <P>
+      <I>Response</I>: There's no limit imposed by SST.
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="What is the advantage of Subcomponents over libraries?">
+               What is the advantage of Subcomponents over libraries?</a>
+    </legend>
+    <P>
+      <I>Response</I>: The value of SST Subcomponents is dynamic loading at runtime.
+      Subcomponents have unique ports and unique statistics.
+      Parent component does not need to be aware of subcomponent's ports.
+      Subcomponents can be specified directly in Python or as parameters. <BR>
+​Statically-linked C++ libraries are viable alternative to subcomponents.
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="where does SST graph construction take place in an MPI simulation?">
+               where does SST graph construction take place in an MPI simulation?</a>
+    </legend>
+    <P>
+      <I>Response</I>: Graph construction takes place in Python and is serial on rank=0.
+Partitioner can be parallelized using Zoltan.
+    </P>
+  </fieldset>
+  <!--
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="?">
+               ?</a>
+    </legend>
+    <P>
+      <I>Response</I>:
+    </P>
+  </fieldset>
+-->
 </BODY>
 </HTML>
