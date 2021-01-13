@@ -67,3 +67,5 @@ see https://sst-simulator.org/SSTPages/SSTMainDownloads/#SSTutorials and https:/
 * Events - Data objects to be passed between Components and SubComponents.
 * Links: components communicate using Links to pass events. Every link contains a name, port, and latency
 * Ports = specifies which port of the link we are connecting to
+
+See https://github.com/researcherben/structural-simulation-toolkit/tree/master/frequently-asked-questions
