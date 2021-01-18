@@ -742,6 +742,26 @@ If there are many elements or lots of activity, then unclocked would be slower.
 Partitioner can be parallelized using Zoltan.
     </P>
   </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="how does SST generate graphviz plots?">
+               how does SST generate graphviz plots?</a>
+    </legend>
+    <P>
+      <I>Response</I>:
+      <code>sst --output-dot=pic.gv --run-mode=init config.py</code>
+    </P>
+    <p>
+      There are two graphs generated, "connections" and "sst_simulation". The "connections" graph is the pre-partitioned graph,
+      the "sst_simulation" graph shows which MPI rank and which thread hosts each node in the graph.
+      See <a href="https://github.com/sstsimulator/sst-core/blob/master/src/sst/core/cfgoutput/dotConfigOutput.cc">
+      https://github.com/sstsimulator/sst-core/blob/master/src/sst/core/cfgoutput/dotConfigOutput.cc</a>
+    </P>
+  </fieldset>
+
+    
   <!--
   <BR>
   <fieldset>
