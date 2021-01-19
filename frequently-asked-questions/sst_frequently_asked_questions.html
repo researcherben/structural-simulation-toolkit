@@ -86,14 +86,15 @@
     <P>
       <I>Response</I>:
       <UL>
-        <LI><a href="#what is an SST component?">components</a> (aka elements?) are connected to links via ports</LI>
+        <LI><a href="#what is an SST element?">elements</a> are a collection of componenets</LI>
+        <LI><a href="#what is an SST component?">components</a> are connected to links via ports</LI>
         <LI>composition (implemented as <a href="#what is a project driver file?">"project driver file"</a>)
           which specifies <a href="#what is an SST link?">links</a> between components.</LI>
         <LI>events, which are transmitted via links between components</LI>
         <LI><a href="#what is an SST subComponent?">subcomponents</a> - shares common base class with Component​.
-          Do not need to communicate with component via links​. Cannot exist by themselves
+          Do not need to communicate with component via links. Cannot exist by themselves
         <LI><a href="#what is an SST Module?">modules</a> - self-contained functionality (no access to Component class functionality​.
-          Do not need to communicate with component via links​. Cannot exist by themselves. [citation: <a href="https://github.com/sstsimulator/sst-tutorials/blob/master/P38_Nov2020/01_Overview_Using.pptx">slide 50</a>]
+          Do not need to communicate with component via links. Cannot exist by themselves. [citation: <a href="https://github.com/sstsimulator/sst-tutorials/blob/master/P38_Nov2020/01_Overview_Using.pptx">slide 50</a>]
         <LI>clock, to progress ticks
       </UL>
     </P>
@@ -113,6 +114,23 @@
     </P>
     <P>
       <I>Reference</I>: <a href="https://sst-simulator.org/SSTPages/SSTUserPythonFileFormat/">https://sst-simulator.org/SSTPages/SSTUserPythonFileFormat/</a>
+    </P>
+  </fieldset>
+  <BR>
+  <fieldset>
+    <legend>
+      <I>Question</I>:
+      <a name="what is an SST element?">
+               what is an SST element?</a>
+    </legend>
+    <P>
+      <I>Response</I>: a collection of components in a single .so file. Example from <code>sst-info</code>:
+<pre>
+ELEMENT 1 = switch ()
+Num Components = 1
+      Component 0: SwitchComponent
+      CATEGORY: UNCATEGORIZED COMPONENT
+</pre>
     </P>
   </fieldset>
   <BR>
