@@ -11,6 +11,7 @@ help:
 	@echo "      create container for g++ and pybind11"
 
 
+# intended to be run on the host
 .PHONY: docker docker_build docker_run
 docker: docker_build docker_run
 docker_build:
@@ -20,16 +21,18 @@ docker_run:
 docker_build_fresh:
 	time docker build --no-cache -f Dockerfile -t pb11 .
 
-
+# intended to be run inside the container
 call_cpp_from_py:
 	g++ -O3 -Wall -shared -std=c++11 -fPIC `python3 -m pybind11 --includes` example_call_cpp_from_py.cpp -o example`python3-config --extension-suffix`
 # in an interactive Python REPL,
 # import example
 # example.add(1, 2)
 
+# intended to be run inside the container
 hello_world_py_inside:
 	g++ -O3 -Wall -shared -std=c++17 -fPIC `python3 -m pybind11 --includes` example_hello_world_py_inside.cpp
 
+# can be run on the host or within the container
 # no output produced; just checks that the file doesn't contain syntax errors
 calc:
 	python3 calc.py
@@ -43,6 +46,7 @@ calc:
 #     python3-config --cflags --ldflags
 # based on https://stackoverflow.com/a/34643949/1164295
 
+# intended to be run inside the container
 call_calc:
 	g++ -I/usr/local/lib/python3.6/dist-packages/pybind11/include \
             -I/usr/include/python3.6m \
