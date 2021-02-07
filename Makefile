@@ -47,7 +47,7 @@ docker_build_fresh_10:
 	time docker build --no-cache -f Dockerfile.phusion_10 -t sst_10 .
 
 .PHONY: docker_10_core docker_build_10_core docker_run_10_core
-docker_10_core: docker_build_10 docker_run_10
+docker_10_core: docker_build_10_core docker_run_10_core
 docker_build_10_core:
 	time docker build -f Dockerfile.phusion_10_core -t sst_10_core .
 docker_run_10_core:
