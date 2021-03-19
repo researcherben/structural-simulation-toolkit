@@ -1,0 +1,57 @@
+\section{Link Class}
+
+The Link object is used to connect Component/SubComponents together to
+form the simulation.  The Link is created using:
+
+\begin{functiondoc}{Link(name, latency=None)}{
+    Creats a new Link object
+}
+
+  \param{name} (type: string) Name of the link
+
+  \param{latency} (type: string) default latency for the link,
+  optional.  This will be used if no latency is specified in calls to
+  Link.connect() or (Sub)Component.addLink().
+
+  \returns{Link object}
+
+\end{functiondoc}
+
+
+\begin{functiondoc}{connect((comp1, port1, latency1=default), (comp2, port2, latency2=default))}{
+
+    Connects two ports using the link object.
+
+    Actual parameters are two tuples representing the information for
+    the ports to be connected.  The fields in the tuple are (comp,
+    port, latency) as describe below.
+
+}
+
+  \param{comp} (type: Component or SubComponent)
+  Component/SubComponent object that the port is a part of
+
+  \param{port} (type: string) port to connect to
+
+  \param{latency} (type: string) latency of link from the perspective
+  of the corresponding Component/SubComponent sending an event.  This
+  is optional, and if not specified, the default latency of the link
+  will be used.  If no latency is set, either in the call or as a
+  default, the call will fatal.
+
+  \noreturn
+
+\end{functiondoc}
+
+
+\begin{functiondoc}{setNoCut()}{
+    Tell the simulator that this link should not be “cut” by a
+    partition boundary.  In effect, it will guarantee that the two
+    Components connected by this link will be on the same rank when
+    using an autotmatic partitioning scheme (this attribute is ignored
+    if the self partitioner is used).  This must be used with care, as
+    you can easily get into a situation where too many components are
+    on the same rank.  }
+
+  \noreturn
+\end{functiondoc}

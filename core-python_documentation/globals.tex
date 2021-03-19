@@ -1,0 +1,445 @@
+\chapter{Global Functions in SST Python Module}
+\label{chap:globals}
+
+The SST core python module provides a set of global functions not
+attached to any particular class. These functions generally fall into
+one of the following categories: general control and informational
+functions, functions to get handles to existing objects and statistic
+enable and control functions.  These functions are described below.
+Following those descriptions is a section on general notes on
+statistics (Section~\ref{sec:gen-notes-stats}).
+
+\section{General Control and Informational Functions}
+\label{sec:sim-control}
+
+\begin{functiondoc}{setProgramOption(option,value)}{
+    Sets the specified program option for the simulation.  These
+    mirror the options available on the sst command line.  Parameters
+    set in the python file will be overwritten by options set on the
+    command line.  Use sst --help to get a list of available options.
+}
+
+  \param{option} (type: string) configuration option to set
+
+  \param{value} (type: varies by option) value to set option to
+
+  \noreturn
+\end{functiondoc}
+
+
+\begin{functiondoc}{getProgramOptions()}{
+    Returns a dictionary with the current values of the program
+    options.  This will include all program options, not just those
+    set in the python file.  }
+
+  \returns python dictionary with program options and values
+\end{functiondoc}
+
+
+\begin{functiondoc}{getMPIRankCount()}{
+    Returns the number of physical MPI ranks in the simulation
+}
+  
+\returns number of MPI ranks in the simulation
+\end{functiondoc}
+
+
+\begin{functiondoc}{getSSTThreadCount()}{
+    Returns the threads per rank specified for the simulation
+}
+
+  \returns number of threads per MPI rank in the simulation
+\end{functiondoc}
+
+
+\begin{functiondoc}{setSSTThreadCount(threads)}{
+    Sets the number of threads per rank for the simulation.  These
+    values can be overwritten by using -n on the command line.
+}
+
+  \param{threads} (type: int) number of threads per MPI rank to use in the
+  simulation
+
+  \noreturn
+\end{functiondoc}
+
+\begin{functiondoc}{pushNamePrefix(prefix)}{
+    Pushes a name prefix onto the name stack.  This prefix will be
+    added on the names of all Components and Links.  The names in the
+    stack are separated by a period.  Example, if
+    pushNamePrefix(“base”) and pushNamePrefix(“next”) were called in
+    that order, the prefixed name would be “base.next”.  Prefixes can
+    be popped from the stack using popNamePrefix().
+}
+
+  \param{prefix}: (type: string) prefix to add to the name stack
+
+  \noreturn
+\end{functiondoc}
+
+
+\begin{functiondoc}{popNamePrefix()}{
+    Pops a prefix from the name stack.  See pushNamePrefix for how
+    name stacks are used.
+  }
+
+  \noreturn
+\end{functiondoc}
+
+
+\begin{functiondoc}{exit()}{
+    Causes the simulation to exit.
+}
+
+  \noreturn
+\end{functiondoc}
+  
+
+\section{Functions to Get Handles to Existing Objects}
+\label{sec:handles}
+
+\begin{functiondoc}{findComponentByName(name)}{
+    In many cases, Components and SubComponents will be created using
+    library functions and the user will not have direct access to
+    their handles.  In some instances, the provided python modules
+    will have accessor functions that can provide handles to these
+    elements.  If this is not provided by the library, the user can
+    call the findComponentByName() function to get a handle to the
+    desired element.  The function can find handles for both
+    Components and SubComponents.  The use of this function
+    presupposes a knowledge of the naming convention of the elements
+    in the build functions of the library.
+}
+
+  \param{name} (type: string) name of the Component or SubComponent to
+  find.  The name for SubComponents is described above.  Slot indexes
+  are optional in cases where only on SubComponent has been added to a
+  slot, but you can also use [0] in all cases, even when the actual
+  name will not display this way.
+
+  \returns the function will return a handle to the
+  Component/SubComponent with the provided name, or None if the name
+  is not found.
+\end{functiondoc}
+
+
+\section{Statistic Enable and Control Functions}
+\label{sec:stat-enable}
+
+The following functions are used to enable statistics on Components
+and SubComponents using the name or type of the element.  See “General
+Notes on Statistics” (Section \ref{sec:gen-notes-stats}) below for more
+information.
+
+\begin{functiondoc}{enableAllStatisticsForAllComponents(stat_params_dict)}{
+    Enables all statistics for all Components in the simulation that
+    have already been instanced.
+}
+  
+  \param{stat_params_dict} (type: dict) Python dictionary that specified the
+  statistic parameters.  All statistics will get the same set of
+  parameters.
+
+  \noreturn
+\end{functiondoc}
+
+
+\begin{functiondoc}{enableAllStatisticsForComponentName(name, stat_params_dict,
+    apply_to_children=False)}{
+
+    Enables all statistics for the Component named in the call.  This
+    call works for both Components and SubComponents.
+}
+
+  \param{name} (type: string) name of the Component or SubComponent on
+  which to enable all statistics.  The name for SubComponents is
+  described above.  Slot indexes are optional in cases where only one
+  SubComponent has been added to a slot, but you can also use [0] in
+  all cases, even when the actual name will not display this way.  If
+  component with the provided name not found, the function will call
+  fatal().
+
+  \param{stat_params_dict} (type: dict) Python dictionary that
+  specified the statistic parameters.  All statistics will get the
+  same set of parameters
+
+  \param{include_children} (type: bool) If set to True, will
+  recursively enable all statistics on all SubComponent descendants of
+  named element.
+
+  \noreturn
+\end{functiondoc}
+
+
+\begin{functiondoc}{enableStatisticForComponentName(name, stat, stat_params_dict, apply_to_children=False)}{
+  Enables a statistic for the component on which the call is made.
+}
+
+  \param{name} (type: string) name of the Component or SubComponent on
+  which to enable the specified statistic.  The name for SubComponents
+  is described above.  Slot indexes are optional in cases where only
+  on SubComponent has been added to a slot, but you can also use [0]
+  in all cases, even when the actual name will not display this
+  way. If component with the provided name not found, the function
+  will call fatal().
+
+  \param{stat} (type: string) statistic to be enabled
+
+  \param{stat_params_dict} (type: dict) Python dictionary that
+  specifies the statistic parameters
+
+  \param{include_children} (type: bool) If set to True, will
+  recursively enable specified statistic on all SubComponent
+  descendants.
+
+  \noreturn
+\end{functiondoc}
+
+
+\begin{functiondoc}{enableStatisticsForComponentName(name, stat, stat_params_dict, apply_to_children=False)}{
+  Enables a list of statistics for the component on which the call is
+  made.
+}
+
+  \param{name} (type: string) name of the Component or SubComponent on
+  which to enable specified statistics.  The name for SubComponents is
+  described above.  Slot indexes are optional in cases where only on
+  SubComponent has been added to a slot, but you can also use [0] in
+  all cases, even when the actual name will not display this way. If
+  component with the provided name not found, the function will call
+  fatal().
+
+  \param{stat_list} (type: list of strings) list of statistics to be
+  enabled.  If only one stat is to be enabled, you may pass a single
+  string instead of a list.
+
+  \param{stat_params_dict} (type: dict) Python dictionary that
+  specified the statistic parameters
+
+  \param{include_children} (type: bool) If set to True, will
+  recursively enable specified statistic on all SubComponent
+  descendants.
+
+  \noreturn
+\end{functiondoc}
+
+
+\begin{functiondoc}{enableAllStatisticsForComponentType(type, stat_params_dict, apply_to_children=False)}{
+    Enables all statistics for all previously instanced
+    Components/SubComponents of the type specified in the call.  This
+    call works for both Components and SubComponents.
+  }
+  
+  \param{type} (type: string) type of the Component or SubComponent on
+  which to enable all statistics.  All previously instanced elements
+  of this type will have their statistics enabled.
+
+  \param{stat_params_dict} (type: dict) Python dictionary that
+  specified the statistic parameters.  All statistics will get the
+  same set of parameters.
+
+  \param{include_children} (type: bool) If set to True, will
+  recursively enable all statistics on all SubComponent descendants.
+
+  \noreturn
+\end{functiondoc}
+
+
+\begin{functiondoc}{enableStatisticForComponentType(type, stat, stat_params_dict, apply_to_children=False)}{
+    Enables a the specified statistic for all previously instanced
+    Components/SubComponents of the type specified in the call.  This
+    call works for both Components and SubComponents.
+  }
+
+  \param{type} (type: name) type of the Component or SubComponent on
+  which to enable the specified statistic.  All previously instanced
+  elements of this type will have their statistics enabled.
+
+  \param{stat} (type: string) statistic to be enabled
+
+  \param{stat_params_dict} (type: dict) Python dictionary that
+  specified the statistic parameters
+
+  \param{include_children} (type: bool) If set to True, will
+  recursively enable specified statistic on all SubComponent
+  descendants.
+
+  \noreturn
+\end{functiondoc}
+
+
+\begin{functiondoc}{enableStatisticsForComponentType(type, stat_list, stat_params_dict, apply_to_children=False)}{
+    Enables a list of statistics for all previously instanced
+    Components/SubComponents of the type specified in the call.  This
+    call works for both Components and SubComponents.
+}
+    
+  \param{type} (type: string) type of the Component or SubComponent on
+  which to enable the specified statistics.  All previously instanced
+  elements of this type will have their statistics enabled.
+
+  \param{stat_list} (type: list of strings) list of statistics to be
+  enabled.  If only one stat is to be enabled, you may pass a single
+  string instead of a list.
+
+  \param{stat_params_dict} (type: dict) Python dictionary that
+  specified the statistic parameters
+
+  \param{include_children} (type: bool) If set to True, will
+  recursively enable specified statistic on all SubComponent
+  descendants.
+
+  \noreturn
+\end{functiondoc}
+
+
+\begin{functiondoc}{setStatisticLoadLevelForComponentName(name, level, apply_to_children=False)}{
+    Sets the statistic load level for the named component.
+  }
+
+  \param{name} (type: string) name of the Component or SubComponent on
+  which to set the statistic load level.  The name for SubComponents
+  is described above.  Slot indexes are optional in cases where only
+  on SubComponent has been added to a slot, but you can also use [0]
+  in all cases, even when the actual name will not display this
+  way. If component with the provided name not found, the function
+  will call fatal().
+
+  \param{level} (type: int) statistic load level for the component
+
+  \param{include_children}: (type:bool) If set to True, will
+  recursively enable specified statistic on all SubComponent
+  descendants.
+
+  \noreturn
+\end{functiondoc}
+
+
+\begin{functiondoc}{setStatisticLoadLevelForComponentType(type, level, apply_to_children=False)}{
+    Sets the statistic load level for all components of the specified
+    type.
+  }
+
+  \param{type} (type: string) type of the Component or SubComponent on
+  which to set the statistic load level.  All previously instanced
+  elements of this type will have their level set.
+  
+  \param{level} (type: int) statistic load level for the components
+
+  \param{include_children} (type: bool) If set to True, will
+  recursively enable specified statistic on all SubComponent
+  descendants.
+
+  \noreturn
+\end{functiondoc}
+
+
+\begin{functiondoc}{setStatisticLoadLevel(level)}{
+    Set the global statistic load level.  This level is used if
+    individual load levels are not set.  Also, the load level is only
+    used for statistics not specifically enabled (i.e., not enabled
+    using one of the enableAllStatistics variants).
+  }
+
+  \param{level} (type: int) value to set global statistic load level
+  to
+
+  \noreturn
+\end{functiondoc}
+
+
+\begin{functiondoc}{getStatisticLoadLevel()}{
+    Return the global statistic load level
+  }
+
+  \returns{value of global statistic load level}
+
+\end{functiondoc}
+
+
+\begin{functiondoc}{setStatisticOutput(stat_output_module)}{
+    Sets the global StatisticOutput to be of the module type specified
+  }
+  
+  \param{stat_output_module} (type: string) name of the stat output
+  module to load in lib.element format.
+
+  \noreturn
+\end{functiondoc}
+ 
+
+\begin{functiondoc}{setStatisticOutputOption(option, value)}{
+    Set the specified option for the StatisticOutput object.
+  }
+
+  \param{option} (type: string) option to set
+
+  \param{value} (type: string) value to set option to
+
+  \noreturn
+\end{functiondoc}
+
+
+\begin{functiondoc}{setStatisticOutputOptions(options)}{
+    Set the specified options for the StatisticOutput object
+  }
+  
+  \param{options} (type: dict) dictionary the contents specify the
+  option as dictionary keys with the options value being specified by
+  the corresponding dictionary value.
+
+  \noreturn
+\end{functiondoc}
+
+
+
+\section{General Notes on Statistics}
+\label{sec:gen-notes-stats}
+
+There are a number of ways to enable statistics on Components and
+SubComponents.  There are a set of functions that can be called
+directly on Component/SubComponent handles and a set of functions that
+are provided by the sst python module that use name or type to find
+the elements on which to enable statistics.  There may also be
+specific methods provided by element library python modules.
+
+\paragraph{Statistic load levels}
+It is possible to set load levels both globally and per
+Component/SubComponent.  Each statistic defined in
+Components/SubComponents has a load level assigned to it in order to
+help with finer grained control with using the enableAllStatistics*
+functions.  Load levels only apply to statistics not explicitly
+enabled.  Also, local load levels will override global load levels.
+
+The precedence for enabling statistics is as follows: If a statistic
+is explicitly enabled (does not use one of the enableAllStatistics*
+functions), it will be enabled.  Else, if the set load level meets the
+minimum for a statistic and all statistics for the component have been
+enabled, the statistic will be enabled.  The local load level will be
+used, if set, otherwise the global load level will be used.
+
+\paragraph{Statistic parameters}
+Statistic parameters are used to pass the parameters to the statistics
+subsystem and to the the statistics themselves and are specified in a
+python dictionary.  In addition to statistic specific parameters, the
+following parameters are supported:
+
+\begin{description}
+  \setlength{\listparindent}{\parindent}%
+  \setlength{\itemindent}{\parindent}%
+  \setlength{\parsep}{\parskip}%
+  \param{type} type of statistic
+    
+  \param{rate} collection rate of statistic.  Stats will be dumped at
+  this interval.  A rate of “0ns” will cause the stats to be dumped
+  only at the end of simulation.
+
+  \param{startat} Time that statistic should start recording
+  statistics
+
+  \param{stopat} Time that statistic should stop recording statistics
+             
+  \param{resetOnRead} If set to true, statistics will reset when
+  written out.  Default is False.
+\end{description}
+

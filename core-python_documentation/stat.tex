@@ -1,0 +1,41 @@
+\section{Statistic}
+
+A Statistic object is created using the \lstinline{setStatistic()}
+function in a Component or SubComponent.
+
+The following functions are also available to configure the statistics
+object.
+
+\begin{functiondoc}{addParam(key, value)}
+  {  Adds a parameter to the statistics Params }
+
+  \param{key} (type: string) name of the parameter
+
+  \param{value} (type: varies) value of the parameter.  This can be
+  almost any python object and the \lstinline{__str__} method will be
+  called to get a string representation.  A list can be passed to this
+  call when the find\_array function is used in the class to retrieve
+  the parameters.
+
+  \noreturn
+\end{functiondoc}
+
+\begin{functiondoc}{addParams(params)}
+  { Adds multiple parameters to the Params object for the Statistic.}
+
+  \param{params} (type: dict) a python dict of key, value pairs.
+
+  See \lstinline{addParam()} description for information about how key
+  and value are used.
+
+  \noreturn
+\end{functiondoc}
+
+
+%\end{functiondoc}
+
+%\begin{functiondoc}
+
+
+%\end{functiondoc}
+

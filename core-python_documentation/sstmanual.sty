@@ -1,0 +1,263 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{sstmacro}
+
+% Packages used by this style file
+\RequirePackage{listings}
+\RequirePackage{xcolor}
+\RequirePackage{hanging}
+
+
+%% This package defines environments for use with SST documentation.
+%% The main environments are for decumentation of functions and code
+%% examples.
+
+
+
+%% The following are functions/macros to make regions where
+%% underscores don't have to be escaped with \.  One version,
+%% \escapeunderscore{} will replace all underscores found with
+%% \textunderscore.  The version \escapeunderscoremath{} will replace
+%% all underscores, except those in a math region defined by $ $ with
+%% \textunderscore.
+\makeatletter
+
+%% \def\@find@math#1$#2\relax{%
+%%   \ifx \relax #2\relax
+%%     % #2 is empty, so just call @escape@underscores.  Need to add _ to
+%%     % #end so it can terminate if it doesn't find one.
+%%     %\typeout{No symbol found}
+%%     \@escape@underscore#1_\relax%
+%%   \else
+%%     % Output what we've seen already, including the $
+%%     \@escape@underscore#1_\relax%
+%%     $
+%%     % Need to look for end $.  There's already a $ at end, so no need
+%%     % to add one
+%%     \@end@math#2\relax
+%%   \fi
+%% }
+
+%% \def\@end@math#1$#2\relax{%
+%%   \typeout{#1}
+%%   \typeout{#2}
+%%   \ifx \relax #2\relax
+%%     % #2 is empty, this is an error condition
+%%     #1%
+%%   \else
+%%     % Simply output text followed by $
+%%     #1%
+%%     $
+%%      % Now, look for more math sections
+%%     \@find@math#2\relax
+%%   \fi
+%% }      
+    
+% \expandafter for the case that the filename is given in a command
+\newcommand{\escapeunderscores}[1]{\expandafter\@escape@underscore#1_\relax}
+
+\def\@escape@underscore#1_#2\relax{%
+    \ifx \relax #2\relax
+        % #2 is empty => finish
+        #1%
+    \else
+        % #2 is not empty => underscore was contained, needs to be replaced
+        #1%
+        \textunderscore
+        % continue replacing
+        % #2 ends with an extra underscore so I don't need to add another one
+        \@escape@underscore#2\relax
+    \fi
+}
+
+\makeatother
+%% End of underscore macros
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% An environment for documentation of functions along with supporting
+%% functions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% The following function is used to pull out the function name from a
+%% function signature.  It essentially pulls out everything until it
+%% finds and open paren.
+
+\makeatletter
+\newcommand{\getfuncname}[1]{\expandafter\@get@funcname#1(\relax}
+
+\def\@get@funcname#1(#2\relax{%
+  \@escape@underscore#1_\relax
+}
+\makeatother
+  
+%% This is a command to get the name of the section structure under
+%% the current one.  This can be used to add items to the TOC that are
+%% one level of section hierarchy deeper.  It only works up to the
+%% last numbered level.  The level that is numbered is contorl by
+%% setting the counter secnumdepth.  Also, the depth of sections in
+%% the TOC is controlled by the counter tocdepth.  The numbers are:
+%%
+%% 1 - section
+%% 2 - subsection
+%% 3 - subsubsection
+%% 4 - paragraph
+%% 5 - subparagraph
+\newcommand{\getTOCLevel}{%
+  \ifnum\value{section}=0
+    section%
+  \else
+    \ifnum\value{subsection}=0
+      subsection%
+    \else
+      \ifnum\value{subsubsection}=0
+      subsubsection%
+      \else
+        \ifnum\value{paragraph}=0
+        paragraph%
+        \else
+          subparagraph%
+        \fi
+      \fi
+    \fi
+  \fi
+}
+
+
+%% Commands to be used inside of the functiondoc environment
+
+%% used to create each item of the lists.  The variable field uses
+%% \escapeunderscore, what comes after does not
+\newcommand{\param}[1]{\item[\textbf{\escapeunderscores{#1}}]} 
+
+%% this is used to specify the return value, which must be the last
+%% item of the parameter list because it will end the description
+%% environment.  You must use \returns or \noreturn.
+\newcommand{\returns}[1]{\item[\textbf{returns}] #1 \end{description}}
+
+%% this is used to specify there is no return value, which must be the
+%% last item of the parameter list because it will end the description
+%% environment.  You must use \returns or \noreturn.
+\newcommand{\noreturn}{\item[\textbf{returns}] no return value \end{description}}
+
+
+% color of function signature in functiondoc environment
+\definecolor{funcdef}{HTML}{0047AB}
+
+
+%% Environment used to document a function.  This will keep the format
+%% uniform.
+
+%%   Optional argument: level at which to place this in the table of
+%%   contents.  It will default to be one level below the current
+%%   level the environment is instantiated in.
+
+%%   First argument: type signature of function being documented.
+%%   This will be wrapped in \escapeunderscore{} to avoid having to
+%%   use \_, since we use underscores regularly in variable names.
+
+%%   Second argument: description of the function.  Since this may be
+%%   multiple paragraphs, it is not wrapped in \escapeunderscore{}.
+%%   You can do this manually for each paragraph if you don't want to
+%%   use \_, or you can just use \_.
+\newenvironment{functiondoc}[3][\getTOCLevel]% environment name 
+{% begin code 
+  \par\vspace{\baselineskip}%\noindent
+  \addcontentsline{toc}{#1}{\emph{\color{funcdef}\getfuncname{#2}()}}
+  {
+    %\paragraph[\getfuncname{#2}()]{escapeunderscores{#2}}
+    {\color{funcdef}\underline{{\Large\bfseries\getfuncname{#2}}}}
+    
+    \begin{hangparas}{.25in}{1}
+    %% \raggedright is because we often have long variable names and
+    %% we want it to wrap early rather than overflow line
+      \raggedright\bfseries\color{funcdef}\escapeunderscores{#2}
+    \end{hangparas}
+  }
+  
+  #3
+
+  \textbf{\underline{Parameters}:} %
+
+  \begin{description} %\leftmargin=1in
+    \setlength{\listparindent}{\parindent}%
+    \setlength{\itemindent}{\parindent}%
+    \setlength{\parsep}{\parskip}%
+
+    %\par\vspace{\baselineskip}\noindent\ignorespaces 
+}% 
+{% end code
+  %\end{description}%\ignorespacesafterend
+  %%\hrulefill
+  \par\vspace{\baselineskip}%\noindent
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Settings for the listings-based code sample environments, including
+%% colors, added key words, etc
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% background color for example code listings
+\definecolor{codeexbkg}{HTML}{F7EFDE}
+
+% syntax colors:
+\definecolor{keywordcolor}{HTML}{008000} % dark green
+%\definecolor{commentcolor}{HTML}{D2B48C} % tan
+%\definecolor{commentcolor}{HTML}{918151} % dark tan
+\definecolor{commentcolor}{HTML}{88794C} % dark tan
+%\definecolor{stringcolor}{HTML}{FFA500} % orange
+\definecolor{stringcolor}{HTML}{FF8C00} % dark orange
+%\definecolor{identifiercolor}{HTML}{CC6677}
+\definecolor{identifiercolor}{HTML}{993C4D}
+\definecolor{builtincolor}{HTML}{009ACD}
+
+%% Basic setting for listings environment
+\lstset{
+    basicstyle=\small\ttfamily,
+    %backgroundcolor=\color{yellow},
+    %numbers=left, numberstyle=\tiny, stepnumber=2, numbersep=5pt,
+    keywordstyle=\color{keywordcolor}\bfseries,
+    commentstyle=\color{commentcolor}\textit,
+    stringstyle=\color{stringcolor},
+    %identifierstyle=\color{identifiercolor},
+    %showstringspaces=false,
+    %keywordstyle=\color{blue}\bfseries,
+    %morekeywords={align,begin},
+    %pos=l
+}
+
+%% Add some extra key words and "built-ins" for python listings
+\lstdefinestyle{mypython} {
+  language=Python,
+  otherkeywords={self},
+  keywords=[100]{True,False,None},
+  keywordstyle={[100]\color{builtincolor}},  
+}
+    
+
+%% Create a python specific listings environment.  This will set the
+%% language to python, as well as set the background color.  It has
+%% two parameters, one of which is optional.  The optional parameter
+%% is any list of key/value pairs (key=value) that can be passed to
+%% lstset.  The required argument is a comma separated list of words
+%% that will be highlighted in the "identifier color".  The list can
+%% be empty, but in that case, the {} must be included, otherwise the
+%% first line of code will mysteriously disappear.
+\lstnewenvironment{pycodeexample}[2][]{%
+  \thicklines
+  \lstset{
+    style=mypython,
+    backgroundcolor=\color{codeexbkg},
+    %rulecolor=\color{green!40!black},
+    frameround=tttt,
+    frame=single,
+    emph=[100]{#2},
+    emphstyle={[100]\color{identifiercolor}},
+    %basicstyle=\ttfamily\small,
+    %basewidth=0.50em,
+    %keywordstyle=\bfseries,
+    #1%
+  }
+}{}
+

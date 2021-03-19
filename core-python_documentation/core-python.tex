@@ -1,0 +1,80 @@
+\documentclass[11pt,letterpaper]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[english]{isodate}
+\usepackage[parfill]{parskip}
+\usepackage{graphicx}
+\usepackage{subfigure}
+%\usepackage[hidelinks]{hyperref}
+\usepackage{hyperref}
+
+\usepackage{sstmanual}
+
+\addtolength{\oddsidemargin}{-.75in}
+\addtolength{\evensidemargin}{-.75in}
+\addtolength{\textwidth}{1.5in}
+
+\addtolength{\topmargin}{-.75in}
+\addtolength{\textheight}{1.5in}
+
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{4} % show paragraphs in TOC
+
+\title{SST Core Python Module Manual}
+\date{\today}
+
+\begin{document}
+\maketitle
+\newpage
+
+\pagenumbering{Roman}
+
+\begingroup
+  \hypersetup{hidelinks}
+  \tableofcontents
+\endgroup
+\newpage
+%\listoffigures
+%\newpage
+%\listoftables
+%\newpage
+\pagenumbering{arabic}
+
+\chapter{Introduction}
+
+SST provides a python module to allow interaction with the simulation
+build system.  This python module is used in the input python script
+for the purpose of building the graph that represents the simulation
+to be performed.  This is done by providing class and functions to
+define the elements of the simulation, their parameters, and how they
+are interconnected.  The user can also optionally enable statistics
+and create a user specified partitioning for the described model.
+Behind the scenes, these classes will build the c++ data structure
+that is used by SST to construct the simulation model.
+
+The SST core python module is defined in cpython and is only
+available in the python interpreter launched within a running SST
+executable.  The module is accessed by importing the sst module.  This
+can be done in a number of ways.  The two most common being:
+
+\begin{pycodeexample}{}
+# Import SST python module using sst. prefix
+import sst
+# Import SST python module members into current namespace
+from sst import *
+\end{pycodeexample}
+
+Within this module, there are a number of available classes and global
+functions.  The available classes are: Component, SubComponent, Link,
+StatisticOutput and StatisticGroup.  The global functions are divided
+between general functions and functions operating on or returning one
+of the available objects.  This document will first discuss the
+available classes in the SST python module and will then document the
+global functions.
+
+
+\input{classes.tex}
+
+\input{globals.tex}
+\end{document}

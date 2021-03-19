@@ -1,0 +1,49 @@
+\section{StatisticOutput}
+
+The StatisticOutput object is used to configure the output type and
+options for statistics and is for use with StatisticGroup.  For the
+global statistics output, see the global functions:
+\lstinline{setStatisticOutput()}. \lstinline{setStatisticOutputOption()}
+and \lstinline{setStatisticOutputOptions()}.
+
+The StatisticOutput object is created using:
+
+\begin{functiondoc}{StatisticOutput(type, params=None)}
+  { Constructor for StatisticOutput }
+
+  \param{type} (type: string) type of Statistic output to use
+
+  \param{params} (type:dict) Diction of key value pairs to be added to
+  the StatisticOutput's parameters
+
+  \returns{created StatisticOutput object}
+\end{functiondoc}
+
+\begin{functiondoc}{addParam(key, value)}
+  { Adds a parameter to the Params object for the StatisticOutput.}
+
+  \param{key} (type: string) name of the parameter
+
+  \param{value} (type: varies) value of the parameter.  This can be
+  almost any python object and the \lstinline{__str__} method will be
+  called to get a string representation.  A list can be passed to this
+  call when the find\_array function is used in the class to retrieve
+  the parameters.
+
+\noreturn
+\end{functiondoc}
+
+\begin{functiondoc}{addParams(params)}
+  { Adds multiple parameters to the Params object for the StatisticOutput.}
+
+  \param{params} (type: dict) a python dict of key, value pairs.
+  \lstinline{See addParam()} description for information about how key
+  and value are used.
+
+\noreturn
+\end{functiondoc}
+
+
+
+
+

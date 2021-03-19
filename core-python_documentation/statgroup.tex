@@ -1,0 +1,59 @@
+\section{StatisticGroup}
+
+The StatisticsGroup object is used to group Statistics object together
+to be written to the same StatisticOutput object.
+
+NOTE: The StatisticGroup object had limited use in the past and is
+evolving to include new functionality.  This is the proposed
+functionality of the class and may not be the final API for the
+object.
+
+A StatisticGroup is creating using:
+
+\begin{functiondoc}{StatisticGroup(name)}
+  { Constructor for StatisticGroup }
+
+  \param{name} name of the group
+
+  \returns{created StatisticGroup object}
+\end{functiondoc}
+
+\begin{functiondoc}{addStatistic(stat)}
+  { Adds a statistic to the group. }
+
+  \param{stat} Statistic to add to the group
+
+  \noreturn
+\end{functiondoc}
+
+\begin{functiondoc}{addComponent(comp)}
+  { Add a component to the group }
+
+  \param{comp} Component/SubComponent to add to the group
+
+  \noreturn
+\end{functiondoc}
+
+
+\begin{functiondoc}{setOutput(output)}
+    { Configure how the Statistics in the group should be written }
+
+    \param{output} StatisticOutput object that will record the data
+
+    \noreturn
+\end{functiondoc}
+
+
+\begin{functiondoc}{setFrequency(interval)}
+  { Set the frequency or rate (e.g.: \lstinline{"10ms", "25kHz"}) to write out
+    the statistics.}
+
+  \param{interval} Interval at which to write out statistics.  A rate
+  of ``0ns'' will cause the output to be written only at the
+  completion of simulation."
+
+  \noreturn
+\end{functiondoc}
+
+
+
