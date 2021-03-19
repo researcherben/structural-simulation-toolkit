@@ -6,7 +6,7 @@ Logging is quite possibly one of the most important features built into an appli
 
 To support logging, the Structural Simulation Toolkit (SST) includes a logging class that provides a standardized way to format and output logging messages.  Like most, it allows the developer to specify a formatted text string that will be printed before each log message, the logging level, and has the option to send log messages to the terminal or log file.
 
-However, for those developers first coming to SST the interface can be slightly confusing.  This paper is intended to serve as a brief introduction to the SST logging class, explain how its features map to those from other logging libraries, and provide ways to simplify the interface to something a developer may be more familiar with.
+However, for those developers first coming to SST the interface can be slightly confusing.  This documentation is intended to serve as a brief introduction to the SST logging class, explain how its features map to those from other logging libraries, and provide ways to simplify the interface to something a developer may be more familiar with.
 
 ## A BRIEF INTRODUCTION TO LOGGING
 
@@ -34,7 +34,7 @@ Error         | Something happened that prevents one or more of the program func
 Warn          | Something unexpected happened but the program can continue.
 Info          | Information useful during normal program operation.  Can be ignored.
 Debug         | Information used to diagnose and trouble program operation.  Usually of use only to the programmer.
-Trace         | The most verbose.  Can be used to trace the program execution path and method calls. 
+Trace         | The most verbose.  Can be used to trace the program execution path and method calls.
 
 In some cases the programmer can also define custom severity levels that fit within this hierarchy.
 
@@ -55,7 +55,7 @@ Log messages can be customized using the following properties.
 **Prefix Data.**  Prefix data is a formatted string printed at the beginning of the log message, before the programmer's message.  The following information can be included in the prefix data.
 
 * @f - Name of the file from which the log message is being printed.
-* @l - File line numnber from which the log message is being printed.
+* @l - File line number from which the log message is being printed.
 * @p - Name of the function from which the log message is being printed.
 * @r - MPI rank of the calling process.  Will be empty if there is only a single rank.
 * @R - MPI rank of the calling process.  Will be 0 if there is only a single rank.
@@ -108,9 +108,9 @@ The SST Output class provides all the capabilities necessary for logging.  Howev
 
 ### Define Log Levels ###
 
-The SST Output class defines its verbose level as a 32-bit unsigned integer.  This allows for over 4 billion logging levels.  However, loggers typically only define a few logging levels as listed above, possibly with room for a few user-defined custom logging levels.  In addtion, loggers typically define their logging levels by name for easy reference.
+The SST Output class defines its verbose level as a 32-bit unsigned integer.  This allows for over 4 billion logging levels.  However, loggers typically only define a few logging levels as listed above, possibly with room for a few user-defined custom logging levels.  In addition, loggers typically define their logging levels by name for easy reference.
 
-To accomplish this in SST, map the numeric log levels to names using `#define`or enumerations.
+To accomplish this in SST, map the numeric log levels to names using `#define` or enumerations.
 
 ```
 #define LOG_LEVEL_FATAL 0
@@ -151,8 +151,8 @@ logger.verbose(CALL_INFO, LogLevel::Debug, 0x00, "Log message #%d.\n", 2);
 The command to write to the logger is rather verbose.  It can be simplified by defining a logging method for each of the logging levels.  Another advantage is you can add the logging level to the format string, which makes it easier to search for messages associated with specific logging levels in the logging output.
 
 ```
-    template<typename... Args> 
-    void logFatal(SST::Output logger, 
+    template<typename... Args>
+    void logFatal(SST::Output logger,
         uint32_t line, const char* file, const char* func,
         const char* format, Args... arg)
     {
@@ -160,8 +160,8 @@ The command to write to the logger is rather verbose.  It can be simplified by d
         logger.fatal(line, file, func, 0x00, fmt.c_str(), arg...);
     }
 
-    template<typename... Args> 
-    void logError(SST::Output logger, 
+    template<typename... Args>
+    void logError(SST::Output logger,
         uint32_t line, const char* file, const char* func,
         const char* format, Args... arg)
     {
@@ -170,7 +170,7 @@ The command to write to the logger is rather verbose.  It can be simplified by d
     }
 
     template<typename... Args>
-    void logWarn(SST::Output logger, 
+    void logWarn(SST::Output logger,
         uint32_t line, const char* file, const char* func,
         const char* format, Args... arg)
     {
@@ -179,7 +179,7 @@ The command to write to the logger is rather verbose.  It can be simplified by d
     }
 
     template<typename... Args>    
-    void logInfo(SST::Output logger, 
+    void logInfo(SST::Output logger,
         uint32_t line, const char* file, const char* func,
         const char* format, Args... arg)
     {
@@ -187,8 +187,8 @@ The command to write to the logger is rather verbose.  It can be simplified by d
         logger.verbose(line, file, func, LogLevel::Info, 0x00, fmt.c_str(), arg...);
     }
 
-    template<typename... Args> 
-    void logDebug(SST::Output logger, 
+    template<typename... Args>
+    void logDebug(SST::Output logger,
         uint32_t line, const char* file, const char* func,
         const char* format, Args... arg)
     {
@@ -197,8 +197,8 @@ The command to write to the logger is rather verbose.  It can be simplified by d
     }
 
     template<typename... Args>
-    void logTrace(SST::Output logger, 
-        uint32_t line, const char* file, const char* func, 
+    void logTrace(SST::Output logger,
+        uint32_t line, const char* file, const char* func,
         const char* format, Args... arg)
     {
         std::string fmt = "[TRACE] - " + std::string(format);
@@ -215,7 +215,7 @@ logDebug(logger, CALL_INFO, "Log message #%d.\n", 2);
 
 ### Put It All In A Class ###
 
-Taking it one step further, this could all be combined into a C++ clas that wraps the SST Output class.
+Taking it one step further, this could all be combined into a C++ class that wraps the SST Output class.
 
 ```
 class Logger
@@ -254,7 +254,7 @@ public:
     // Methods used to log the various log levels.
     // The first three parameters (line, file, and func) are provided by the SST CALL_INFO macro.
     //
-    template<typename... Args> 
+    template<typename... Args>
     void logFatal(
         uint32_t line, const char* file, const char* func,
         const char* format, Args... arg)
@@ -263,7 +263,7 @@ public:
         output_.fatal(line, file, func, 0x00, fmt.c_str(), arg...);
     }
 
-    template<typename... Args> 
+    template<typename... Args>
     void logError(
         uint32_t line, const char* file, const char* func,
         const char* format, Args... arg)
@@ -290,7 +290,7 @@ public:
         output_.verbose(line, file, func, LogLevel::Info, 0x00, fmt.c_str(), arg...);
     }
 
-    template<typename... Args> 
+    template<typename... Args>
     void logDebug(
         uint32_t line, const char* file, const char* func,
         const char* format, Args... arg)
@@ -301,7 +301,7 @@ public:
 
     template<typename... Args>
     void logTrace(
-        uint32_t line, const char* file, const char* func, 
+        uint32_t line, const char* file, const char* func,
         const char* format, Args... arg)
     {
         std::string fmt = "[TRACE] - " + std::string(format);
@@ -320,9 +320,9 @@ logger.Debug(CALL_INFO, "Log message #%d.\n", 2);
 which is much simpler than the original.
 
 
-Reference
+References
 
-1.  Eberhardt, C. (2014, March 25). The Art of Logging. Retrieved March 5, 2021, from https://www.codeproject.com/Articles/42354/The-Art-of-Logging. 
+1.  Eberhardt, C. (2014, March 25). The Art of Logging. Retrieved March 5, 2021, from https://www.codeproject.com/Articles/42354/The-Art-of-Logging.
 
 2.  Gerhards, R. (2009, March). RFC 5424 - The Syslog Protocol. Retrieved March 5, 2021, from https://tools.ietf.org/html/rfc5424
 
