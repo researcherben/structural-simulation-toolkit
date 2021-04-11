@@ -11,9 +11,9 @@ subcomponents.
 Like previous examples, messages contain a single value.  Received 
 messages are processed in event handlers.  If the received value equals 
 the one specified on the command line that subcomponent will set a 
-flag.  When both subcomponent flags are set, the component will indi-
-cate the simulation can end.  When all components meet this condition 
+flag.  When both subcomponent flags are set, the component will indicate 
+the simulation can end.  When all components meet this condition 
 the simulation will end.
 
-The primary difference between this and Example04 is the use of subcom-
-ponents to send and receive the messages.
+The primary difference between this and Example04 is the use of 
+subcomponents to send and receive the messages.
