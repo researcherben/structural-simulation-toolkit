@@ -77,7 +77,7 @@ https://github.com/sstsimulator/sst-core/releases/tag/v10.0.0_Final
     
     # Clean up SST junk
     #RUN rm -rf $dir
-EOF
+    EOF
 
 # Step 2: build image
 
@@ -89,18 +89,18 @@ docker build -t sst_10 .
 
 Using the `sst_10` image, verify the container has a working `sst` command
 
-docker run --rm \
-   -v `pwd`:/scratch \
-   --user $(id -u):$(id -g) \
-   sst_10 sst --version
+    docker run --rm \
+      -v `pwd`:/scratch \
+      --user $(id -u):$(id -g) \
+      sst_10 sst --version
 
 which should produce the output
 
-SST-Core Version (10.0.0)
+    SST-Core Version (10.0.0)
 
 # Step 4: create a C++ component
 
-The
+The component in SST is written in C++
 
     cat << EOF > ExampleComponent.cc
     // Created for SST-Core Version (9.1.0)
@@ -204,7 +204,7 @@ The
     }
     EOF
 
-cat << EOF > ExampleComponent.h
+    cat << EOF > ExampleComponent.h
     #ifndef MY_COMPONENT_H
     #define MY_COMPONENT_H
     
@@ -287,7 +287,7 @@ cat << EOF > ExampleComponent.h
 
 The Python driver file specifies the graph of SST components.
 
-cat << EOF > ExampleConfig.py
+    cat << EOF > ExampleConfig.py
     # Execute from the command line with the command:
     #   sst Example00Config.py 2>&1 | tee test.log
     #
@@ -324,7 +324,7 @@ cat << EOF > ExampleConfig.py
 
 Having a Makefile for the build process steps ensures a consistent and repeatable process. The Makefile will become even more useful as more components are created.
 
-cat << EOF > Makefile
+    cat << EOF > Makefile
     
     CXX=$(shell sst-config --CXX)
     CXXFLAGS=$(shell sst-config --ELEMENT_CXXFLAGS)

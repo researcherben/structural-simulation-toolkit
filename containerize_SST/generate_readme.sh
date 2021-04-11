@@ -30,7 +30,7 @@ https://github.com/sstsimulator/sst-core/releases/tag/v10.0.0_Final
 endofsnippet
 cat Dockerfile | sed -e 's/^/    /g' >> ${readme_filename}
 cat << endofsnippet >> ${readme_filename}
-EOF
+    EOF
 
 # Step 2: build image
 
@@ -42,18 +42,18 @@ docker build -t sst_10 .
 
 Using the \`sst_10\` image, verify the container has a working \`sst\` command
 
-docker run --rm \\
-   -v \`pwd\`:/scratch \\
-   --user \$(id -u):\$(id -g) \\
-   sst_10 sst --version
+    docker run --rm \\
+      -v \`pwd\`:/scratch \\
+      --user \$(id -u):\$(id -g) \\
+      sst_10 sst --version
 
 which should produce the output
 
-SST-Core Version (10.0.0)
+    SST-Core Version (10.0.0)
 
 # Step 4: create a C++ component
 
-The
+The component in SST is written in C++
 
     cat << EOF > ExampleComponent.cc
 endofsnippet
@@ -62,7 +62,7 @@ cat ExampleComponent.cc | sed -e 's/^/    /g' >> ${readme_filename}
 cat << endofsnippet >> ${readme_filename}
     EOF
 
-cat << EOF > ExampleComponent.h
+    cat << EOF > ExampleComponent.h
 endofsnippet
 curl https://raw.githubusercontent.com/researcherben/structural-simulation-toolkit/master/sst_tutorial/Example00/ExampleComponent.h > ExampleComponent.h
 cat ExampleComponent.h | sed -e 's/^/    /g' >> ${readme_filename}
@@ -73,7 +73,7 @@ cat << endofsnippet >> ${readme_filename}
 
 The Python driver file specifies the graph of SST components.
 
-cat << EOF > ExampleConfig.py
+    cat << EOF > ExampleConfig.py
 endofsnippet
 curl https://raw.githubusercontent.com/researcherben/structural-simulation-toolkit/master/sst_tutorial/Example00/tests/ExampleConfig.py > ExampleConfig.py
 cat ExampleConfig.py | sed -e 's/^/    /g' >> ${readme_filename}
@@ -84,7 +84,7 @@ cat << endofsnippet >> ${readme_filename}
 
 Having a Makefile for the build process steps ensures a consistent and repeatable process. The Makefile will become even more useful as more components are created.
 
-cat << EOF > Makefile
+    cat << EOF > Makefile
 endofsnippet
 curl https://raw.githubusercontent.com/researcherben/structural-simulation-toolkit/master/sst_tutorial/Example00/Makefile > Makefile
 cat Makefile | sed -e 's/^/    /g' >> ${readme_filename}
