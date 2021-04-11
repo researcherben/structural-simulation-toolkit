@@ -42,9 +42,9 @@ docker build -t sst_10 .
 
 Using the \`sst_10\` image, verify the container has a working \`sst\` command
 
-docker run --rm \
-   -v \`pwd\`:/scratch \
-   --user \$(id -u):\$(id -g) \
+docker run --rm \\
+   -v \`pwd\`:/scratch \\
+   --user \$(id -u):\$(id -g) \\
    sst_10 sst --version
 
 which should produce the output
@@ -104,22 +104,22 @@ but we want the registration to persist outside the image. Therefore, use a
 [Docker mount](https://docs.docker.com/storage/bind-mounts/)
 
     touch sstsimulator.conf
-    docker run --rm \
-      --volume \`pwd\`:/scratch \
-      --mount type=bind,source=\`pwd\`/sstsimulator.conf,target=/home/sst/sst-core/etc/sst/sstsimulator.conf \
-      --user \$(id -u):\$(id -g) \
-      -w /scratch \
+    docker run --rm \\
+      --volume \`pwd\`:/scratch \\
+      --mount type=bind,source=\`pwd\`/sstsimulator.conf,target=/home/sst/sst-core/etc/sst/sstsimulator.conf \\
+      --user \$(id -u):\$(id -g) \\
+      -w /scratch \\
       sst_10 make
 
 # Step 8: check that the component is registered
 
 The \`sst-info\` command returns registered components
 
-    docker run --rm \
-      --volume \`pwd\`:/scratch \
-      --mount type=bind,source=\`pwd\`/sstsimulator.conf,target=/home/sst/sst-core/etc/sst/sstsimulator.conf \
-      --user \$(id -u):\$(id -g) \
-      -w /scratch \
+    docker run --rm \\
+      --volume \`pwd\`:/scratch \\
+      --mount type=bind,source=\`pwd\`/sstsimulator.conf,target=/home/sst/sst-core/etc/sst/sstsimulator.conf \\
+      --user \$(id -u):\$(id -g) \\
+      -w /scratch \\
       sst_10 sst-info
 
 which should return something like
@@ -132,11 +132,11 @@ which should return something like
 
 # Step 9: run the simulation
 
-    docker run -it --rm \
-      --volume \`pwd\`:/scratch \
-      --mount type=bind,source=\`pwd\`/sstsimulator.conf,target=/home/sst/sst-core/etc/sst/sstsimulator.conf \
-      --user \$(id -u):\$(id -g) \
-      -w /scratch \
+    docker run -it --rm \\
+      --volume \`pwd\`:/scratch \\
+      --mount type=bind,source=\`pwd\`/sstsimulator.conf,target=/home/sst/sst-core/etc/sst/sstsimulator.conf \\
+      --user \$(id -u):\$(id -g) \\
+      -w /scratch \\
       sst_10 sst ExampleConfig.py
 
 which should return something like
@@ -162,11 +162,11 @@ which should return something like
 
 Generate the GraphViz file using
 
-    docker run --rm \
-      --volume \`pwd\`:/scratch \
-      --mount type=bind,source=\`pwd\`/sstsimulator.conf,target=/home/sst/sst-core/etc/sst/sstsimulator.conf \
-      --user \$(id -u):\$(id -g) \
-      -w /scratch \
+    docker run --rm \\
+      --volume \`pwd\`:/scratch \\
+      --mount type=bind,source=\`pwd\`/sstsimulator.conf,target=/home/sst/sst-core/etc/sst/sstsimulator.conf \\
+      --user \$(id -u):\$(id -g) \\
+      -w /scratch \\
       sst_10 sst --output-dot=ExampleConfig.gv --run-mode=init ExampleConfig.py
 
 which should return something like
@@ -179,11 +179,11 @@ which should return something like
 
 Generate the PNG using
 
-    docker run --rm \
-      --volume \`pwd\`:/scratch \
-      --mount type=bind,source=\`pwd\`/sstsimulator.conf,target=/home/sst/sst-core/etc/sst/sstsimulator.conf \
-      --user \$(id -u):\$(id -g) \
-      -w /scratch \
+    docker run --rm \\
+      --volume \`pwd\`:/scratch \\
+      --mount type=bind,source=\`pwd\`/sstsimulator.conf,target=/home/sst/sst-core/etc/sst/sstsimulator.conf \\
+      --user \$(id -u):\$(id -g) \\
+      -w /scratch \\
       sst_10 dot ExampleConfig.gv -Tpng > ExampleConfig.png
 endofsnippet
 
