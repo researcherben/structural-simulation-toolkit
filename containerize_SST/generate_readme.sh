@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-readme_filename=READTHIS.md
+readme_filename=README.md
 
 rm ${readme_filename}
 
