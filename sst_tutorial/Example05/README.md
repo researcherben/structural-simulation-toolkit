@@ -1,6 +1,6 @@
 Example project for creating a networked simulation configuratin in SST.
 
-Created for SST-Core Version (9.1.0)
+Created for SST-Core Version (9.1.0)  
 Not compatible with SST-Core v10.0.0
 
 This simulation contains three components, each with two subcomponents.

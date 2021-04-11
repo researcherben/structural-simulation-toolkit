@@ -1,6 +1,6 @@
 Example project for creating a component for SST
 
-Created for SST-Core Version (9.1.0)
+Created for SST-Core Version (9.1.0)  
 Also works with SST-Core v10.0.0
 
 This is a very simple simulation.  It contains two components.  For
