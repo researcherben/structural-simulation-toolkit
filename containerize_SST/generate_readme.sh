@@ -36,7 +36,7 @@ cat << endofsnippet >> ${readme_filename}
 
 Once the Dockerfile exists, build the image
 
-docker build -t sst_10 .
+    docker build -t sst_10 .
 
 # Step 3: verify the container works
 

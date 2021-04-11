@@ -83,7 +83,7 @@ https://github.com/sstsimulator/sst-core/releases/tag/v10.0.0_Final
 
 Once the Dockerfile exists, build the image
 
-docker build -t sst_10 .
+    docker build -t sst_10 .
 
 # Step 3: verify the container works
 
