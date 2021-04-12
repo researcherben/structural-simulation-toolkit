@@ -28,15 +28,20 @@ RUN apt clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # build from source as per https://clang.llvm.org/get_started.html
 WORKDIR /opt/
-RUN git clone https://github.com/llvm/llvm-project.git
-WORKDIR /opt/llvm-project
-RUN mkdir build
-WORKDIR /opt/llvm-project/build
-RUN cmake -DLLVM_ENABLE_PROJECTS=clang -G "Unix Makefiles" ../llvm
+#RUN git clone https://github.com/llvm/llvm-project.git
+#WORKDIR /opt/llvm-project
+#RUN mkdir build
+#WORKDIR /opt/llvm-project/build
+#RUN cmake -DLLVM_ENABLE_PROJECTS=clang -G "Unix Makefiles" ../llvm
 # errors with message
 # CMake 3.13.4 or higher is required.  You are running version 3.10.2
-RUN make
+#RUN make
 
+WORKDIR /opt/
+#RUN wget https://github.com/llvm/llvm-project/releases/download/llvmorg-9.0.1/clang+llvm-9.0.1-x86_64-linux-gnu-ubuntu-16.04.tar.xz
+COPY clang+llvm-9.0.1-x86_64-linux-gnu-ubuntu-16.04.tar.xz .
+RUN tar xvf clang+llvm-9.0.1-x86_64-linux-gnu-ubuntu-16.04.tar.xz
+ENV PATH="$PATH:/opt/clang+llvm-9.0.1-x86_64-linux-gnu-ubuntu-16.04/bin"
 
 # https://github.com/ccurtsinger/stabilizer
 WORKDIR /opt/
