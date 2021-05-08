@@ -6,26 +6,10 @@ help:
 	@echo "make help"
 	@echo "      this message"
 	@echo "==== Targets outside container ===="
-	@echo "make docker_91"
-	@echo "      build and run docker using SST v9.1"
-	@echo "make docker_build_91"
-	@echo "make docker_run_91"
-	@echo "make docker_build_fresh_91"
-	@echo "      do not use cached layers"
-	@echo "make docker_10_core"
-	@echo "      build and run docker using SST v10 core"
-	@echo "make docker_10"
-	@echo "      build and run docker using SST v10 core+elements"
-	@echo "make docker_build_10"
-	@echo "make docker_run_10"
-	@echo "make docker_build_fresh_10"
-	@echo "      do not use cached layers"
-	@echo "make docker_head"
-	@echo "      build and run docker using SST v10"
-	@echo "make docker_build_head"
-	@echo "make docker_run_head"
-	@echo "make docker_build_fresh_head"
-	@echo "      do not use cached layers"
+	@echo "make docker"
+	@echo "      build and run docker using SST v11"
+	@echo "make docker_build"
+	@echo "make docker_run"
 
 
 .PHONY: docker_91 docker_build_91 docker_run_91
@@ -52,6 +36,14 @@ docker_build_10_core:
 	time docker build -f Dockerfile.phusion_10_core -t sst_10_core .
 docker_run_10_core:
 	docker run -it -v `pwd`:/scratch --rm sst_10_core /bin/bash
+
+
+.PHONY: docker docker_build docker_run
+docker: docker_build docker_run
+docker_build:
+	time docker build -f Dockerfile -t sst_11_core .
+docker_run:
+	docker run -it --user $$(id -u):$$(id -g) -v `pwd`:/scratch --rm sst_11_core /bin/bash
 
 
 .PHONY: docker_head docker_build_10 docker_run_head
