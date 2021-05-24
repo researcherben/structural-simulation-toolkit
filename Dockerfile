@@ -49,5 +49,10 @@ RUN cd $dir/sst-core && ./autogen.sh && \
 
 WORKDIR /home/sst/
 
+# the following file needs to be writable to register components
+RUN chmod g+rwx /home/sst/sst-core/etc/sst/sstsimulator.conf
+RUN chmod o+rwx /home/sst/sst-core/etc/sst/sstsimulator.conf
+
+
 # Clean up SST junk
 #RUN rm -rf $dir
