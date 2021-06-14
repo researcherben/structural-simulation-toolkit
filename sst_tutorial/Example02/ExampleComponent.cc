@@ -92,38 +92,42 @@ bool ExampleComponent::clockTick(SST::Cycle_t cycle)
 
     // Poll the link for incoming messages and process them as necessary.
     //
-    logger_.verbose(CALL_INFO, DEBUG, 0x00, "Retreiving event from link in component id %lu\n", componentId_);
-    ExampleEvent* ev = static_cast<ExampleEvent*>(link_->recv());
+    for (;;)
+    {
+        logger_.verbose(CALL_INFO, DEBUG, 0x00, "Retreiving event from link in component id %lu\n", componentId_);
+        ExampleEvent* ev = static_cast<ExampleEvent*>(link_->recv());
 
-    if (nullptr == ev)
-    {
-        logger_.verbose(CALL_INFO, DEBUG, 0x00, "No event available from link in component id %lu\n", componentId_);
-    }
-    else
-    {
-        // Increment the clock tick counter and end when you get to
-        // the specified value.
-        //
-        uint32_t payloadValue = ev->getPayload();
-        done = (clockTicks_ == payloadValue);
-        logger_.verbose(CALL_INFO, INFO, 0x00, "Payload value = %u, compared to %lu\n", payloadValue, clockTicks_);
-        if (done)
+        if (nullptr == ev)
         {
-            logger_.verbose(CALL_INFO, INFO, 0x00, "Ending sim.\n");
-            primaryComponentOKToEndSim();
+            logger_.verbose(CALL_INFO, DEBUG, 0x00, "No event available from link in component id %lu\n", componentId_);
+            break;
         }
+        else
+        {
+            // Increment the clock tick counter and end when you get to
+            // the specified value.
+            //
+            uint32_t payloadValue = ev->getPayload();
+            done = (clockTicks_ == payloadValue);
+            logger_.verbose(CALL_INFO, INFO, 0x00, "Payload value = %u, compared to %lu\n", payloadValue, clockTicks_);
+            if (done)
+            {
+                logger_.verbose(CALL_INFO, INFO, 0x00, "Ending sim.\n");
+                primaryComponentOKToEndSim();
+            }
 
-        // Don't forget to delete the event when you're done with it.
-        //
-        delete ev;
-        ev = nullptr;        
+            // Don't forget to delete the event when you're done with it.
+            //
+            delete ev;
+            ev = nullptr;        
+        }
     }
 
     // Send an event over the link.
     //
     logger_.verbose(CALL_INFO, INFO, 0x00, "Sending event with payload %lu.\n", clockTickCount_ + 1);
     clockTickCount_ += 1;
-    ev = new ExampleEvent(clockTickCount_);
+    ExampleEvent* ev = new ExampleEvent(clockTickCount_);
     link_->send(ev);
 
     logger_.verbose(CALL_INFO, TRACE, 0x00, "Leaving clock for component id %lu\n", componentId_);

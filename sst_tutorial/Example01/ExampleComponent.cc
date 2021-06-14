@@ -92,30 +92,39 @@ bool ExampleComponent::clockTick(SST::Cycle_t cycle)
 
     // Poll the link for incoming messages and process them as necessary.
     //
-    logger_.verbose(CALL_INFO, DEBUG, 0x00, "Retreiving event from link in component id %lu\n", componentId_);
-    ExampleEvent* ev = static_cast<ExampleEvent*>(link_->recv());
+    for (;;)
+    {
+        logger_.verbose(CALL_INFO, DEBUG, 0x00, "Retreiving event from link in component id %lu\n", componentId_);
+        ExampleEvent* ev = static_cast<ExampleEvent*>(link_->recv());
 
-    if (nullptr == ev)
-    {
-        logger_.verbose(CALL_INFO, DEBUG, 0x00, "No event available from link in component id %lu\n", componentId_);
-    }
-    else
-    {
-        // Increment the clock tick counter and end when you get to
-        // the specified value.
-        //
-        clockTickCount_+= 1;
-        done = (clockTickCount_ == clockTicks_);
-        logger_.verbose(CALL_INFO, INFO, 0x00, "Clock tick count = %lu out of %lu\n", clockTickCount_, clockTicks_);
-        if (done)
+        if (nullptr == ev)
         {
-            logger_.verbose(CALL_INFO, INFO, 0x00, "Ending sim.\n");
-            primaryComponentOKToEndSim();
+            logger_.verbose(CALL_INFO, DEBUG, 0x00, "No event available from link in component id %lu\n", componentId_);
+            break;
+        }
+        else
+        {
+            // Increment the clock tick counter and end when you get to
+            // the specified value.  Also, we're done with the event so
+            // you can delete it.
+            //
+            clockTickCount_+= 1;
+            done = (clockTickCount_ == clockTicks_);
+            logger_.verbose(CALL_INFO, INFO, 0x00, "Clock tick count = %lu out of %lu\n", clockTickCount_, clockTicks_);
+            delete ev;
+
+            if (done)
+            {
+                logger_.verbose(CALL_INFO, INFO, 0x00, "Ending sim.\n");
+                primaryComponentOKToEndSim();
+                break;
+            }
         }
     }
 
     // Send an event over the link.
     //
+    ExampleEvent* ev = new ExampleEvent();
     logger_.verbose(CALL_INFO, INFO, 0x00, "Sending event over the link.\n");
     link_->send(ev);
 

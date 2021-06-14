@@ -1,4 +1,5 @@
 // Created for SST-Core Version (9.1.0)
+// works with 10 and 11
 //
 #include "ExampleComponent.h"
 #include <iostream>

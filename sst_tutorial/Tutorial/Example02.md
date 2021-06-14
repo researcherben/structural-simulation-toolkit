@@ -39,7 +39,7 @@ Update the constructor to accept the payload value as a parameter.  Also, update
     public:
         // Constructor
         //
-        ExampleEvent(const uint32_t payload_value) :
+        ExampleEvent(const uint32_t payload_value) : 
             SST::Event(),
             payload_(payload_value) {}
 
@@ -58,7 +58,7 @@ A default constructor is required for message serialization to work so one is ad
         // Default constructor is private.
         // This is required for serialization to work.
         //
-        ExampleEvent() :
+        ExampleEvent() : 
             SST::Event() {}
 ```
 
@@ -73,7 +73,7 @@ Finally update the serializer to include the payload variable.
             Event::serialize_order(ser);
             ser & payload_; // Not sure what & means in this context but based
                             // upon other examples, it looks like you create a
-                            // list of values to be serialized using the &
+                            // list of values to be serialized using the & 
                             // operator.  So the list would look like:
                             // ser & payload0;
                             // ser & payload1;
@@ -97,44 +97,49 @@ bool ExampleComponent::clockTick(SST::Cycle_t cycle)
 
     // Poll the link for incoming messages and process them as necessary.
     //
-    logger_.verbose(CALL_INFO, DEBUG, 0x00, "Retrieving event from link in component id %lu\n", componentId_);
-    ExampleEvent* ev = static_cast<ExampleEvent*>(link_->recv());
+    for (;;)
+    {
+        logger_.verbose(CALL_INFO, DEBUG, 0x00, "Retreiving event from link in component id %lu\n", componentId_);
+        ExampleEvent* ev = static_cast<ExampleEvent*>(link_->recv());
 
-    if (nullptr == ev)
-    {
-        logger_.verbose(CALL_INFO, DEBUG, 0x00, "No event available from link in component id %lu\n", componentId_);
-    }
-    else
-    {
-        // Increment the clock tick counter and end when you get to
-        // the specified value.
-        //
-        uint32_t payloadValue = ev->getPayload();
-        done = (clockTicks_ == payloadValue);
-        logger_.verbose(CALL_INFO, INFO, 0x00, "Payload value = %u, compared to %lu\n", payloadValue, clockTicks_);
-        if (done)
+        if (nullptr == ev)
         {
-            logger_.verbose(CALL_INFO, INFO, 0x00, "Ending sim.\n");
-            primaryComponentOKToEndSim();
+            logger_.verbose(CALL_INFO, DEBUG, 0x00, "No event available from link in component id %lu\n", componentId_);
+            break;
         }
+        else
+        {
+            // Increment the clock tick counter and end when you get to
+            // the specified value.
+            //
+            uint32_t payloadValue = ev->getPayload();
+            done = (clockTicks_ == payloadValue);
+            logger_.verbose(CALL_INFO, INFO, 0x00, "Payload value = %u, compared to %lu\n", payloadValue, clockTicks_);
+            if (done)
+            {
+                logger_.verbose(CALL_INFO, INFO, 0x00, "Ending sim.\n");
+                primaryComponentOKToEndSim();
+            }
 
-        // Don't forget to delete the event when you're done with it.
-        //
-        delete ev;
-        ev = nullptr;        
+            // Don't forget to delete the event when you're done with it.
+            //
+            delete ev;
+            ev = nullptr;        
+        }
     }
 
     // Send an event over the link.
     //
     logger_.verbose(CALL_INFO, INFO, 0x00, "Sending event with payload %lu.\n", clockTickCount_ + 1);
     clockTickCount_ += 1;
-    ev = new ExampleEvent(clockTickCount_);
+    ExampleEvent* ev = new ExampleEvent(clockTickCount_);
     link_->send(ev);
 
     logger_.verbose(CALL_INFO, TRACE, 0x00, "Leaving clock for component id %lu\n", componentId_);
     return done;
 }
 ```
+
 The handler still polls to see if a message has been received but instead of incrementing a local variable to track the number of received messages, it extracts the message payload and compares it to the `clockTicks_` value.  
 
 ```
@@ -169,7 +174,7 @@ Just like the previous example, the `clockTickCount_` variable is incremented an
     link_->send(ev);
 ```
 
-You may notice that, in this example, a new event is created each time a message is sent.  This is because each message contains its own payload, which is different from the previous example where, because the message did not contain a payload, the same event could be reused each time.  Because a new event is created for each message, it must be deleted when it is no longer needed to prevent a memory leak, as mentioned above.
+You may notice that, in this example, a new event is created each time a message is sent.  This is because each message contains its own payload.  Because a new event is created for each message, it must be deleted when it is no longer needed to prevent a memory leak, as mentioned above. 
 
 ## Building and Executing the Simulation
 
@@ -193,38 +198,38 @@ Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=35; Thread=0 -- In
 Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=48; Thread=0 -- Clock rate is: 1GHz
 Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=35; Thread=0 -- Initializing component 1.
 Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=48; Thread=0 -- Clock rate is: 1GHz
-Time=1000; File=ExampleComponent.cc; Func=clockTick; Line=124; Thread=0 -- Sending event with payload 1.
-Time=1000; File=ExampleComponent.cc; Func=clockTick; Line=124; Thread=0 -- Sending event with payload 1.
-Time=2000; File=ExampleComponent.cc; Func=clockTick; Line=124; Thread=0 -- Sending event with payload 2.
-Time=2000; File=ExampleComponent.cc; Func=clockTick; Line=124; Thread=0 -- Sending event with payload 2.
-Time=3000; File=ExampleComponent.cc; Func=clockTick; Line=124; Thread=0 -- Sending event with payload 3.
-Time=3000; File=ExampleComponent.cc; Func=clockTick; Line=124; Thread=0 -- Sending event with payload 3.
-Time=4000; File=ExampleComponent.cc; Func=clockTick; Line=124; Thread=0 -- Sending event with payload 4.
-Time=4000; File=ExampleComponent.cc; Func=clockTick; Line=124; Thread=0 -- Sending event with payload 4.
-Time=5000; File=ExampleComponent.cc; Func=clockTick; Line=124; Thread=0 -- Sending event with payload 5.
-Time=5000; File=ExampleComponent.cc; Func=clockTick; Line=124; Thread=0 -- Sending event with payload 5.
-Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=109; Thread=0 -- Payload value = 1, compared to 5
-Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=124; Thread=0 -- Sending event with payload 6.
-Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=109; Thread=0 -- Payload value = 1, compared to 5
-Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=124; Thread=0 -- Sending event with payload 6.
-Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=109; Thread=0 -- Payload value = 2, compared to 5
-Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=124; Thread=0 -- Sending event with payload 7.
-Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=109; Thread=0 -- Payload value = 2, compared to 5
-Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=124; Thread=0 -- Sending event with payload 7.
-Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=109; Thread=0 -- Payload value = 3, compared to 5
-Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=124; Thread=0 -- Sending event with payload 8.
-Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=109; Thread=0 -- Payload value = 3, compared to 5
-Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=124; Thread=0 -- Sending event with payload 8.
-Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=109; Thread=0 -- Payload value = 4, compared to 5
-Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=124; Thread=0 -- Sending event with payload 9.
-Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=109; Thread=0 -- Payload value = 4, compared to 5
-Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=124; Thread=0 -- Sending event with payload 9.
-Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=109; Thread=0 -- Payload value = 5, compared to 5
-Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=112; Thread=0 -- Ending sim.
-Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=124; Thread=0 -- Sending event with payload 10.
-Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=109; Thread=0 -- Payload value = 5, compared to 5
-Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=112; Thread=0 -- Ending sim.
-Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=124; Thread=0 -- Sending event with payload 10.
+Time=1000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event with payload 1.
+Time=1000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event with payload 1.
+Time=2000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event with payload 2.
+Time=2000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event with payload 2.
+Time=3000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event with payload 3.
+Time=3000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event with payload 3.
+Time=4000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event with payload 4.
+Time=4000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event with payload 4.
+Time=5000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event with payload 5.
+Time=5000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event with payload 5.
+Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=112; Thread=0 -- Payload value = 1, compared to 5
+Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event with payload 6.
+Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=112; Thread=0 -- Payload value = 1, compared to 5
+Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event with payload 6.
+Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=112; Thread=0 -- Payload value = 2, compared to 5
+Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event with payload 7.
+Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=112; Thread=0 -- Payload value = 2, compared to 5
+Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event with payload 7.
+Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=112; Thread=0 -- Payload value = 3, compared to 5
+Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event with payload 8.
+Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=112; Thread=0 -- Payload value = 3, compared to 5
+Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event with payload 8.
+Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=112; Thread=0 -- Payload value = 4, compared to 5
+Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event with payload 9.
+Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=112; Thread=0 -- Payload value = 4, compared to 5
+Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event with payload 9.
+Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=112; Thread=0 -- Payload value = 5, compared to 5
+Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=115; Thread=0 -- Ending sim.
+Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event with payload 10.
+Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=112; Thread=0 -- Payload value = 5, compared to 5
+Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=115; Thread=0 -- Ending sim.
+Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event with payload 10.
 Simulation is complete, simulated time: 10 ns
 ```
 

@@ -51,27 +51,18 @@ const uint64_t ALL   = 5;
 
 using namespace SST;
 
-namespace Example05
+namespace Example05 
 {
     class ExampleSubComponent : public SST::SubComponent
     {
         public:
-            // Legacy constructors included for background compatibility.
-            // Needed for V9, can be removed for V10.
-            //
-            ExampleSubComponent(Component *owningComponent) :
-                SubComponent(owningComponent)
-            { }
-            ExampleSubComponent(Component* comp, Params& params) :
-                SubComponent(comp)
-            { }
 
             // Updated constructors.  No longer pass in a parent.
             // Instead, use a component id.
             //
             ExampleSubComponent(ComponentId_t id) :
                 SubComponent(id)
-            {
+            { 
             }
 
             ExampleSubComponent(ComponentId_t id, Params& params) :
@@ -82,10 +73,10 @@ namespace Example05
             virtual ~ExampleSubComponent() {}
 
 
-            // Method to initialize the subcomponent.  Serves the same purpose as the
+            // Method to initialize the subcomponent.  Serves the same purpose as the 
             // start() method in a component.
             //
-            void start(SST::ComponentId_t id, SST::Params &params,
+            void start(SST::ComponentId_t id, SST::Params &params, 
                 uint64_t slotNumber)
             {
                 // Process the incoming parameters.
@@ -93,32 +84,32 @@ namespace Example05
                 componentId_ = id;
                 slotNumber_ = slotNumber;
 
-                std::string clock =
+                std::string clock = 
                     params.find<std::string>("clock", "1GHz");  // Simulation clock rate.  Default to 1 GHz.
-                unsigned int debug =
+                unsigned int debug = 
                     params.find<int>("debug", ALL);             // Debug level.  Default to ALL.
-
+                
                 // Perform object initialization.
                 //
                 logger_ = SST::Output("Time=@t; File=@f; Func=@p; Line=@l; Thread=@I -- ", debug, 0x01, SST::Output::STDOUT);
-                logger_.verbose(CALL_INFO, TRACE, 0x00, "Initializing subcomponent, slot number %lu in component id %lu\n",
+                logger_.verbose(CALL_INFO, TRACE, 0x00, "Initializing subcomponent, slot number %lu in component id %lu\n", 
                     slotNumber_, componentId_);
 
                 link_ = configureLink("link_", clock,
-                    new SST::Event::Handler<ExampleSubComponent>(this, &ExampleSubComponent::messageHandler));
-
+                    new SST::Event::Handler<ExampleSubComponent>(this, &ExampleSubComponent::messageHandler)); 
+                
                 logger_.verbose(CALL_INFO, TRACE, 0x00, "Subcomponent initialized.\n");
             }
 
             // Send the count over the link.
             //
-            void sendCount()
+            void sendCount() 
             {
                 logger_.verbose(CALL_INFO, TRACE, 0x00, "Entering subcomponent method sendCount()\n");
                 logger_.verbose(CALL_INFO, DEBUG, 0x00, "Creating message\n");
                 ExampleEvent* ev = new ExampleEvent(count_++);
 
-                logger_.verbose(CALL_INFO, INFO, 0x00, "Sending message from component %lu, slot %lu with count %u\n",
+                logger_.verbose(CALL_INFO, INFO, 0x00, "Sending message from component %lu, slot %lu with count %u\n", 
                     componentId_, slotNumber_, ev->getPayload() );
                 link_->send(ev);
 
@@ -136,7 +127,7 @@ namespace Example05
 
             // Clock handler.  This is the method called from the parent clock event.
             //
-            virtual void clock(Cycle_t)
+            virtual void clock(Cycle_t) 
             {
                 logger_.verbose(CALL_INFO, TRACE, 0x00, "Entering subcomponent method clock\n");
                 logger_.verbose(CALL_INFO, TRACE, 0x00, "Leaving subcomponent method clock\n");
@@ -152,7 +143,7 @@ namespace Example05
                 //
                 ExampleEvent* ev = static_cast<ExampleEvent*>(event);
                 clockTickCount_ = ev->getPayload();
-                logger_.verbose(CALL_INFO, INFO, 0x00, "Received clock tick %lu on component %lu at slot number %lu\n",
+                logger_.verbose(CALL_INFO, INFO, 0x00, "Received clock tick %lu on component %lu at slot number %lu\n", 
                     clockTickCount_, componentId_, slotNumber_);
 
                 // Don't forget to delete the event when you're done with it.
@@ -192,12 +183,12 @@ namespace Example05
                 "ExampleSubComponent",              // Name used to reference the subcomponent.
                                                     // Can be anything but typically set to
                                                     // the class name.
-                SST_ELI_ELEMENT_VERSION(1, 0, 0),   //
+                SST_ELI_ELEMENT_VERSION(1, 0, 0),   // 
                 "Example subcomponent",             // Brief subcomponent description
-                SST::SubComponent                   // Name of the subcomponent interface the
+                Example05::ExampleSubComponent      // Name of the subcomponent interface the
                                                     // subcomponent inherits from.  Should be
                                                     // the full parent class name.
-                                                    // "INSERT_FULL_PARENT_CLASS_NAME" or
+                                                    // "INSERT_FULL_PARENT_CLASS_NAME" or 
                                                     // "INSERT_COMPLETE_NAMESPACE::INSERT_PARENT_CLASS_NAME"
             )
 
@@ -218,6 +209,7 @@ namespace Example05
 }
 
 #endif
+
 ```
 
 The constructors and destructor remain unchanged.  However, there is a new `start()` method used to initialize the subcomponent.  This is where parameters for the subcomponent are processed and the link is initialized.
@@ -225,10 +217,10 @@ The constructors and destructor remain unchanged.  However, there is a new `star
 You may wonder, why not do this initialization in the subcomponent constructor?  For some reason the subcomponent constructors were not being called when created in the parent component.  Use of the `start()` method is a reasonable alternative that models the method used for top level components.  The difference is, this `start()` method will not be called automatically.  It must be called explicitly when the subcomponent is created.
 
 ```
-            // Method to initialize the subcomponent.  Serves the same purpose as the
+            // Method to initialize the subcomponent.  Serves the same purpose as the 
             // start() method in a component.
             //
-            void start(SST::ComponentId_t id, SST::Params &params,
+            void start(SST::ComponentId_t id, SST::Params &params, 
                 uint64_t slotNumber)
             {
                 // Process the incoming parameters.
@@ -236,20 +228,20 @@ You may wonder, why not do this initialization in the subcomponent constructor? 
                 componentId_ = id;
                 slotNumber_ = slotNumber;
 
-                std::string clock =
+                std::string clock = 
                     params.find<std::string>("clock", "1GHz");  // Simulation clock rate.  Default to 1 GHz.
-                unsigned int debug =
+                unsigned int debug = 
                     params.find<int>("debug", ALL);             // Debug level.  Default to ALL.
-
+                
                 // Perform object initialization.
                 //
                 logger_ = SST::Output("Time=@t; File=@f; Func=@p; Line=@l; Thread=@I -- ", debug, 0x01, SST::Output::STDOUT);
-                logger_.verbose(CALL_INFO, TRACE, 0x00, "Initializing subcomponent, slot number %lu in component id %lu\n",
+                logger_.verbose(CALL_INFO, TRACE, 0x00, "Initializing subcomponent, slot number %lu in component id %lu\n", 
                     slotNumber_, componentId_);
 
                 link_ = configureLink("link_", clock,
-                    new SST::Event::Handler<ExampleSubComponent>(this, &ExampleSubComponent::messageHandler));
-
+                    new SST::Event::Handler<ExampleSubComponent>(this, &ExampleSubComponent::messageHandler)); 
+                
                 logger_.verbose(CALL_INFO, TRACE, 0x00, "Subcomponent initialized.\n");
             }
 ```
@@ -258,13 +250,13 @@ Any functionality previously associated with communication between components mu
 ```
             // Send the count over the link.
             //
-            void sendCount()
+            void sendCount() 
             {
                 logger_.verbose(CALL_INFO, TRACE, 0x00, "Entering subcomponent method sendCount()\n");
                 logger_.verbose(CALL_INFO, DEBUG, 0x00, "Creating message\n");
                 ExampleEvent* ev = new ExampleEvent(count_++);
 
-                logger_.verbose(CALL_INFO, INFO, 0x00, "Sending message from component %lu, slot %lu with count %u\n",
+                logger_.verbose(CALL_INFO, INFO, 0x00, "Sending message from component %lu, slot %lu with count %u\n", 
                     componentId_, slotNumber_, ev->getPayload() );
                 link_->send(ev);
 
@@ -294,7 +286,7 @@ The link message handler has also been moved to the subcomponent but still serve
                 //
                 ExampleEvent* ev = static_cast<ExampleEvent*>(event);
                 clockTickCount_ = ev->getPayload();
-                logger_.verbose(CALL_INFO, INFO, 0x00, "Received clock tick %lu on component %lu at slot number %lu\n",
+                logger_.verbose(CALL_INFO, INFO, 0x00, "Received clock tick %lu on component %lu at slot number %lu\n", 
                     clockTickCount_, componentId_, slotNumber_);
 
                 // Don't forget to delete the event when you're done with it.
@@ -338,12 +330,12 @@ Finally, we still need to register the subcomponent and its API using the ELI ma
                 "ExampleSubComponent",              // Name used to reference the subcomponent.
                                                     // Can be anything but typically set to
                                                     // the class name.
-                SST_ELI_ELEMENT_VERSION(1, 0, 0),   //
+                SST_ELI_ELEMENT_VERSION(1, 0, 0),   // 
                 "Example subcomponent",             // Brief subcomponent description
-                SST::SubComponent                   // Name of the subcomponent interface the
+                Example05::ExampleSubComponent      // Name of the subcomponent interface the
                                                     // subcomponent inherits from.  Should be
                                                     // the full parent class name.
-                                                    // "INSERT_FULL_PARENT_CLASS_NAME" or
+                                                    // "INSERT_FULL_PARENT_CLASS_NAME" or 
                                                     // "INSERT_COMPLETE_NAMESPACE::INSERT_PARENT_CLASS_NAME"
             )
 ```
@@ -378,7 +370,7 @@ Once these changes have been made, save them, close the file, and open the file 
             if (info->isPopulated(i))
             {
                 logger_.verbose(CALL_INFO, DEBUG, 0x00, "Loading subcomponent into slot entry %d\n", i);  
-
+                
                 ExampleSubComponent* subComponent = info->create<ExampleSubComponent>(i, ComponentInfo::SHARE_NONE);
                 subComponent->start(id, params, i);
 
@@ -402,7 +394,7 @@ bool ExampleComponent::clockTick(SST::Cycle_t cycle)
     // Call clockTick for each of the subcomponents.
     //
     logger_.verbose(CALL_INFO, DEBUG, 0x00, "Calling clock tick for subcomponents.\n");
-    for ( auto subcomponent : subcomponentSlots_)
+    for ( auto subcomponent : subcomponentSlots_) 
     {
         subcomponent.second->clock(cycle);
     }
@@ -438,7 +430,7 @@ bool ExampleComponent::clockTick(SST::Cycle_t cycle)
         logger_.verbose(CALL_INFO, DEBUG, 0x00, "Ending simulation for component id %lu.\n", componentId_);
         primaryComponentOKToEndSim();
     }
-
+    
     logger_.verbose(CALL_INFO, TRACE, 0x00, "Leaving clock for component id %lu\n", componentId_);
     return done;
 }

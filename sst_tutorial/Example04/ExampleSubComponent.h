@@ -18,15 +18,6 @@ namespace Example04
     class ExampleSubComponent : public SST::SubComponent
     {
         public:
-            // Legacy constructors included for background compatibility.
-            // Needed for V9, can be removed for V10.
-            //
-            ExampleSubComponent(Component *owningComponent) :
-                SubComponent(owningComponent)
-            { }
-            ExampleSubComponent(Component* comp, Params& params) :
-                SubComponent(comp)
-            { }
 
             // Updated constructors.  No longer pass in a parent.
             // Instead, use a component id.
@@ -63,7 +54,7 @@ namespace Example04
                                                     // the class name.
                 SST_ELI_ELEMENT_VERSION(1, 0, 0),   // 
                 "Example subcomponent",             // Brief subcomponent description
-                SST::SubComponent                   // Name of the subcomponent interface the
+                Example04::ExampleSubComponent      // Name of the subcomponent interface the
                                                     // subcomponent inherits from.  Should be
                                                     // the full parent class name.
                                                     // "INSERT_FULL_PARENT_CLASS_NAME" or 

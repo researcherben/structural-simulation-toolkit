@@ -44,7 +44,7 @@ const uint64_t ALL   = 5;
 
 using namespace SST;
 
-namespace Example04
+namespace Example04 
 {
     class ExampleSubComponent : public SST::SubComponent
     {
@@ -70,7 +70,7 @@ namespace Example04
             { }
 
             virtual ~ExampleSubComponent() {}
-
+            
             // Clock handler.  This is the method called from the clock event.
             //
             virtual void clock(Cycle_t) {}
@@ -89,9 +89,9 @@ namespace Example04
                 ExampleSubComponent,                // INSERT_CLASS_NAME
                 "example",                          // Element library.  Name of the .so.
                 "ExampleSubComponent",              // "INSERT_CLASS_NAME"
-                SST_ELI_ELEMENT_VERSION(1, 0, 0),   //
+                SST_ELI_ELEMENT_VERSION(1, 0, 0),   // 
                 "Example subcomponent",             // Subcomponent description
-                "SST::SubComponent"                 // "INSERT_FULL_PARENT_CLASS_NAME" or
+                "SST::SubComponent"                 // "INSERT_FULL_PARENT_CLASS_NAME" or 
                                                     // "INSERT_COMPLETE_NAMESPACE::INSERT_PARENT_CLASS_NAME"
             )
 
@@ -145,7 +145,7 @@ and the subcomponent defined.
             { }
 
             virtual ~ExampleSubComponent() {}
-
+            
             // Clock handler.  This is the method called from the clock event.
             //
             virtual void clock(Cycle_t) {}
@@ -157,9 +157,7 @@ and the subcomponent defined.
 
 As is the case for components and events, all subcomponents are derived from SST::SubComponent or one of its children.
 
-The legacy constructors are included for backward compatibility.  They are needed for SST V9 but can be removed for SST V10.
-
-The remaining constructors and destructor are a standard format and required to interface with the SST core functions.  
+The constructor and destructor are a standard format and required to interface with the SST core functions.  
 
 Subcomponents still have clock handlers but they are not automatically called by the simulation.  Instead they are called from the subcomponent parent as part of the parent's clock event handling.
 
@@ -181,12 +179,12 @@ The subcomponent is described to the SST core using SST_ELI macros.
                 "ExampleSubComponent",              // Name used to reference the subcomponent.
                                                     // Can be anything but typically set to
                                                     // the class name.
-                SST_ELI_ELEMENT_VERSION(1, 0, 0),   //
+                SST_ELI_ELEMENT_VERSION(1, 0, 0),   // 
                 "Example subcomponent",             // Brief subcomponent description
-                SST::SubComponent                   // Name of the subcomponent interface the
+                Example04::ExampleSubComponent      // Name of the subcomponent interface the
                                                     // subcomponent inherits from.  Should be
                                                     // the full parent class name.
-                                                    // "INSERT_FULL_PARENT_CLASS_NAME" or
+                                                    // "INSERT_FULL_PARENT_CLASS_NAME" or 
                                                     // "INSERT_COMPLETE_NAMESPACE::INSERT_PARENT_CLASS_NAME"
             )
 ```
@@ -254,11 +252,11 @@ This registers a subcomponent named `"slot_"` with a description of `"Slot to ho
 Save this file and open the file `ExampleComponent.cc`.  Insert the following code to configure the subcomponent into the constructor.
 
 ```
-    // Configure the subcomponents.  The slot name is taken from where the
+    // Configure the subcomponents.  The slot name is taken from where the 
     // subcomponent slot is documented in the component .h file.
     //
     SubComponentSlotInfo* info = getSubComponentSlotInfo("slot_");
-    if ( !info )
+    if ( !info ) 
     {
         // No defined subcomponents.  Print an error message and exit.
         //
@@ -302,7 +300,7 @@ bool ExampleComponent::clockTick(SST::Cycle_t cycle)
     // Call clockTick for each of the subcomponents.
     //
     logger_.verbose(CALL_INFO, INFO, 0x00, "Calling clock tick for subcomponents.\n");
-    for ( auto subcomponent : subcomponentSlots_)
+    for ( auto subcomponent : subcomponentSlots_) 
     {
         subcomponent->clock(cycle);
     }
@@ -324,7 +322,7 @@ It consists of two parts.  First, the clock event handler for each of the subcom
     // Call clockTick for each of the subcomponents.
     //
     logger_.verbose(CALL_INFO, INFO, 0x00, "Calling clock tick for subcomponents.\n");
-    for ( auto subcomponent : subcomponentSlots_)
+    for ( auto subcomponent : subcomponentSlots_) 
     {
         subcomponent->clock(cycle);
     }

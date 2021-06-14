@@ -1,8 +1,5 @@
 Example project for creating a networked simulation configuratin in SST.
 
-Created for SST-Core Version (9.1.0)  
-Not compatible with SST-Core v10.0.0
-
 This simulation contains three components, each with two subcomponents.
 Functionality used to send and receive messages has been moved to the
 subcomponents and links between network nodes are made to and from the

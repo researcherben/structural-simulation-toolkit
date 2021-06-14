@@ -50,14 +50,14 @@ Then add the link definition following the `setup()` and `finish()` method defin
 Finally, use the `SST_ELI_DOCUMENT_PORTS` macro to define the link in the ELI database.  Notice, this is one of the places where the SST code interface refers to a link as a port.  Place this macro below the previously defined macros.
 
 ```
-            // Shared documentation macros.
+            // Shared documentation macros. 
             //
             SST_ELI_DOCUMENT_PARAMS(
                 { "debug", "Debug location:  (0: NONE, 1: STDOUT, 2: STDERR, 3: FILE)", "0" },
                 { "clock", "Component clock rate", "1GHz" },
                 { "clockTicks", "Number of times the handler is called before ending.", "10" }
             )
-
+            
             SST_ELI_REGISTER_COMPONENT(
                 ExampleComponent,                       // Class name
                 "example",                              // Library name (the *.so)
@@ -197,30 +197,39 @@ bool ExampleComponent::clockTick(SST::Cycle_t cycle)
 
     // Poll the link for incoming messages and process them as necessary.
     //
-    logger_.verbose(CALL_INFO, DEBUG, 0x00, "Retrieving event from link in component id %lu\n", componentId_);
-    ExampleEvent* ev = static_cast<ExampleEvent*>(link_->recv());
+    for (;;)
+    {
+        logger_.verbose(CALL_INFO, DEBUG, 0x00, "Retreiving event from link in component id %lu\n", componentId_);
+        ExampleEvent* ev = static_cast<ExampleEvent*>(link_->recv());
 
-    if (nullptr == ev)
-    {
-        logger_.verbose(CALL_INFO, DEBUG, 0x00, "No event available from link in component id %lu\n", componentId_);
-    }
-    else
-    {
-        // Increment the clock tick counter and end when you get to
-        // the specified value.
-        //
-        clockTickCount_+= 1;
-        done = (clockTickCount_ == clockTicks_);
-        logger_.verbose(CALL_INFO, INFO, 0x00, "Clock tick count = %lu out of %lu\n", clockTickCount_, clockTicks_);
-        if (done)
+        if (nullptr == ev)
         {
-            logger_.verbose(CALL_INFO, INFO, 0x00, "Ending sim.\n");
-            primaryComponentOKToEndSim();
+            logger_.verbose(CALL_INFO, DEBUG, 0x00, "No event available from link in component id %lu\n", componentId_);
+            break;
+        }
+        else
+        {
+            // Increment the clock tick counter and end when you get to
+            // the specified value.  Also, we're done with the event so
+            // you can delete it.
+            //
+            clockTickCount_+= 1;
+            done = (clockTickCount_ == clockTicks_);
+            logger_.verbose(CALL_INFO, INFO, 0x00, "Clock tick count = %lu out of %lu\n", clockTickCount_, clockTicks_);
+            delete ev;
+
+            if (done)
+            {
+                logger_.verbose(CALL_INFO, INFO, 0x00, "Ending sim.\n");
+                primaryComponentOKToEndSim();
+                break;
+            }
         }
     }
 
     // Send an event over the link.
     //
+    ExampleEvent* ev = new ExampleEvent();
     logger_.verbose(CALL_INFO, INFO, 0x00, "Sending event over the link.\n");
     link_->send(ev);
 
@@ -294,7 +303,7 @@ The link is established using the link `connect` method.  The `connect` method t
 
 The first value in the tuple is the component connecting to the link.  In this case, a link is being established between components obj0 and obj1.
 
-The second value in the tuple is the identifier used to refer to the port within the component.  This is the same value as that defined in the `SST_ELI_DOCUMENT_PORTS` macro in the component include file.
+The second value in the tuple is the identifier used to refer to the link within the component.  This is the same value as that defined in the `SST_ELI_DOCUMENT_PORTS` macro in the component include file.
 
 The final value in the tuple is the link delay.  This specifies how long it will take the message to traverse the link from the corresponding component and must be greater than 0.  The implications of this value will be discussed below.
 
@@ -346,38 +355,38 @@ Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=34; Thread=0 -- In
 Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=48; Thread=0 -- Clock rate is: 1GHz
 Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=34; Thread=0 -- Initializing component 1.
 Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=48; Thread=0 -- Clock rate is: 1GHz
-Time=1000; File=ExampleComponent.cc; Func=clockTick; Line=119; Thread=0 -- Sending event over the link.
-Time=1000; File=ExampleComponent.cc; Func=clockTick; Line=119; Thread=0 -- Sending event over the link.
-Time=2000; File=ExampleComponent.cc; Func=clockTick; Line=119; Thread=0 -- Sending event over the link.
-Time=2000; File=ExampleComponent.cc; Func=clockTick; Line=119; Thread=0 -- Sending event over the link.
-Time=3000; File=ExampleComponent.cc; Func=clockTick; Line=119; Thread=0 -- Sending event over the link.
-Time=3000; File=ExampleComponent.cc; Func=clockTick; Line=119; Thread=0 -- Sending event over the link.
-Time=4000; File=ExampleComponent.cc; Func=clockTick; Line=119; Thread=0 -- Sending event over the link.
-Time=4000; File=ExampleComponent.cc; Func=clockTick; Line=119; Thread=0 -- Sending event over the link.
-Time=5000; File=ExampleComponent.cc; Func=clockTick; Line=119; Thread=0 -- Sending event over the link.
-Time=5000; File=ExampleComponent.cc; Func=clockTick; Line=119; Thread=0 -- Sending event over the link.
-Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=109; Thread=0 -- Clock tick count = 1 out of 5
-Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=119; Thread=0 -- Sending event over the link.
-Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=109; Thread=0 -- Clock tick count = 1 out of 5
-Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=119; Thread=0 -- Sending event over the link.
-Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=109; Thread=0 -- Clock tick count = 2 out of 5
-Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=119; Thread=0 -- Sending event over the link.
-Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=109; Thread=0 -- Clock tick count = 2 out of 5
-Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=119; Thread=0 -- Sending event over the link.
-Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=109; Thread=0 -- Clock tick count = 3 out of 5
-Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=119; Thread=0 -- Sending event over the link.
-Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=109; Thread=0 -- Clock tick count = 3 out of 5
-Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=119; Thread=0 -- Sending event over the link.
-Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=109; Thread=0 -- Clock tick count = 4 out of 5
-Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=119; Thread=0 -- Sending event over the link.
-Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=109; Thread=0 -- Clock tick count = 4 out of 5
-Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=119; Thread=0 -- Sending event over the link.
-Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=109; Thread=0 -- Clock tick count = 5 out of 5
-Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=112; Thread=0 -- Ending sim.
-Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=119; Thread=0 -- Sending event over the link.
-Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=109; Thread=0 -- Clock tick count = 5 out of 5
-Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=112; Thread=0 -- Ending sim.
-Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=119; Thread=0 -- Sending event over the link.
+Time=1000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event over the link.
+Time=1000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event over the link.
+Time=2000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event over the link.
+Time=2000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event over the link.
+Time=3000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event over the link.
+Time=3000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event over the link.
+Time=4000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event over the link.
+Time=4000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event over the link.
+Time=5000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event over the link.
+Time=5000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event over the link.
+Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=113; Thread=0 -- Clock tick count = 1 out of 5
+Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event over the link.
+Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=113; Thread=0 -- Clock tick count = 1 out of 5
+Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event over the link.
+Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=113; Thread=0 -- Clock tick count = 2 out of 5
+Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event over the link.
+Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=113; Thread=0 -- Clock tick count = 2 out of 5
+Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event over the link.
+Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=113; Thread=0 -- Clock tick count = 3 out of 5
+Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event over the link.
+Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=113; Thread=0 -- Clock tick count = 3 out of 5
+Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event over the link.
+Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=113; Thread=0 -- Clock tick count = 4 out of 5
+Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event over the link.
+Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=113; Thread=0 -- Clock tick count = 4 out of 5
+Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event over the link.
+Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=113; Thread=0 -- Clock tick count = 5 out of 5
+Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=118; Thread=0 -- Ending sim.
+Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event over the link.
+Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=113; Thread=0 -- Clock tick count = 5 out of 5
+Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=118; Thread=0 -- Ending sim.
+Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=128; Thread=0 -- Sending event over the link.
 Simulation is complete, simulated time: 10 ns
 ```
 

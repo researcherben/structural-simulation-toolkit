@@ -33,7 +33,7 @@ namespace Example00
     const uint64_t TRACE = 4;
     const uint64_t ALL   = 5;
 
-    // This is a very simple component.  It only registers a clock and
+    // This is a very simple component.  It only registers a clock and 
     // prints log messages as the clock handler is called.
     //
     // Remember, all components inherit from SST::Component
@@ -56,18 +56,18 @@ namespace Example00
             //
             bool clockTick(SST::Cycle_t cycle);
 
-            // Shared documentation macros.
+            // Shared documentation macros. 
             //
             SST_ELI_DOCUMENT_PARAMS(
                 { "debug", "Debug location:  (0: NONE, 1: STDOUT, 2: STDERR, 3: FILE)", "0" },
                 { "clock", "Component clock rate", "1GHz" },
                 { "clockTicks", "Number of times the handler is called before ending.", "10" }
             )
-
+            
             SST_ELI_REGISTER_COMPONENT(
                 ExampleComponent,                       // Class name
                 "example",                              // Library name (the *.so)
-                "ExampleComponent",                     // Named use to reference the component.  This can be
+                "ExampleComponent",                     // Name used to reference the component.  This can be
                                                         // whatever you want it to be and will be referenced
                                                         // in the python configuration file.
                 SST_ELI_ELEMENT_VERSION( 1, 0, 0 ),     // Version number
@@ -113,7 +113,7 @@ This is not strictly necessary but is useful to prevent name clashes.
 Finally the component is defined.
 
 ```
-    // This is a very simple component.  It only registers a clock and
+    // This is a very simple component.  It only registers a clock and 
     // prints log messages as the clock handler is called.
     //
     // Remember, all components inherit from SST::Component
@@ -146,14 +146,14 @@ As for the clock event handler, when configuring the component in the previously
 The component is described to the SST core using the SST_ELI macros.
 
 ```
-            // Shared documentation macros.
+            // Shared documentation macros. 
             //
             SST_ELI_DOCUMENT_PARAMS(
                 { "debug", "Debug location:  (0: NONE, 1: STDOUT, 2: STDERR, 3: FILE)", "0" },
                 { "clock", "Component clock rate", "1GHz" },
                 { "clockTicks", "Number of times the handler is called before ending.", "10" }
             )
-
+            
             SST_ELI_REGISTER_COMPONENT(
                 ExampleComponent,                       // Class name
                 "example",                              // Library name (the *.so)
@@ -185,8 +185,6 @@ Finally, a few private variables that will be used to track state within the com
 To implement the component functionality, use the editor of your choice and create a new file.  Enter the code shown below and save it as `ExampleComponent.cc`.
 
 ```
-// Created for SST-Core Version (9.1.0)
-//
 #include "ExampleComponent.h"
 #include <iostream>
 
@@ -202,18 +200,18 @@ ExampleComponent::ExampleComponent(SST::ComponentId_t id, SST::Params &params) :
     // Read in the parameters from the python config file.  See SST_ELI_DOCUMENT_PARAMS
     // for an explanation of what each parameter represents.
     //
-    std::string clock =
+    std::string clock = 
         params.find<std::string>("clock", "1GHz");
     clockTicks_ = static_cast<uint64_t>(
         params.find<int>("clockTicks", 10));
-    unsigned int debug =
+    unsigned int debug = 
         params.find<int>("debug", ALL);
 
     // Create the logger.
     //
     logger_ = SST::Output("Time=@t; File=@f; Func=@p; Line=@l; Thread=@I -- ", debug, 0x01, SST::Output::STDOUT);
     logger_.verbose(CALL_INFO, TRACE, 0x00, "Entering constructor for component id %lu\n", componentId_);
-
+    
     // Initialize the debug output instance.
     // Strings for debug output use the printf format.
     //
@@ -266,7 +264,7 @@ void ExampleComponent::finish(void)
 //
 bool ExampleComponent::clockTick(SST::Cycle_t cycle)
 {
-    logger_.verbose(CALL_INFO, 4, 0x00, "Entering clock for component id %lu\n", componentId_);
+    logger_.verbose(CALL_INFO, TRACE, 0x00, "Entering clock for component id %lu\n", componentId_);
 
     // Increment the clock tick counter and end when you get to
     // the specified value.
@@ -280,7 +278,7 @@ bool ExampleComponent::clockTick(SST::Cycle_t cycle)
         logger_.verbose(CALL_INFO, INFO, 0x00, "Ending sim.\n");
         primaryComponentOKToEndSim();
     }
-
+   
     logger_.verbose(CALL_INFO, TRACE, 0x00, "Leaving clock for component id %lu\n", componentId_);
     return done;
 }
@@ -293,14 +291,14 @@ For this component, all initialization takes place in the constructor.
 First, the component parameters are read from the configuration file.
 
 ```
-    // Read in the parameters from the python config file.  See SST_ELI_DOCUMENT_PARAMS
+   // Read in the parameters from the python config file.  See SST_ELI_DOCUMENT_PARAMS
     // for an explanation of what each parameter represents.
     //
-    std::string clock =
+    std::string clock = 
         params.find<std::string>("clock", "1GHz");
     clockTicks_ = static_cast<uint64_t>(
         params.find<int>("clockTicks", 10));
-    unsigned int debug =
+    unsigned int debug = 
         params.find<int>("debug", ALL);
 ```
 
@@ -392,7 +390,7 @@ bool ExampleComponent::clockTick(SST::Cycle_t cycle)
         logger_.verbose(CALL_INFO, INFO, 0x00, "Ending sim.\n");
         primaryComponentOKToEndSim();
     }
-
+   
     logger_.verbose(CALL_INFO, TRACE, 0x00, "Leaving clock for component id %lu\n", componentId_);
     return done;
 }
@@ -428,8 +426,9 @@ Open a terminal and navigate to the folder containing the component and makefile
 make clean; make
 ```
 
-If there are errors, go back and check to make sure the code listed above was entered correctly.
 If all goes well, the component will be built and installed for use by SST.  
+If there are errors, go back and check to make sure the code listed above was entered correctly.
+
 To confirm the registration worked, run
 
 ```
@@ -516,8 +515,8 @@ Then we define the component and its parameters.
 #
 # The parameters are a dictionary and can be any key/value pair defined
 # by the component itself.
-#
-# The first parameter is the component assigned name.  This can be
+# 
+# The first parameter is the component assigned name.  This can be 
 # anything that makes sense.
 #
 # The second parameter is <library>.<registered_name>

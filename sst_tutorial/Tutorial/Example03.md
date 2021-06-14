@@ -30,7 +30,7 @@ Open the `ExampleComponent.cc` file and change the `configureLink` call to
 
 ```
     logger_.verbose(CALL_INFO, DEBUG, 0x00, "Configuring link.\n");
-    link_ = configureLink("link_",
+    link_ = configureLink("link_", 
         new SST::Event::Handler<ExampleComponent>(this, &ExampleComponent::messageHandler));
     logger_.verbose(CALL_INFO, DEBUG, 0x00, "Successfully configured the link.\n");
 ```
@@ -42,7 +42,7 @@ To define the message handler, open the file `ExampleComponent.h` and add the me
 
 ```
         private:
-
+            
             // Handler for incoming messages.
             //
             void messageHandler(SST::Event* ev);
@@ -107,7 +107,7 @@ bool ExampleComponent::clockTick(SST::Cycle_t cycle)
 
     // Send an event over the link.
     //
-    logger_.verbose(CALL_INFO, INFO, 0x00, "Sending event over the link with payload %lu.\n", clockTickCount_ + 1);
+    logger_.verbose(CALL_INFO, INFO, 0x00, "Sending event with payload %lu.\n", clockTickCount_ + 1);
     clockTickCount_ += 1;
     SST::Event* ev = new ExampleEvent(clockTickCount_);
     link_->send(ev);
