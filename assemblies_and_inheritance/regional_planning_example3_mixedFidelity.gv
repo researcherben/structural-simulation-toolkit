@@ -1,0 +1,184 @@
+graph "connections" {
+overlap=scale;
+splines=spline;
+node [shape=record];
+
+subgraph cluster_n0 {
+    label="n0";
+
+    subgraph cluster_0 {
+    graph [style=invis];
+    0 [label="{<main> n0_house_0\nhouse.HouseComponent |
+    <port_b> Port: port_b |
+    <port_a> Port: port_a |
+    <port_c> Port: port_c |
+    <port_d> Port: port_d}"];
+
+    }
+
+    subgraph cluster_1 {
+    graph [style=invis];
+    1 [label="{<main> n0_house_1\nhouse.HouseComponent |
+    <port_a> Port: port_a |
+    <port_b> Port: port_b}"];
+
+    }
+
+    subgraph cluster_2 {
+    graph [style=invis];
+    2 [label="{<main> n0_gravel road_0\nroad.RoadComponent |
+    <port_a> Port: port_a |
+    <port_b> Port: port_b}"];
+
+    }
+
+    subgraph cluster_3 {
+    graph [style=invis];
+    3 [label="{<main> n0_house_2\nhouse.HouseComponent |
+    <port_a> Port: port_a |
+    <port_b> Port: port_b}"];
+
+    }
+
+    subgraph cluster_4 {
+    graph [style=invis];
+    4 [label="{<main> n0_gravel road_1\nroad.RoadComponent |
+    <port_a> Port: port_a |
+    <port_b> Port: port_b}"];
+
+    }
+
+    subgraph cluster_5 {
+    graph [style=invis];
+    5 [label="{<main> n0_gravel road_2\nroad.RoadComponent |
+    <port_a> Port: port_a |
+    <port_b> Port: port_b}"];
+
+    }
+}
+
+subgraph cluster_n1 {
+    label="n1";
+
+    subgraph cluster_6 {
+    graph [style=invis];
+    6 [label="{<main> n1_house_0\nhouse.HouseComponent |
+    <port_b> Port: port_b |
+    <port_a> Port: port_a |
+    <port_d> Port: port_d |
+    <port_c> Port: port_c}"];
+
+    }
+
+    subgraph cluster_7 {
+    graph [style=invis];
+    7 [label="{<main> n1_house_1\nhouse.HouseComponent |
+    <port_a> Port: port_a |
+    <port_b> Port: port_b}"];
+
+    }
+
+    subgraph cluster_8 {
+    graph [style=invis];
+    8 [label="{<main> n1_gravel road_0\nroad.RoadComponent |
+    <port_a> Port: port_a |
+    <port_b> Port: port_b}"];
+
+    }
+
+    subgraph cluster_9 {
+    graph [style=invis];
+    9 [label="{<main> n1_house_2\nhouse.HouseComponent |
+    <port_a> Port: port_a |
+    <port_b> Port: port_b}"];
+
+    }
+
+    subgraph cluster_10 {
+    graph [style=invis];
+    10 [label="{<main> n1_gravel road_1\nroad.RoadComponent |
+    <port_a> Port: port_a |
+    <port_b> Port: port_b}"];
+
+    }
+
+    subgraph cluster_11 {
+    graph [style=invis];
+    11 [label="{<main> n1_gravel road_2\nroad.RoadComponent |
+    <port_a> Port: port_a |
+    <port_b> Port: port_b}"];
+
+    }
+}
+
+subgraph cluster_12 {
+graph [style=invis];
+12 [label="{<main> neighborhood_2\nneighborhood.NeighborhoodComponent |
+<port_d> Port: port_d |
+<port_c> Port: port_c}"];
+
+}
+
+subgraph cluster_13 {
+graph [style=invis];
+13 [label="{<main> neighborhood_3\nneighborhood.NeighborhoodComponent |
+<port_d> Port: port_d |
+<port_c> Port: port_c}"];
+
+}
+
+subgraph cluster_14 {
+graph [style=invis];
+14 [label="{<main> road_n0_n1\nroad.RoadComponent |
+<port_a> Port: port_a |
+<port_b> Port: port_b}"];
+
+}
+
+subgraph cluster_15 {
+graph [style=invis];
+15 [label="{<main> road_n1_n2\nroad.RoadComponent |
+<port_a> Port: port_a |
+<port_b> Port: port_b}"];
+
+}
+
+subgraph cluster_16 {
+graph [style=invis];
+16 [label="{<main> road_n2_n3\nroad.RoadComponent |
+<port_a> Port: port_a |
+<port_b> Port: port_b}"];
+
+}
+
+subgraph cluster_17 {
+graph [style=invis];
+17 [label="{<main> road_n3_n0\nroad.RoadComponent |
+<port_a> Port: port_a |
+<port_b> Port: port_b}"];
+
+}
+
+
+1:"port_a" -- 2:"port_a" [label="link0\n1ns"];
+2:"port_b" -- 0:"port_b" [label="link1\n1ns"];
+3:"port_a" -- 4:"port_a" [label="link2\n1ns"];
+4:"port_b" -- 1:"port_b" [label="link3\n1ns"];
+3:"port_b" -- 5:"port_a" [label="link4\n1ns"];
+5:"port_b" -- 0:"port_a" [label="link5\n1ns"];
+7:"port_a" -- 8:"port_a" [label="link6\n1ns"];
+8:"port_b" -- 6:"port_b" [label="link7\n1ns"];
+9:"port_a" -- 10:"port_a" [label="link8\n1ns"];
+10:"port_b" -- 7:"port_b" [label="link9\n1ns"];
+9:"port_b" -- 11:"port_a" [label="link10\n1ns"];
+11:"port_b" -- 6:"port_a" [label="link11\n1ns"];
+0:"port_c" -- 14:"port_a" [label="link_n0_to_road01\n1ns"];
+14:"port_b" -- 6:"port_d" [label="link_n1_to_road01\n1ns"];
+6:"port_c" -- 15:"port_a" [label="link_n1_to_road12\n1ns"];
+15:"port_b" -- 12:"port_d" [label="link_n2_to_road12\n1ns"];
+12:"port_c" -- 16:"port_a" [label="link_n2_to_road23\n1ns"];
+16:"port_b" -- 13:"port_d" [label="link_n3_to_road23\n1ns"];
+13:"port_c" -- 17:"port_a" [label="link_n3_to_road30\n1ns"];
+17:"port_b" -- 0:"port_d" [label="link_n0_to_road30\n1ns"];
+
+}
