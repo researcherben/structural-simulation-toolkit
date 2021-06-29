@@ -1,0 +1,67 @@
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=44; Thread=0 -- [INFO] - Constructing new Example Instance.
+Time=0; File=ExampleComponent.cc; Func=configureSubComponents; Line=114; Thread=0 -- [INFO] - Configuring subcomponents.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=56; Thread=0 -- [INFO] - Successfully initialized clock.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=44; Thread=0 -- [INFO] - Constructing new Example Instance.
+Time=0; File=ExampleComponent.cc; Func=configureSubComponents; Line=114; Thread=0 -- [INFO] - Configuring subcomponents.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=56; Thread=0 -- [INFO] - Successfully initialized clock.
+Time=1000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=1000; File=EvenOddConnection.h; Func=send; Line=139; Thread=0 -- [INFO] - Payload is odd.  Dropping message.
+Time=1000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=1000; File=EvenOddConnection.h; Func=send; Line=139; Thread=0 -- [INFO] - Payload is odd.  Dropping message.
+Time=2000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=2000; File=EvenOddConnection.h; Func=send; Line=133; Thread=0 -- [INFO] - Payload is even.  Sending message from component 0, slot 0
+Time=2000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=2000; File=EvenOddConnection.h; Func=send; Line=133; Thread=0 -- [INFO] - Payload is even.  Sending message from component 1, slot 0
+Time=3000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=3000; File=EvenOddConnection.h; Func=send; Line=139; Thread=0 -- [INFO] - Payload is odd.  Dropping message.
+Time=3000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=3000; File=EvenOddConnection.h; Func=send; Line=139; Thread=0 -- [INFO] - Payload is odd.  Dropping message.
+Time=4000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=4000; File=EvenOddConnection.h; Func=send; Line=133; Thread=0 -- [INFO] - Payload is even.  Sending message from component 0, slot 0
+Time=4000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=4000; File=EvenOddConnection.h; Func=send; Line=133; Thread=0 -- [INFO] - Payload is even.  Sending message from component 1, slot 0
+Time=5000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=5000; File=EvenOddConnection.h; Func=send; Line=139; Thread=0 -- [INFO] - Payload is odd.  Dropping message.
+Time=5000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=5000; File=EvenOddConnection.h; Func=send; Line=139; Thread=0 -- [INFO] - Payload is odd.  Dropping message.
+Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=6000; File=EvenOddConnection.h; Func=send; Line=133; Thread=0 -- [INFO] - Payload is even.  Sending message from component 0, slot 0
+Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=6000; File=EvenOddConnection.h; Func=send; Line=133; Thread=0 -- [INFO] - Payload is even.  Sending message from component 1, slot 0
+Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=7000; File=EvenOddConnection.h; Func=send; Line=139; Thread=0 -- [INFO] - Payload is odd.  Dropping message.
+Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=7000; File=EvenOddConnection.h; Func=send; Line=139; Thread=0 -- [INFO] - Payload is odd.  Dropping message.
+Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=8000; File=EvenOddConnection.h; Func=send; Line=133; Thread=0 -- [INFO] - Payload is even.  Sending message from component 0, slot 0
+Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=8000; File=EvenOddConnection.h; Func=send; Line=133; Thread=0 -- [INFO] - Payload is even.  Sending message from component 1, slot 0
+Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=9000; File=EvenOddConnection.h; Func=send; Line=139; Thread=0 -- [INFO] - Payload is odd.  Dropping message.
+Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=9000; File=EvenOddConnection.h; Func=send; Line=139; Thread=0 -- [INFO] - Payload is odd.  Dropping message.
+Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=10000; File=EvenOddConnection.h; Func=send; Line=133; Thread=0 -- [INFO] - Payload is even.  Sending message from component 0, slot 0
+Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=10000; File=EvenOddConnection.h; Func=send; Line=133; Thread=0 -- [INFO] - Payload is even.  Sending message from component 1, slot 0
+Time=11000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=11000; File=EvenOddConnection.h; Func=send; Line=139; Thread=0 -- [INFO] - Payload is odd.  Dropping message.
+Time=11000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=11000; File=EvenOddConnection.h; Func=send; Line=139; Thread=0 -- [INFO] - Payload is odd.  Dropping message.
+Time=12000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=12000; File=EvenOddConnection.h; Func=send; Line=133; Thread=0 -- [INFO] - Payload is even.  Sending message from component 0, slot 0
+Time=12000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=12000; File=EvenOddConnection.h; Func=send; Line=133; Thread=0 -- [INFO] - Payload is even.  Sending message from component 1, slot 0
+Time=13000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=13000; File=EvenOddConnection.h; Func=send; Line=139; Thread=0 -- [INFO] - Payload is odd.  Dropping message.
+Time=13000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=13000; File=EvenOddConnection.h; Func=send; Line=139; Thread=0 -- [INFO] - Payload is odd.  Dropping message.
+Time=14000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=14000; File=EvenOddConnection.h; Func=send; Line=133; Thread=0 -- [INFO] - Payload is even.  Sending message from component 0, slot 0
+Time=14000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=14000; File=EvenOddConnection.h; Func=send; Line=133; Thread=0 -- [INFO] - Payload is even.  Sending message from component 1, slot 0
+Time=15000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=15000; File=EvenOddConnection.h; Func=send; Line=139; Thread=0 -- [INFO] - Payload is odd.  Dropping message.
+Time=15000; File=ExampleComponent.cc; Func=clockTick; Line=101; Thread=0 -- [INFO] - Calling clock tick for subcomponents.
+Time=15000; File=EvenOddConnection.h; Func=send; Line=139; Thread=0 -- [INFO] - Payload is odd.  Dropping message.
+Simulation is complete, simulated time: 15 ns
