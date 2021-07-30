@@ -1,7 +1,7 @@
 # what is this repo for?
 This repo is a supplement to Sandia National Lab's Structural Simulation Toolkit - https://github.com/sstsimulator
 
-This repo aggregates resources intended to welcome new users of SST.
+This  repo aggregates resources intended to welcome new users of SST.
 
 ## documentation
 
