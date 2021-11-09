@@ -4,7 +4,7 @@
 
 Statistics are a significant part of evaluating simulation results.  For this reason, SST has included an interface for generating component statistics since SST V5.0.  Its purpose is to provide a consistent way to generate and display simulation results, rather than having each developer create their own.
 
-This document is intended as an introducion to statistics within SST.  It will describe how to integrate statistics as part of an SST component, how to enable them from within the Python configuration file, and how to control their display.
+This document is intended as an introduction to statistics within SST.  It will describe how to integrate statistics as part of an SST component, how to enable them from within the Python configuration file, and how to control their display.
 
 ## Adding Statistics to Components and SubComponents
 
@@ -12,7 +12,7 @@ Statistics are associated with components and subcomponents.  They are defined a
 
 There are four standard types of statistics included as part of SST.
 
-Accumulator - An Accumulator is a simple statistic that stores a simulation value's cummulative sum (x1 + x2 + ...), the sum squared (x1^2 + x2^2 + ...), and data count.  It has the following parameters.
+Accumulator - An Accumulator is a simple statistic that stores a simulation value's cumulative sum (x1 + x2 + ...), the sum squared (x1^2 + x2^2 + ...), and data count.  It has the following parameters.
 
 * type - A constant set to sst.AccumulatorStatistic.
 * rate - The rate at which statistics are printed.  This parameter must include the units.  So, for example, to print statistics every nanosecond the rate is specified as "1ns" or "1000ps".  If the rate parameter is not provided or set to 0, statistics are printed at the end of the simulation.
@@ -84,7 +84,7 @@ The output location for generated statistics is set using the sst.setStatisticOu
 ```
 sst.setStatisticOutput(<statistic_output_type>)
 ```
-There are five standard ways within SST to save or display statistics.  They can be sent to the console, to a file as text or comma separated values, or to a compressed file as text or comman separated values.  Each of these cases is described below.
+There are five standard ways within SST to save or display statistics.  They can be sent to the console, to a file as text or comma separated values, or to a compressed file as text or comma separated values.  Each of these cases is described below.
 
 #### Sending Statistics to the Console
 
@@ -101,7 +101,7 @@ stats_example.INT64_clock_ticks : Accumulator : Sum.u64 = 45; SumSQ.u64 = 285; C
 
 #### Sending Statistics to a Text File
 
-To send statistics to a text file, specify the statistic output type as sst.statOutputTXT.  The associated parameters and their meaining are defined below.
+To send statistics to a text file, specify the statistic output type as sst.statOutputTXT.  The associated parameters and their meaning are defined below.
 
 * filepath - Path to the text file where the statistics are written.  The default file path is "./StatisticOutput.txt"
 * outputtopheader - If set to "1", a top-level header is written to the output file.  This header contains the name of each registered statistics field.  The default is to set the flag to "0" (no top header).
@@ -126,7 +126,7 @@ stats_example.INT64_clock_ticks : Accumulator : SimTime = 10000; Rank = 0; Sum.u
 
 #### Sending Statistics to a CSV File
 
-To send statistics to a csv file, specify the statistic output type as sst.statOutputCSV.  The associated parameters and their meaining are defined below.
+To send statistics to a csv file, specify the statistic output type as sst.statOutputCSV.  The associated parameters and their meaning are defined below.
 
 * filepath - Path to the text file where the statistics are written.  The default file path is "./StatisticOutput.txt".
 * separator - Character used to separate values on a single line in the file.  The default separator is ",".
@@ -162,14 +162,14 @@ Statistics can be enabled by component name, component type, or all at once.
 
 There are three methods available to enable statistics by component name.
 
-* enableAllStatisticsForComponentName() - Enables all statistics for a specific component using the given statistic parameters.  The component name is that specified when creating the component in the Python configuration file.  The statistic parameters are specified using json as described above.  An example is given below.
+* enableAllStatisticsForComponentName() - Enables all statistics for a specific component using the given statistic parameters.  The component name is that specified when creating the component in the Python configuration file.  The statistic parameters are specified using JSON as described above.  An example is given below.
 ```
 sst.enableAllStatisticsForComponentName(componentName,
                                        {"type":"sst.AccumulatorStatistic",
                                         "rate":"1ns"})
 ```
 
-* enableStatisticForComponentName() - Enables a selected statistic for a specific component.  This is similar to enableAllStatisticsForComponentName() except a statistic name is given in addtion to the component name.  The statistic name is that specified when the statistic is documented using the SST_ELI_DOCUMENT_STATISTICS macro.  An example is given below. 
+* enableStatisticForComponentName() - Enables a selected statistic for a specific component.  This is similar to enableAllStatisticsForComponentName() except a statistic name is given in addition to the component name.  The statistic name is that specified when the statistic is documented using the `SST_ELI_DOCUMENT_STATISTICS` macro.  An example is given below. 
 ```
 sst.enableStatisticForComponentName(componentName,
                                     "INT64_f_clock_ticks", 
@@ -191,14 +191,14 @@ sst.enableStatisticsForComponentName(componentName,
 
 There are three methods available to enable statistics by component type.
 
-* enableAllStatisticsForComponentType() - Enables all statistics for a component type using the given statistic parameters.  The component type is that used when creating the component in the Python configuration file.  The statistic parameters are specified using json as described above.  An example is given below.
+* enableAllStatisticsForComponentType() - Enables all statistics for a component type using the given statistic parameters.  The component type is that used when creating the component in the Python configuration file.  The statistic parameters are specified using JSON as described above.  An example is given below.
 ```
 sst.enableAllStatisticsForComponentType("example.StatsComponent",
                                        {"type":"sst.AccumulatorStatistic",
                                         "rate":"1ns"})
 ```
 
-* enableStatisticForComponentType() - Enables a selected statistic for a specific component type.  This is similar to enableAllStatisticsForComponentType() except a statistic name as well as the component type is given.  The statistic name is that specified when the statistic is documented using the SST_ELI_DOCUMENT_STATISTICS macro.  An example is given below. 
+* enableStatisticForComponentType() - Enables a selected statistic for a specific component type.  This is similar to enableAllStatisticsForComponentType() except a statistic name as well as the component type is given.  The statistic name is that specified when the statistic is documented using the `SST_ELI_DOCUMENT_STATISTICS` macro.  An example is given below. 
 ```
 sst.enableStatisticForComponentType("example.StatsComponent",
                                     "INT64_f_clock_ticks", 
@@ -218,7 +218,7 @@ sst.enableStatisticsForComponentType("example.StatsComponent",
 
 #### Enable Statistics All At Once
 
-To enable all statistics of all component types use the enableAllStatisticsForAllComponents() method.  There is no need to specify a component type or statistic name, simply specify the statistic parameters.  An example is given below.
+To enable all statistics of all component types use the `enableAllStatisticsForAllComponents()` method.  There is no need to specify a component type or statistic name, simply specify the statistic parameters.  An example is given below.
 
 ```
 sst.enableAllStatisticsForAllComponents({"type":"sst.AccumulatorStatistic",
@@ -447,7 +447,7 @@ install:
 clean:
 	rm -f *.o libstatsexample.so
 ```
-This component definition is the same for each example given below.  The statistics to be calculated and how they are displayed is specified in the Python configuraiton file.
+This component definition is the same for each example given below.  The statistics to be calculated and how they are displayed is specified in the Python configuration file.
 
 ### Printing an Accumulator to the Console
 
