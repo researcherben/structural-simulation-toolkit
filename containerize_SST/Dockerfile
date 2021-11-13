@@ -41,10 +41,12 @@ ENV PATH="$PATH:$SST_CORE_HOME/bin"
 
 WORKDIR $dir
 
+ARG SSTver=11.1.0
+
 # from https://github.com/sstsimulator/sst-core/releases/tag/v11.0.0_Final
-COPY sstcore-11.0.0.tar.gz .
-RUN tar zxvf sstcore-11.0.0.tar.gz
-RUN mv sstcore-11.0.0 sst-core
+COPY sstcore-${SSTver}.tar.gz .
+RUN tar zxvf sstcore-${SSTver}.tar.gz
+RUN mv sstcore-${SSTver} sst-core
 
 # Build SST Core
 RUN cd $dir/sst-core && ./autogen.sh && \
