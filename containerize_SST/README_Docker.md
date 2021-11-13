@@ -15,8 +15,8 @@ https://docs.docker.com/desktop/
 
 The Dockerfile contains all the software dependencies for SST, as well as the initialization steps needed for configuration of SST.
 
-The Dockerfile assumes the file `sstcore-10.0.0.tar.gz` is available in the same directory. That file is available from
-https://github.com/sstsimulator/sst-core/releases/tag/v10.0.0_Final
+The Dockerfile assumes the file `sstcore-11.0.0.tar.gz` is available in the same directory. That file is available from
+https://github.com/sstsimulator/sst-core/releases/tag/v11.0.0_Final
 
     cat << EOF > Dockerfile
     # Use baseimage-docker which is a modified Ubuntu specifically for Docker
@@ -62,10 +62,10 @@ https://github.com/sstsimulator/sst-core/releases/tag/v10.0.0_Final
     
     WORKDIR $dir
     
-    # from https://github.com/sstsimulator/sst-core/releases/tag/v10.0.0_Final
-    COPY sstcore-10.0.0.tar.gz .
-    RUN tar zxvf sstcore-10.0.0.tar.gz
-    RUN mv sstcore-10.0.0 sst-core
+    # from https://github.com/sstsimulator/sst-core/releases/tag/v11.0.0_Final
+    COPY sstcore-11.0.0.tar.gz .
+    RUN tar zxvf sstcore-11.0.0.tar.gz
+    RUN mv sstcore-11.0.0 sst-core
     
     # Build SST Core
     RUN cd $dir/sst-core && ./autogen.sh && \
@@ -82,20 +82,20 @@ https://github.com/sstsimulator/sst-core/releases/tag/v10.0.0_Final
 
 Once the Dockerfile exists, build the image
 
-    docker build -t sst_10 .
+    docker build -t sst_11 .
 
 # Step 3: verify the container works
 
-Using the `sst_10` image, verify the container has a working `sst` command
+Using the `sst_11` image, verify the container has a working `sst` command
 
     docker run --rm \
       -v `pwd`:/scratch \
       --user $(id -u):$(id -g) \
-      sst_10 sst --version
+      sst_11 sst --version
 
 which should produce the output
 
-    SST-Core Version (10.0.0)
+    SST-Core Version (11.0.0)
 
 # Step 4: create a C++ component
 
@@ -361,7 +361,7 @@ but we want the registration to persist outside the image. Therefore, use a
       --mount type=bind,source=`pwd`/sstsimulator.conf,target=/home/sst/sst-core/etc/sst/sstsimulator.conf \
       --user $(id -u):$(id -g) \
       -w /scratch \
-      sst_10 make
+      sst_11 make
 
 # Step 8: check that the component is registered
 
@@ -372,7 +372,7 @@ The `sst-info` command returns registered components
       --mount type=bind,source=`pwd`/sstsimulator.conf,target=/home/sst/sst-core/etc/sst/sstsimulator.conf \
       --user $(id -u):$(id -g) \
       -w /scratch \
-      sst_10 sst-info
+      sst_11 sst-info
 
 which should return something like
 
@@ -389,7 +389,7 @@ which should return something like
       --mount type=bind,source=`pwd`/sstsimulator.conf,target=/home/sst/sst-core/etc/sst/sstsimulator.conf \
       --user $(id -u):$(id -g) \
       -w /scratch \
-      sst_10 sst ExampleConfig.py
+      sst_11 sst ExampleConfig.py
 
 which should return something like
 
@@ -419,7 +419,7 @@ Generate the GraphViz file using
       --mount type=bind,source=`pwd`/sstsimulator.conf,target=/home/sst/sst-core/etc/sst/sstsimulator.conf \
       --user $(id -u):$(id -g) \
       -w /scratch \
-      sst_10 sst --output-dot=ExampleConfig.gv --run-mode=init ExampleConfig.py
+      sst_11 sst --output-dot=ExampleConfig.gv --run-mode=init ExampleConfig.py
 
 which should return something like
 
@@ -436,4 +436,4 @@ Generate the PNG using
       --mount type=bind,source=`pwd`/sstsimulator.conf,target=/home/sst/sst-core/etc/sst/sstsimulator.conf \
       --user $(id -u):$(id -g) \
       -w /scratch \
-      sst_10 dot ExampleConfig.gv -Tpng > ExampleConfig.png
+      sst_11 dot ExampleConfig.gv -Tpng > ExampleConfig.png
