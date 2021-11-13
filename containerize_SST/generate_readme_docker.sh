@@ -57,15 +57,15 @@ The component in SST is written in C++
 
     cat << EOF > ExampleComponent.cc
 endofsnippet
-curl https://raw.githubusercontent.com/researcherben/structural-simulation-toolkit/master/sst_tutorial/Example00/ExampleComponent.cc > ExampleComponent.cc
-cat ExampleComponent.cc | sed -e 's/^/    /g' >> ${readme_filename}
+curl https://raw.githubusercontent.com/researcherben/structural-simulation-toolkit/master/sst_tutorial/Example00/ExampleComponent.cc > ExampleComponent.cc_TMP
+cat ExampleComponent.cc_TMP | sed -e 's/^/    /g' >> ${readme_filename}
 cat << endofsnippet >> ${readme_filename}
     EOF
 
     cat << EOF > ExampleComponent.h
 endofsnippet
-curl https://raw.githubusercontent.com/researcherben/structural-simulation-toolkit/master/sst_tutorial/Example00/ExampleComponent.h > ExampleComponent.h
-cat ExampleComponent.h | sed -e 's/^/    /g' >> ${readme_filename}
+curl https://raw.githubusercontent.com/researcherben/structural-simulation-toolkit/master/sst_tutorial/Example00/ExampleComponent.h > ExampleComponent.h_TMP
+cat ExampleComponent.h_TMP | sed -e 's/^/    /g' >> ${readme_filename}
 cat << endofsnippet >> ${readme_filename}
     EOF
 
@@ -75,8 +75,8 @@ The Python driver file specifies the graph of SST components.
 
     cat << EOF > ExampleConfig.py
 endofsnippet
-curl https://raw.githubusercontent.com/researcherben/structural-simulation-toolkit/master/sst_tutorial/Example00/tests/ExampleConfig.py > ExampleConfig.py
-cat ExampleConfig.py | sed -e 's/^/    /g' >> ${readme_filename}
+curl https://raw.githubusercontent.com/researcherben/structural-simulation-toolkit/master/sst_tutorial/Example00/tests/ExampleConfig.py > ExampleConfig.py_TMP
+cat ExampleConfig.py_TMP | sed -e 's/^/    /g' >> ${readme_filename}
 cat << endofsnippet >> ${readme_filename}
     EOF
 
@@ -86,8 +86,8 @@ Having a Makefile for the build process steps ensures a consistent and repeatabl
 
     cat << EOF > Makefile
 endofsnippet
-curl https://raw.githubusercontent.com/researcherben/structural-simulation-toolkit/master/sst_tutorial/Example00/Makefile > Makefile
-cat Makefile | sed -e 's/^/    /g' >> ${readme_filename}
+curl https://raw.githubusercontent.com/researcherben/structural-simulation-toolkit/master/sst_tutorial/Example00/Makefile > Makefile_TMP
+cat Makefile_TMP | sed -e 's/^/    /g' >> ${readme_filename}
 cat << endofsnippet >> ${readme_filename}
     EOF
 
@@ -187,9 +187,9 @@ Generate the PNG using
       sst_11 dot ExampleConfig.gv -Tpng > ExampleConfig.png
 endofsnippet
 
-rm Makefile
-rm ExampleConfig.py
-rm ExampleComponent.h
-rm ExampleComponent.cc
+rm Makefile_TMP
+rm ExampleConfig.py_TMP
+rm ExampleComponent.h_TMP
+rm ExampleComponent.cc_TMP
 
 # EOF
