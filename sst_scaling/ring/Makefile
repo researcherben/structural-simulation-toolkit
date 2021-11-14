@@ -3,9 +3,20 @@ CXXFLAGS=$(shell sst-config --ELEMENT_CXXFLAGS)
 LDFLAGS=$(shell sst-config --ELEMENT_LDFLAGS)
 
 ifndef CONFIG
-CONFIG="config_network"
+CONFIG=config_network
 $(info no "CONFIG" was provided, so defaulting to "config_network")
 endif
+
+ifndef TICKS
+TICKS=3
+$(info no "TICKS" was provided, so defaulting to "3")
+endif
+
+ifndef NODES
+NODES=5
+$(info no "NODES" was provided, so defaulting to "5")
+endif
+
 
 # as per https://stackoverflow.com/a/11843480/1164295
 # shared object library must start with "lib"
@@ -17,17 +28,17 @@ libtwoexample.so: some_component.cpp\
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $<
 
 install: libtwoexample.so
-	sst-register two_example two_example_LIBDIR=$(CURDIR)
+	/usr/bin/time sst-register two_example two_example_LIBDIR=$(CURDIR)
 
 clean:
 	rm -f *.o *.so *.png *.gv
 
-picture: install
-	sst --output-dot=$(CONFIG).gv --run-mode=init $(CONFIG).py
+picture: 
+	sst --output-dot=$(CONFIG).gv --run-mode=init $(CONFIG).py $(TICKS) $(NODES)
 	dot $(CONFIG).gv -Tpng > $(CONFIG).png
 
-run: install
-	time sst $(CONFIG).py
+run: 
+	/usr/bin/time sst $(CONFIG).py $(TICKS) $(NODES)
 
-mpirun: install
-	time mpirun -np 2 sst $(CONFIG).py
+mpirun: 
+	/usr/bin/time mpirun -np 2 sst $(CONFIG).py $(TICKS) $(NODES)

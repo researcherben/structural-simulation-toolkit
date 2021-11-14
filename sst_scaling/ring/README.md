@@ -4,6 +4,21 @@ This directory assumes `sst` is available.
 
 # Use
 
+What version of SST is being used?
+```bash
+$ sst --version
+SST-Core Version (11.1.0)
+```
+
+Prior to running the benchmark, need to register the components
+```bash
+make install
+no "CONFIG" was provided, so defaulting to "config_network"
+g++  -std=c++1y -D__STDC_FORMAT_MACROS -fPIC -DHAVE_CONFIG_H -I/home/sst/sst-core/include -shared -fno-common -Wl,-undefined -Wl,dynamic_lookup -o libtwoexample.so some_component.cpp
+sst-register two_example two_example_LIBDIR=/scratch/ring
+```
+
+Try running the Python driver file
 ```bash
 $ sst config_network.py 
 ERROR: two arguments required:
@@ -11,6 +26,7 @@ ERROR: two arguments required:
    number of nodes [integer]>0
 ```
 
+Run the Python driver file, providing the necessary command-line arguments
 ```bash
 $ /usr/bin/time sst config_network.py 3 10
 ticks: 3
@@ -20,6 +36,7 @@ Simulation is complete, simulated time: 4 ns
 0inputs+0outputs (0major+5292minor)pagefaults 0swaps
 ```
 
+Wallclock is longer when there are more nodes
 ```bash
 $ /usr/bin/time sst config_network.py 3 1000
 ticks: 3
@@ -29,23 +46,10 @@ Simulation is complete, simulated time: 4 ns
 0inputs+0outputs (0major+6006minor)pagefaults 0swaps
 ```
 
-# Performance benchmarking and Regression testing
-
-Questions to address:
-* how long does it take to instantiate `N` empty nodes (no links)?
-* how much memory does it take to instantiate `N` empty nodes (no links)?
-* how long does it take to instantiate `N` empty nodes in a ring (connected by links)?
-* how much memory does it take to instantiate `N` empty nodes in a ring (connected by links)?
-* for a ring with N empty nodes, after instantiation, how many node-to-node messages can be sent in 1 wall clock minute? (one message going around the ring)
-* for a ring with N empty nodes, after instantiation, how many node-to-node messages can be sent concurrently in 1 wall clock minute?
-The above questions can be investigated for both serial simulations and threaded simulations and with MPI nodes
-
-# Memory profiling
-
-How to use Valgrind with SST:
-<https://sst-simulator.org/SSTPages/SSTDeveloperValgrind/>
-
-Not relevant to this effort: SST CPU Trace Model based on Linux Valgrind
-<https://github.com/sstsimulator/sst-valgrind-tracer>
-
-
+Loop over number of nodes and write values to file
+```bash
+for node in {1..300..100}; do 
+   echo ${node}; 
+   /usr/bin/time sst config_network.py 3 ${node} &>> ring_3concurrent_messages_upto300nodes_step100.dat; 
+done
+```
