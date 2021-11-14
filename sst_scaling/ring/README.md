@@ -36,6 +36,19 @@ Simulation is complete, simulated time: 4 ns
 0inputs+0outputs (0major+5292minor)pagefaults 0swaps
 ```
 
+Create a PNG showing the graph
+```bash
+$ make picture
+no "CONFIG" was provided, so defaulting to "config_network"
+no "TICKS" was provided, so defaulting to "3"
+no "NODES" was provided, so defaulting to "5"
+sst --output-dot=config_network.gv --run-mode=init config_network.py 3 5
+ticks: 3
+nodes: 5
+Simulation is complete, simulated time: 0 s
+dot config_network.gv -Tpng > config_network.png
+```
+
 Wallclock is longer when there are more nodes
 ```bash
 $ /usr/bin/time sst config_network.py 3 1000
