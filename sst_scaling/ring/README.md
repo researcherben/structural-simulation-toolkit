@@ -12,7 +12,7 @@ SST-Core Version (11.1.0)
 
 Prior to running the benchmark, need to register the components
 ```bash
-make install
+$ make install
 no "CONFIG" was provided, so defaulting to "config_network"
 g++  -std=c++1y -D__STDC_FORMAT_MACROS -fPIC -DHAVE_CONFIG_H -I/home/sst/sst-core/include -shared -fno-common -Wl,-undefined -Wl,dynamic_lookup -o libtwoexample.so some_component.cpp
 sst-register two_example two_example_LIBDIR=/scratch/ring
