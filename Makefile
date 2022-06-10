@@ -55,6 +55,8 @@ docker_run_head:
 docker_build_fresh_head:
 	time docker build --no-cache -f Dockerfile.phusion_head -t sst_head .
 
+viz_Makefile:
+	makefile2dot | dot -Tpng > Makefile_viz.png
 
 get_sst_source:
 	mkdir sstsimulator

@@ -12,3 +12,6 @@ docker_run:
 
 singularity:
 	singularity build sst_image.def
+
+viz_Makefile:
+	makefile2dot | dot -Tpng > Makefile_viz.png

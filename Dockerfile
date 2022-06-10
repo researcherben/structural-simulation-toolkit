@@ -20,7 +20,7 @@ RUN apt update && apt -y upgrade && apt -y install \
   python3-pip \
 	automake 
 
-RUN pip3 install pybind11
+RUN pip3 install pybind11 makefile2dot
 
 # Clean up apt mess
 RUN apt clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
